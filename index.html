@@ -259,20 +259,20 @@
 
   /* ---- Barre navigation mois ---- */
   .month-nav{
-    background:var(--white);border-bottom:1px solid var(--line);
-    padding:7px 16px;overflow-x:auto;white-space:nowrap;
-    display:flex;gap:6px;align-items:center;scrollbar-width:none;
-    position:sticky;top:var(--month-nav-top,104px);z-index:27;
+    background:var(--white); border-bottom:1px solid var(--line);
+    padding:7px 16px; overflow-x:auto; white-space:nowrap;
+    display:flex; gap:6px; align-items:center; scrollbar-width:none;
+    position:sticky; top:104px; z-index:27;
   }
   .month-nav::-webkit-scrollbar{display:none;}
   .month-nav-btn{
-    border:1px solid var(--line);background:transparent;color:var(--ink-soft);
-    border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;
-    cursor:pointer;font-family:inherit;white-space:nowrap;flex:none;
+    border:1px solid var(--line); background:transparent; color:var(--ink-soft);
+    border-radius:999px; padding:4px 13px; font-size:12px; font-weight:600;
+    cursor:pointer; font-family:inherit; white-space:nowrap; flex:none;
     transition:all .18s;
   }
-  .month-nav-btn:hover{background:var(--denim-pale);color:var(--denim-deep);border-color:var(--denim);}
-  .month-anchor{display:block;height:0;overflow:hidden;}
+  .month-nav-btn:hover{ background:var(--denim-pale); color:var(--denim-deep); border-color:var(--denim); }
+  .month-anchor{ display:block; height:0; overflow:hidden; }
 
 </style>
 </head>
@@ -345,14 +345,12 @@ window.__FIREBASE_CONFIG__ = {
     var byNomBase = {};
     INTERVENANTS_BASE.forEach(function(p){ byNomBase[p.nom] = p; });
     var overrides = state.intervenantsOverrides || {};
-    // Appliquer overrides : ajouts, modifications, suppressions
     Object.keys(overrides).forEach(function(nom){
       if(nom.indexOf('__deleted__') === 0){
-        // Supprimer l'entrée de base correspondante
-        var originalNom = nom.slice('__deleted__'.length);
-        delete byNomBase[originalNom];
+        var orig = nom.slice('__deleted__'.length);
+        delete byNomBase[orig];
       } else if(overrides[nom] && overrides[nom].__deleted){
-        // Ignorer
+        // ignorer
       } else {
         byNomBase[nom] = overrides[nom];
       }
@@ -577,51 +575,31 @@ window.__FIREBASE_CONFIG__ = {
   function savePersonForm(){
     var f = state.manageForm;
     var nom = (f.nom || '').trim();
-    if(!nom){
-      showToast("Merci de saisir un nom.");
-      return;
-    }
+    if(!nom){ showToast("Merci de saisir un nom."); return; }
     var isNew = state.managePersonEditing === '__new__';
-    if(isNew && byName(nom)){
-      showToast("Ce nom existe déjà dans la liste.");
-      return;
-    }
+    if(isNew && byName(nom)){ showToast("Ce nom existe déjà dans la liste."); return; }
 
     var nomOriginal = f.nomOriginal || nom;
     var nomChange = !isNew && nom !== nomOriginal;
-
-    if(nomChange && byName(nom)){
-      showToast("Ce nom existe déjà — choisissez un nom différent.");
-      return;
-    }
+    if(nomChange && byName(nom)){ showToast("Ce nom existe déjà — choisissez un nom différent."); return; }
 
     var record = {
-      nom: nom,
-      groupe: f.groupe,
-      predication: !!f.predication,
-      presidenceCulte: !!f.presidenceCulte,
+      nom: nom, groupe: f.groupe,
+      predication: !!f.predication, presidenceCulte: !!f.presidenceCulte,
       presidenceSainteCene: !!f.presidenceSainteCene,
-      distributionSainteCene: !!f.distributionSainteCene,
-      collecteOffrandes: !!f.collecteOffrandes
+      distributionSainteCene: !!f.distributionSainteCene, collecteOffrandes: !!f.collecteOffrandes
     };
 
     if(!state.intervenantsOverrides) state.intervenantsOverrides = {};
 
     var countMigrated = 0;
     if(nomChange){
-      // Supprimer l'ancienne entrée dans les overrides
       delete state.intervenantsOverrides[nomOriginal];
-      // Marquer l'ancien nom comme supprimé pour ne pas que la liste statique le réapparaisse
       state.intervenantsOverrides['__deleted__' + nomOriginal] = { __deleted: true, nom: nomOriginal };
-      // Migrer toutes les inscriptions existantes vers le nouveau nom
       Object.keys(state.overrides).forEach(function(rowId){
-        var row = state.overrides[rowId];
-        if(!row) return;
-        Object.keys(row).forEach(function(fieldKey){
-          if(row[fieldKey] === nomOriginal){
-            row[fieldKey] = nom;
-            countMigrated++;
-          }
+        var row = state.overrides[rowId]; if(!row) return;
+        Object.keys(row).forEach(function(k){
+          if(row[k] === nomOriginal){ row[k] = nom; countMigrated++; }
         });
       });
       if(countMigrated > 0) saveOverrides();
@@ -630,13 +608,9 @@ window.__FIREBASE_CONFIG__ = {
     state.intervenantsOverrides[nom] = record;
     saveIntervenantsOverrides();
 
-    if(isNew){
-      showToast("Intervenant ajouté.");
-    } else if(nomChange){
-      showToast("Nom corrigé" + (countMigrated > 0 ? " — " + countMigrated + " inscription(s) mise(s) à jour." : " — aucune inscription à migrer."));
-    } else {
-      showToast("Habilitations mises à jour.");
-    }
+    if(isNew) showToast("Intervenant ajouté.");
+    else if(nomChange) showToast("Nom corrigé" + (countMigrated > 0 ? " — " + countMigrated + " inscription(s) mise(s) à jour." : " — aucune inscription à migrer."));
+    else showToast("Habilitations mises à jour.");
     closePersonForm();
   }
 
@@ -667,35 +641,24 @@ window.__FIREBASE_CONFIG__ = {
   }
 
 
-  // =========================================================
-  // BARRE NAVIGATION MOIS
-  // =========================================================
-  var MOIS_NAV = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-
-  function getStickyOffset(){
-    // Hauteur totale des barres sticky au-dessus du contenu
-    var topbar = document.querySelector('.topbar');
-    var whoami = document.querySelector('.whoami, .admin-banner');
-    var monthnav = document.querySelector('.month-nav');
-    var h = 0;
-    if(topbar) h += topbar.offsetHeight;
-    if(whoami) h += whoami.offsetHeight;
-    if(monthnav) h += monthnav.offsetHeight;
-    // Mettre à jour la variable CSS pour le positionnement sticky de la barre mois
-    var topbarH = topbar ? topbar.offsetHeight : 52;
-    var whoamiH = whoami ? whoami.offsetHeight : 50;
-    document.documentElement.style.setProperty('--month-nav-top', (topbarH + whoamiH) + 'px');
-    return h + 8;
-  }
+  // ─── Barre navigation mois ──────────────────────────────────────────────
+  var MOIS_NAV = ['Janvier','Février','Mars','Avril','Mai','Juin',
+                  'Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 
   function renderMonthNav(){
     var btns = MOIS_NAV.map(function(m, idx){
       return el('button', {class:'month-nav-btn', onclick:function(){
-        var anchor = document.getElementById('month-nav-anchor-'+idx);
+        var anchor = document.getElementById('month-anchor-' + idx);
         if(anchor){
-          var offset = getStickyOffset();
+          var topbar  = document.querySelector('.topbar');
+          var whoami  = document.querySelector('.whoami, .admin-banner');
+          var mnav    = document.querySelector('.month-nav');
+          var offset  = (topbar  ? topbar.offsetHeight  : 52)
+                      + (whoami  ? whoami.offsetHeight   : 50)
+                      + (mnav    ? mnav.offsetHeight     : 36)
+                      + 8;
           var top = anchor.getBoundingClientRect().top + window.pageYOffset - offset;
-          window.scrollTo({top:top, behavior:'smooth'});
+          window.scrollTo({top: top, behavior: 'smooth'});
         }
       }}, [m]);
     });
@@ -898,7 +861,7 @@ window.__FIREBASE_CONFIG__ = {
         lastMonth = row.mois;
         var mIdx = MOIS_NAV.indexOf(lastMonth);
         if(mIdx >= 0){
-          main.appendChild(el('div', {id:'month-nav-anchor-'+mIdx, class:'month-anchor'}, []));
+          main.appendChild(el('div', {id:'month-anchor-'+mIdx, class:'month-anchor'}, []));
         }
         var countInMonth = PLANNING_RAW.filter(function(r){return r.mois===lastMonth;}).length;
         main.appendChild(el('div', {class:'month-header'}, [
@@ -963,7 +926,7 @@ window.__FIREBASE_CONFIG__ = {
     ]);
 
     return el('div', {class:'modal'}, [
-      el('h2', {}, [isNew ? 'Ajouter un intervenant' : 'Modifier — ' + f.nomOriginal]),
+      el('h2', {}, [isNew ? 'Ajouter un intervenant' : 'Modifier — ' + (f.nomOriginal || f.nom)]),
       el('p', {}, [isNew
         ? 'Renseignez le nom, l\u2019église et les rubriques auxquelles cette personne sera habilitée à s\u2019inscrire.'
         : 'Cochez ou décochez les rubriques auxquelles ' + f.nom + ' est habilité(e) à s\u2019inscrire.']),
@@ -971,11 +934,9 @@ window.__FIREBASE_CONFIG__ = {
       isNew
         ? (nomInput = el('input', {type:'text', placeholder:'Ex. Marie Dupont', value:f.nom, oninput:function(e){ f.nom = e.target.value; }}))
         : el('div', {}, [
-            el('input', {type:'text', value:f.nom,
-              oninput:function(e){ f.nom = e.target.value; },
-              title:'Corrigez l\u2019orthographe si n\u00e9cessaire.'}),
-            el('p', {style:'font-size:11.5px;color:var(--ink-soft);margin:4px 0 0;line-height:1.4;'},
-              ['⚠️ Si vous corrigez ce nom, toutes les inscriptions existantes seront automatiquement rebasculées vers le nouveau nom.'])
+            el('input', {type:'text', value:f.nom, oninput:function(e){ f.nom = e.target.value; }}),
+            el('p', {style:'font-size:11.5px;color:var(--ink-soft);margin:4px 0 0;'},
+              ['⚠️ Corriger ce nom met à jour toutes les inscriptions existantes.'])
           ]),
       el('label', {class:'field-label'}, ['Église']),
       groupeSelect,
