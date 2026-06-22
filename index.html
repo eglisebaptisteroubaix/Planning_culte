@@ -3,160 +3,301 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-<title>Planning des cultes 2027–2028</title>
+<title>Planning des cultes 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --y27-accent:#2E5E3E; --y27-accent-deep:#1D4029; --y27-accent-pale:#DFF0E6;
-    --y27-sc:#B8460A; --y27-sc-pale:#FAE5D8;
-    --y27-dej:#4E6B5A; --y27-dej-pale:#E3EDE7;
-    --y28-accent:#3B4F8C; --y28-accent-deep:#263571; --y28-accent-pale:#E3E8F8;
-    --y28-sc:#8C2D55; --y28-sc-pale:#F5E0EB;
-    --y28-dej:#526680; --y28-dej-pale:#E0E8F0;
-    --cream:#F7F3ED; --cream-deep:#EDE5D8;
-    --ink:#25231F; --ink-soft:#57534C;
-    --line:#DDD5C8; --white:#FFFFFF;
+    --cream:#F7F2E9;
+    --cream-deep:#EFE6D6;
+    --ink:#2B2A28;
+    --ink-soft:#5B5650;
+    --denim:#2E4D5E;
+    --denim-deep:#1F3B49;
+    --denim-pale:#E4ECEE;
+    --terracotta:#C6643E;
+    --terracotta-pale:#F4E2D4;
+    --sage:#6F8366;
+    --sage-pale:#E7EDE3;
+    --line:#DCD3C2;
+    --white:#FFFFFF;
     --radius:14px;
-    --shadow:0 1px 2px rgba(37,35,31,.06),0 6px 18px -8px rgba(37,35,31,.18);
-    --accent:var(--y27-accent); --accent-deep:var(--y27-accent-deep); --accent-pale:var(--y27-accent-pale);
-    --sc-col:var(--y27-sc); --sc-pale:var(--y27-sc-pale);
-    --dej-col:var(--y27-dej); --dej-pale:var(--y27-dej-pale);
+    --shadow:0 1px 2px rgba(43,42,40,0.06), 0 6px 18px -8px rgba(43,42,40,0.18);
   }
-  body.year-2028{
-    --accent:var(--y28-accent); --accent-deep:var(--y28-accent-deep); --accent-pale:var(--y28-accent-pale);
-    --sc-col:var(--y28-sc); --sc-pale:var(--y28-sc-pale);
-    --dej-col:var(--y28-dej); --dej-pale:var(--y28-dej-pale);
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Source Sans 3', system-ui, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100%;
   }
-  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
-  body{background:var(--cream);color:var(--ink);font-family:'Source Sans 3',system-ui,sans-serif;-webkit-font-smoothing:antialiased;}
   #root{min-height:100vh;display:flex;flex-direction:column;}
-  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;color:var(--ink);}
 
-  .topbar{position:sticky;top:0;z-index:30;background:rgba(247,243,237,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:nowrap;}
-  .brand{display:flex;align-items:center;gap:10px;flex:1;min-width:0;}
-  .mark{width:32px;height:32px;border-radius:9px;flex:none;background:linear-gradient(155deg,var(--accent),var(--accent-deep));display:flex;align-items:center;justify-content:center;color:var(--cream);font-family:'Fraunces',serif;font-weight:700;font-size:16px;transition:background .4s;}
+  h1,h2,h3,.display{
+    font-family:'Fraunces', Georgia, serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:30;
+    background:rgba(247,242,233,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    padding:14px 18px;
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+  }
+  .brand{display:flex; align-items:baseline; gap:10px; min-width:0;}
+  .brand .mark{
+    width:34px;height:34px;border-radius:9px;
+    background:linear-gradient(155deg, var(--denim), var(--denim-deep));
+    display:flex;align-items:center;justify-content:center;
+    color:var(--cream); font-family:'Fraunces',serif; font-weight:700; font-size:17px;
+    flex:none;
+  }
   .brand-text{display:flex;flex-direction:column;min-width:0;}
-  .brand-text .t1{font-family:'Fraunces',serif;font-weight:600;font-size:15px;line-height:1.15;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .brand-text .t2{font-size:11px;color:var(--ink-soft);letter-spacing:.02em;}
-  .topbar-right{display:flex;align-items:center;gap:7px;flex:none;}
-  .year-tabs{display:flex;gap:4px;}
-  .year-tab{border:1.5px solid var(--line);background:var(--white);color:var(--ink-soft);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;}
-  .year-tab.active{background:var(--accent);border-color:var(--accent);color:var(--white);}
-  .year-tab:hover:not(.active){background:var(--accent-pale);border-color:var(--accent);}
-  .pill-btn{border:1px solid var(--line);background:var(--white);color:var(--ink);border-radius:999px;padding:7px 13px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;transition:transform .12s,box-shadow .12s,background .15s;white-space:nowrap;}
-  .pill-btn:hover{box-shadow:var(--shadow);transform:translateY(-1px);}
+  .brand-text .t1{font-family:'Fraunces',serif;font-weight:600;font-size:16.5px;line-height:1.15;color:var(--ink);}
+  .brand-text .t2{font-size:11.5px;color:var(--ink-soft);letter-spacing:.02em;}
+  .topbar-actions{display:flex;align-items:center;gap:8px;flex:none;}
+
+  .pill-btn{
+    border:1px solid var(--line); background:var(--white); color:var(--ink);
+    border-radius:999px; padding:8px 14px; font-size:13.5px; font-weight:600;
+    cursor:pointer; font-family:inherit; display:inline-flex; align-items:center; gap:6px;
+    transition:transform .12s ease, box-shadow .12s ease, background .15s ease;
+    white-space:nowrap;
+  }
+  .pill-btn:hover{box-shadow:var(--shadow); transform:translateY(-1px);}
   .pill-btn:active{transform:translateY(0);}
   .pill-btn.ghost{background:transparent;}
-  .pill-btn.admin{background:var(--accent);border-color:var(--accent);color:var(--white);}
-  .pill-btn.admin:hover{background:var(--accent-deep);}
-  .pill-btn.danger{background:#C0392B;border-color:#C0392B;color:#fff;}
-  .pill-btn.small{padding:5px 11px;font-size:12px;}
+  .pill-btn.admin{background:var(--denim); border-color:var(--denim); color:var(--cream);}
+  .pill-btn.admin:hover{background:var(--denim-deep);}
 
-  .identity-bar{position:sticky;top:52px;z-index:28;background:var(--accent-pale);border-bottom:1px solid var(--line);padding:8px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-  .identity-bar .label{font-size:12.5px;color:var(--accent-deep);font-weight:700;white-space:nowrap;}
-  select.name-select{font-family:inherit;font-size:14px;padding:7px 11px;border-radius:10px;border:1.5px solid var(--accent);background:var(--white);color:var(--ink);cursor:pointer;max-width:260px;flex:1;}
-  .you-badge{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--line);border-radius:999px;padding:5px 12px 5px 5px;font-size:13.5px;font-weight:600;color:var(--accent-deep);}
-  .you-badge .avatar{width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
-  .you-badge button{border:none;background:transparent;color:var(--ink-soft);cursor:pointer;font-size:16px;padding:0 2px;margin-left:4px;}
-  .admin-banner{position:sticky;top:52px;z-index:28;background:var(--accent-deep);color:var(--cream);padding:8px 16px;font-size:13px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-  .admin-banner b{font-weight:700;}
+  /* ---------- Who-am-I bar ---------- */
+  .whoami{
+    padding:10px 18px; background:var(--denim-pale); border-bottom:1px solid var(--line);
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  }
+  .whoami .label{font-size:13px; color:var(--denim-deep); font-weight:600;}
+  select.name-select{
+    font-family:inherit; font-size:14.5px; padding:8px 12px; border-radius:10px;
+    border:1.5px solid var(--denim); background:var(--white); color:var(--ink);
+    cursor:pointer; max-width:260px;
+  }
+  .whoami .you-badge{
+    display:inline-flex; align-items:center; gap:8px; background:var(--white);
+    border:1px solid var(--line); border-radius:999px; padding:6px 12px 6px 6px;
+    font-size:13.5px; font-weight:600; color:var(--denim-deep);
+  }
+  .you-badge .avatar{
+    width:24px;height:24px;border-radius:50%;background:var(--denim);color:var(--cream);
+    display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;font-family:'Fraunces',serif;
+  }
+  .you-badge button{
+    border:none;background:transparent;color:var(--ink-soft);cursor:pointer;font-size:16px;line-height:1;padding:0 2px;
+  }
 
-  .month-nav{background:var(--white);border-bottom:1px solid var(--line);padding:8px 16px;overflow-x:auto;white-space:nowrap;display:flex;gap:6px;align-items:center;scrollbar-width:none;}
-  .month-nav::-webkit-scrollbar{display:none;}
-  .month-btn{border:1px solid var(--line);background:transparent;color:var(--ink-soft);border-radius:999px;padding:5px 13px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap;flex:none;transition:all .18s;}
-  .month-btn:hover,.month-btn.active-month{background:var(--accent);color:var(--white);border-color:var(--accent);}
+  /* ---------- Main scroll area ---------- */
+  .main{flex:1; padding:18px 16px 90px; max-width:920px; margin:0 auto; width:100%;}
 
-  .main{flex:1;padding:16px 16px 90px;max-width:940px;margin:0 auto;width:100%;}
-  .legend-row{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:16px;}
-  .legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-soft);}
-  .dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
+  .legend-row{
+    display:flex; gap:14px; flex-wrap:wrap; margin-bottom:18px; padding:0 2px;
+  }
+  .legend-item{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink-soft);}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
 
-  .month-anchor{display:block;height:0;overflow:hidden;}
-  .month-header{font-family:'Fraunces',serif;font-size:21px;font-weight:600;color:var(--accent-deep);margin:28px 0 12px;display:flex;align-items:baseline;gap:10px;}
+  .month-header{
+    font-family:'Fraunces', serif; font-size:22px; font-weight:600; color:var(--denim-deep);
+    margin:30px 0 12px; padding-top:6px; display:flex; align-items:baseline; gap:10px;
+  }
   .month-header:first-child{margin-top:4px;}
-  .month-header .count{font-family:'Source Sans 3',sans-serif;font-size:12px;font-weight:600;color:var(--ink-soft);background:var(--cream-deep);padding:3px 9px;border-radius:999px;}
+  .month-header .count{font-family:'Source Sans 3',sans-serif; font-size:12.5px; font-weight:600; color:var(--ink-soft); background:var(--cream-deep); padding:3px 9px; border-radius:999px;}
 
-  .card{background:var(--white);border-radius:var(--radius);border:1px solid var(--line);margin-bottom:12px;overflow:hidden;box-shadow:var(--shadow);display:flex;position:relative;}
-  .card .stripe{width:5px;flex:none;}
-  .stripe.sc{background:var(--sc-col);} .stripe.normal{background:var(--accent);} .stripe.dej{background:var(--dej-col);}
-  .card-body{flex:1;padding:13px 15px 14px;min-width:0;}
-  .card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px;}
-  .date-block{display:flex;flex-direction:column;}
-  .date-main{font-family:'Fraunces',serif;font-size:16.5px;font-weight:600;color:var(--ink);}
-  .date-sub{font-size:11.5px;color:var(--ink-soft);margin-top:1px;}
-  .type-badge{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:4px 9px;border-radius:999px;flex:none;white-space:nowrap;}
-  .type-badge.sc{background:var(--sc-pale);color:var(--sc-col);}
-  .type-badge.dej{background:var(--dej-pale);color:var(--dej-col);}
-  .type-badge.normal{background:var(--accent-pale);color:var(--accent-deep);}
-  .remark{font-size:12px;color:var(--sc-col);background:var(--sc-pale);border-radius:8px;padding:5px 10px;margin-bottom:9px;font-weight:600;}
-  .remark-admin{font-size:12px;color:var(--accent-deep);background:var(--accent-pale);border-radius:8px;padding:5px 10px;margin-bottom:9px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  /* ---------- Sunday Card ---------- */
+  .card{
+    background:var(--white); border-radius:var(--radius); border:1px solid var(--line);
+    margin-bottom:14px; overflow:hidden; box-shadow:var(--shadow);
+    display:flex; position:relative;
+  }
+  .card .stripe{width:6px; flex:none;}
+  .stripe.sc{background:var(--terracotta);}
+  .stripe.normal{background:var(--denim);}
+  .stripe.dej{background:var(--sage);}
+  .card-body{flex:1; padding:14px 16px 15px; min-width:0;}
 
-  .slots{display:flex;flex-direction:column;gap:6px;}
-  .slot-group-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);margin:8px 0 2px;}
-  .slot{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;background:var(--cream);border:1px solid transparent;transition:background .15s;}
-  .slot .slot-label{font-size:12px;color:var(--ink-soft);width:130px;flex:none;font-weight:600;}
-  .slot .slot-value{flex:1;min-width:0;font-size:13.5px;font-weight:600;color:var(--ink);}
-  .slot.empty .slot-value{color:#B7AE9C;font-weight:500;font-style:italic;}
+  .card-top{display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:10px;}
+  .date-block{display:flex; flex-direction:column;}
+  .date-main{font-family:'Fraunces',serif; font-size:17px; font-weight:600; color:var(--ink);}
+  .date-sub{font-size:12px; color:var(--ink-soft); margin-top:1px;}
+  .type-badge{
+    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.04em;
+    padding:4px 9px; border-radius:999px; flex:none; white-space:nowrap;
+  }
+  .type-badge.sc{background:var(--terracotta-pale); color:#8C3F1F;}
+  .type-badge.dej{background:var(--sage-pale); color:#3E4F37;}
+  .type-badge.normal{background:var(--denim-pale); color:var(--denim-deep);}
+
+  .remark{
+    font-size:12.5px; color:var(--terracotta); background:var(--terracotta-pale);
+    border-radius:8px; padding:6px 10px; margin-bottom:10px; font-weight:600;
+  }
+
+  .slots{display:flex; flex-direction:column; gap:7px;}
+  .slot-group-title{
+    font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--ink-soft); margin:9px 0 2px;
+  }
+  .slot-group-title:first-child{margin-top:0;}
+
+  .slot{
+    display:flex; align-items:center; gap:10px; padding:9px 10px;
+    border-radius:10px; background:var(--cream); border:1px solid transparent;
+    transition:background .15s ease;
+  }
+  .slot .slot-label{
+    font-size:12.5px; color:var(--ink-soft); width:128px; flex:none; font-weight:600;
+  }
+  .slot .slot-value{flex:1; min-width:0; font-size:14px; font-weight:600; color:var(--ink);}
+  .slot.empty .slot-value{color:#B7AE9C; font-weight:500; font-style:italic;}
   .slot.locked{background:var(--cream-deep);}
-  .slot.mine{background:var(--accent-pale);border-color:var(--accent);}
-  .slot-action{flex:none;}
-  .btn-take{font-family:inherit;font-size:12px;font-weight:700;border-radius:999px;padding:5px 11px;border:1.5px solid var(--accent);background:var(--white);color:var(--accent);cursor:pointer;transition:background .15s,color .15s;}
-  .btn-take:hover{background:var(--accent);color:var(--white);}
-  .btn-take:disabled{opacity:.35;cursor:not-allowed;border-color:var(--line);color:var(--ink-soft);}
-  .btn-clear{font-family:inherit;font-size:11px;font-weight:700;border-radius:999px;padding:4px 10px;border:1.5px solid var(--sc-col);background:transparent;color:var(--sc-col);cursor:pointer;transition:background .15s,color .15s;}
-  .btn-clear:hover{background:var(--sc-col);color:var(--white);}
-  .lock-icon{font-size:13px;color:var(--ink-soft);}
+  .slot.mine{background:var(--denim-pale); border-color:var(--denim);}
 
-  .empty-state{text-align:center;padding:60px 20px;color:var(--ink-soft);}
-  .empty-state .display{font-size:20px;margin-bottom:6px;}
-  .overlay{position:fixed;inset:0;background:rgba(25,22,18,.5);z-index:60;display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto;}
-  .modal{background:var(--white);border-radius:18px;max-width:440px;width:100%;padding:24px 22px 20px;box-shadow:0 20px 60px -10px rgba(0,0,0,.35);max-height:90vh;overflow-y:auto;margin:auto;}
-  .modal.modal-wide{max-width:560px;}
-  .modal h2{font-size:19px;margin:0 0 6px;}
-  .modal p{font-size:13px;color:var(--ink-soft);margin:0 0 14px;line-height:1.5;}
-  .modal input[type=text],.modal input[type=password],.modal textarea,.modal select.field-select{width:100%;font-family:inherit;font-size:14px;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);margin-bottom:10px;background:var(--cream);color:var(--ink);}
-  .modal input:focus,.modal textarea:focus,.modal select.field-select:focus{outline:none;border-color:var(--accent);}
-  .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:8px;flex-wrap:wrap;}
-  .modal-header-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:6px;}
+  .slot-action{flex:none;}
+  .btn-take{
+    font-family:inherit; font-size:12.5px; font-weight:700; border-radius:999px;
+    padding:6px 12px; border:1.5px solid var(--denim); background:var(--white); color:var(--denim);
+    cursor:pointer; white-space:nowrap; transition:background .15s ease, color .15s ease;
+  }
+  .btn-take:hover{background:var(--denim); color:var(--cream);}
+  .btn-take:disabled{opacity:.35; cursor:not-allowed; border-color:var(--line); color:var(--ink-soft);}
+  .btn-clear{
+    font-family:inherit; font-size:11.5px; font-weight:700; border-radius:999px;
+    padding:5px 10px; border:1.5px solid var(--terracotta); background:transparent; color:var(--terracotta);
+    cursor:pointer; white-space:nowrap; transition:background .15s ease, color .15s ease;
+  }
+  .btn-clear:hover{background:var(--terracotta); color:var(--white);}
+  .lock-icon{font-size:13px; color:var(--ink-soft); flex:none;}
+
+  .empty-state{
+    text-align:center; padding:60px 20px; color:var(--ink-soft);
+  }
+  .empty-state .display{font-size:20px; margin-bottom:6px;}
+
+  /* ---------- Admin modal ---------- */
+  .overlay{
+    position:fixed; inset:0; background:rgba(31,28,22,0.45); z-index:60;
+    display:flex; align-items:center; justify-content:center; padding:18px;
+  }
+  .modal{
+    background:var(--white); border-radius:18px; max-width:420px; width:100%;
+    padding:26px 24px 22px; box-shadow:0 20px 60px -10px rgba(0,0,0,0.35);
+  }
+  .modal h2{font-size:20px; margin:0 0 6px;}
+  .modal p{font-size:13.5px; color:var(--ink-soft); margin:0 0 16px; line-height:1.5;}
+  .modal input{
+    width:100%; font-family:inherit; font-size:15px; padding:11px 13px; border-radius:10px;
+    border:1.5px solid var(--line); margin-bottom:12px; background:var(--cream);
+  }
+  .modal input:focus{outline:none; border-color:var(--denim);}
+  .modal-actions{display:flex; gap:8px; justify-content:flex-end; margin-top:6px;}
+  .err-msg{font-size:12.5px; color:var(--terracotta); margin:-6px 0 10px; font-weight:600;}
+
+  .modal-wide{max-width:520px;}
+  .modal-header-row{display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:6px;}
   .modal-header-row h2{margin:0;}
-  .err-msg{font-size:12px;color:#C0392B;margin:-4px 0 8px;font-weight:600;}
-  .field-label{display:block;font-size:11.5px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.03em;margin:12px 0 5px;}
-  .field-label:first-of-type{margin-top:2px;}
-  .perm-list{display:flex;flex-direction:column;gap:7px;margin-bottom:6px;}
-  .perm-row{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--ink);cursor:pointer;padding:3px 0;}
-  .perm-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);flex:none;}
-  .person-list{max-height:45vh;overflow-y:auto;display:flex;flex-direction:column;gap:5px;margin:4px 0 14px;}
-  .person-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;border-radius:10px;background:var(--cream);border:1px solid var(--line);}
-  .person-name{font-weight:700;font-size:13.5px;color:var(--ink);}
-  .person-meta{font-size:11px;color:var(--ink-soft);margin-top:2px;}
-  .person-deleted{opacity:.5;text-decoration:line-through;}
-  .person-actions{display:flex;gap:6px;align-items:center;flex:none;}
-  .admin-select{font-family:inherit;font-size:12.5px;padding:4px 7px;border-radius:8px;border:1px solid var(--line);background:var(--white);max-width:170px;}
-  .rubrique-list{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;max-height:200px;overflow-y:auto;}
-  .rubrique-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 10px;border-radius:9px;background:var(--cream);border:1px solid var(--line);}
-  .rubrique-info{font-size:13px;font-weight:600;color:var(--ink);}
-  .rubrique-meta{font-size:11px;color:var(--ink-soft);}
-  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--cream);padding:10px 20px;border-radius:999px;font-size:13px;font-weight:600;z-index:80;box-shadow:0 10px 30px -8px rgba(0,0,0,.4);animation:rise .25s ease;pointer-events:none;}
-  @keyframes rise{from{opacity:0;transform:translate(-50%,8px);}to{opacity:1;transform:translate(-50%,0);}}
-  .footer-note{text-align:center;font-size:11px;color:var(--ink-soft);padding:16px 16px 26px;}
-  @media(max-width:480px){.slot{flex-wrap:wrap;}.slot .slot-label{width:100%;}.brand-text .t2{display:none;}.topbar{padding:8px 12px;}}
+  .pill-btn.small{padding:6px 12px; font-size:12.5px;}
+
+  .field-label{display:block; font-size:12px; font-weight:700; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.03em; margin:14px 0 6px;}
+  .field-label:first-of-type{margin-top:4px;}
+
+  .perm-list{display:flex; flex-direction:column; gap:8px; margin-bottom:6px;}
+  .perm-row{display:flex; align-items:center; gap:10px; font-size:14px; color:var(--ink); cursor:pointer; padding:4px 0;}
+  .perm-row input{width:auto; margin:0; accent-color:var(--denim); flex:none; width:17px; height:17px;}
+
+  .person-list{max-height:50vh; overflow-y:auto; display:flex; flex-direction:column; gap:6px; margin:4px 0 16px; padding-right:2px;}
+  .person-row{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:10px 12px; border-radius:10px; background:var(--cream); border:1px solid var(--line);
+  }
+  .person-name{font-weight:700; font-size:14px; color:var(--ink);}
+  .person-meta{font-size:11.5px; color:var(--ink-soft); margin-top:2px;}
+
+  /* admin panel content reuses slot but with select */
+  .admin-banner{
+    background:var(--denim-deep); color:var(--cream); padding:10px 18px;
+    font-size:13px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+  }
+  .admin-banner b{font-weight:700;}
+  select.admin-select{
+    font-family:inherit; font-size:13px; padding:5px 8px; border-radius:8px; border:1px solid var(--line);
+    background:var(--white); max-width:160px;
+  }
+
+  .toast{
+    position:fixed; bottom:22px; left:50%; transform:translateX(-50%);
+    background:var(--ink); color:var(--cream); padding:11px 20px; border-radius:999px;
+    font-size:13.5px; font-weight:600; z-index:80; box-shadow:0 10px 30px -8px rgba(0,0,0,.4);
+    animation:rise .25s ease;
+  }
+  @keyframes rise{from{opacity:0; transform:translate(-50%,8px);} to{opacity:1; transform:translate(-50%,0);}}
+
+  .footer-note{
+    text-align:center; font-size:11.5px; color:var(--ink-soft); padding:18px 16px 26px;
+  }
+
+  @media (max-width:480px){
+    .slot{flex-wrap:wrap;}
+    .slot .slot-label{width:100%;}
+    .brand-text .t2{display:none;}
+  }
+
+  /* ---- Barre navigation mois ---- */
+  .month-nav{
+    background:var(--white);border-bottom:1px solid var(--line);
+    padding:7px 16px;overflow-x:auto;white-space:nowrap;
+    display:flex;gap:6px;align-items:center;scrollbar-width:none;
+    position:sticky;top:94px;z-index:27;
+  }
+  .month-nav::-webkit-scrollbar{display:none;}
+  .month-nav-btn{
+    border:1px solid var(--line);background:transparent;color:var(--ink-soft);
+    border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;
+    cursor:pointer;font-family:inherit;white-space:nowrap;flex:none;
+    transition:all .18s;
+  }
+  .month-nav-btn:hover{background:var(--denim-pale);color:var(--denim-deep);border-color:var(--denim);}
+  .month-anchor{display:block;height:0;overflow:hidden;}
+
 </style>
 </head>
 <body>
 <div id="root"></div>
+
 <script>
 window.__INTERVENANTS__ = [{"nom": "Tadeusz POREBA", "groupe": "UNION", "predication": true, "presidenceCulte": true, "presidenceSainteCene": true, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Bogdan ZAJAC", "groupe": "UNION", "predication": true, "presidenceCulte": true, "presidenceSainteCene": true, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Bernard VERDIERE", "groupe": "UNION", "predication": false, "presidenceCulte": true, "presidenceSainteCene": true, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Mateusz JAWDYK", "groupe": "UNION", "predication": true, "presidenceCulte": true, "presidenceSainteCene": true, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Silvain LUBAN", "groupe": "UNION", "predication": true, "presidenceCulte": true, "presidenceSainteCene": true, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Xavier POREBA", "groupe": "UNION", "predication": true, "presidenceCulte": true, "presidenceSainteCene": true, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Geoffrey Dardenne", "groupe": "UNION", "predication": false, "presidenceCulte": true, "presidenceSainteCene": true, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Joseph Sopko", "groupe": "UNION", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Jacques Parent", "groupe": "UNION", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Jean-Paul Baley Shabany", "groupe": "UNION", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Matheis Zajac", "groupe": "UNION", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Jean Matthieu Roupain", "groupe": "UNION", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Julien Beaune", "groupe": "UNION", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Benjamin Peixoto", "groupe": "UNION", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": false, "collecteOffrandes": false}, {"nom": "Roberto Peixoto", "groupe": "UNION", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": false, "collecteOffrandes": false}, {"nom": "Ruth Peixoto", "groupe": "UNION", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": false, "collecteOffrandes": false}, {"nom": "Bruno Mazure", "groupe": "UNION", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": false, "collecteOffrandes": false}, {"nom": "Laurence Mazure", "groupe": "UNION", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": false, "collecteOffrandes": false}, {"nom": "Jannine Viera", "groupe": "UNION", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": false, "collecteOffrandes": false}, {"nom": "Paulina Jawdyk", "groupe": "UNION", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": false, "collecteOffrandes": false}, {"nom": "Fabian Mayslin", "groupe": "UNION", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": false, "collecteOffrandes": false}, {"nom": "Benjamin Florins", "groupe": "UNION", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": false, "collecteOffrandes": false}, {"nom": "Maryla Zajac", "groupe": "UNION", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": false, "collecteOffrandes": false}, {"nom": "Joshua Peronno", "groupe": "UNION", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": false, "collecteOffrandes": false}, {"nom": "Hélène Magalhes", "groupe": "UNION", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": false, "collecteOffrandes": false}, {"nom": "Bartek Iwan", "groupe": "UNION", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": false, "collecteOffrandes": false}, {"nom": "Olivier Garbe", "groupe": "UNION", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": false, "collecteOffrandes": false}, {"nom": "Prosper Momo", "groupe": "UNION", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": false, "collecteOffrandes": false}, {"nom": "Philippe PEM", "groupe": "BAPTISTE", "predication": true, "presidenceCulte": true, "presidenceSainteCene": true, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Jean BARTHABURU", "groupe": "BAPTISTE", "predication": true, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Firmin BIKOUTA", "groupe": "BAPTISTE", "predication": true, "presidenceCulte": true, "presidenceSainteCene": true, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Fabrice FLORINS", "groupe": "BAPTISTE", "predication": true, "presidenceCulte": true, "presidenceSainteCene": true, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Erdan BEKIROVIC", "groupe": "BAPTISTE", "predication": true, "presidenceCulte": true, "presidenceSainteCene": true, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Josué PACHECO", "groupe": "BAPTISTE", "predication": true, "presidenceCulte": true, "presidenceSainteCene": true, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Jean-Gabriel WERBROUCK", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Steeve TONDEREAU", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Carlos GAMEIRO", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Émerick GROS-DESORMEAUX", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Éric ELLANGOMO", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Fred GASPARD", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Gaël BERTHELEAU", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Merzouk BOUTERFA", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Miguel RENDAS", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Moussa BENBAHLOULI", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Rachid TABTI", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Robert BÉDART", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Stéphane DHERINNES", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Thomas PETIAUX", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Caleb AFFOLABI", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Philippe AFFOLABI", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Fancy BANGA", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Adélaïde TABTI", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Ewune MONONO", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Gisèle MAKOUANGOU", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Joëlle PAKULA", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Julie PILLET", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Léa ELLANGOMO", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Lydie PASCAL", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Lysiane-Maguy BATHABURU", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Noëlla DIMWANA", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Ophélie WEISS", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Sabrina BOUTERFA", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Sarah BENZIANI ALLOUACHE", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Sarah RENDAS ALILI", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Stéphanie FLORINS", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Sylvie DECOTTIGNIES", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Valérie HONORÉ", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Veneranda BIZIMUNGU", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Zohra ALLOUACHE", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}, {"nom": "Zuely GAMEIRO", "groupe": "BAPTISTE", "predication": false, "presidenceCulte": false, "presidenceSainteCene": false, "distributionSainteCene": true, "collecteOffrandes": true}];
 </script>
-<script id="planning-2027" type="application/json">
-[{"id": "y27_row1", "date": "2027-01-03", "mois": "Janvier", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row2", "date": "2027-01-10", "mois": "Janvier", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row3", "date": "2027-01-17", "mois": "Janvier", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row4", "date": "2027-01-24", "mois": "Janvier", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row5", "date": "2027-01-31", "mois": "Janvier", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row6", "date": "2027-02-07", "mois": "Février", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row7", "date": "2027-02-14", "mois": "Février", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row8", "date": "2027-02-21", "mois": "Février", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row9", "date": "2027-02-28", "mois": "Février", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row10", "date": "2027-03-07", "mois": "Mars", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row11", "date": "2027-03-14", "mois": "Mars", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row12", "date": "2027-03-21", "mois": "Mars", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row13", "date": "2027-03-28", "mois": "Mars", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row14", "date": "2027-04-04", "mois": "Avril", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row15", "date": "2027-04-11", "mois": "Avril", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row16", "date": "2027-04-18", "mois": "Avril", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row17", "date": "2027-04-25", "mois": "Avril", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row18", "date": "2027-05-02", "mois": "Mai", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row19", "date": "2027-05-09", "mois": "Mai", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row20", "date": "2027-05-16", "mois": "Mai", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row21", "date": "2027-05-23", "mois": "Mai", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row22", "date": "2027-05-30", "mois": "Mai", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row23", "date": "2027-06-06", "mois": "Juin", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row24", "date": "2027-06-13", "mois": "Juin", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row25", "date": "2027-06-20", "mois": "Juin", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row26", "date": "2027-06-27", "mois": "Juin", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row27", "date": "2027-07-04", "mois": "Juillet", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row28", "date": "2027-07-11", "mois": "Juillet", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row29", "date": "2027-07-18", "mois": "Juillet", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row30", "date": "2027-07-25", "mois": "Juillet", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row31", "date": "2027-08-01", "mois": "Août", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row32", "date": "2027-08-08", "mois": "Août", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row33", "date": "2027-08-15", "mois": "Août", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row34", "date": "2027-08-22", "mois": "Août", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row35", "date": "2027-08-29", "mois": "Août", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row36", "date": "2027-09-05", "mois": "Septembre", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row37", "date": "2027-09-12", "mois": "Septembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row38", "date": "2027-09-19", "mois": "Septembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row39", "date": "2027-09-26", "mois": "Septembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row40", "date": "2027-10-03", "mois": "Octobre", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row41", "date": "2027-10-10", "mois": "Octobre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row42", "date": "2027-10-17", "mois": "Octobre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row43", "date": "2027-10-24", "mois": "Octobre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row44", "date": "2027-10-31", "mois": "Octobre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row45", "date": "2027-11-07", "mois": "Novembre", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row46", "date": "2027-11-14", "mois": "Novembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row47", "date": "2027-11-21", "mois": "Novembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row48", "date": "2027-11-28", "mois": "Novembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row49", "date": "2027-12-05", "mois": "Décembre", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row50", "date": "2027-12-12", "mois": "Décembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row51", "date": "2027-12-19", "mois": "Décembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y27_row52", "date": "2027-12-26", "mois": "Décembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}]
+<script id="planning-data" type="application/json">
+[{"id": "row2", "date": "2026-01-04", "mois": "Janvier", "typeCulte": "Sainte-Cène", "predicateur": "Tadeusz POREBA", "presidentCulte": "Tadeusz POREBA", "presidentSainteCene": "Tadeusz POREBA", "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": "Fabrice FLORINS", "baptisteDist2": "Erdan BEKIROVIC", "remarques": null}, {"id": "row3", "date": "2026-01-04", "mois": "Janvier", "typeCulte": "Sainte-Cène", "predicateur": "Philippe PEM", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row4", "date": "2026-01-11", "mois": "Janvier", "typeCulte": null, "predicateur": "Xavier POREBA", "presidentCulte": "Mateusz JAWDYK", "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Jean-Gabriel WERBROUCK", "baptisteCollecte2": "Alain VERSTRAETE"}, {"id": "row5", "date": "2026-01-18", "mois": "Janvier", "typeCulte": null, "predicateur": "Fabrice FLORINS", "presidentCulte": "Sylvain LUBAN", "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Stéphane DHERINNES", "baptisteCollecte2": "Caleb AFFOLABI"}, {"id": "row6", "date": "2026-01-25", "mois": "Janvier", "typeCulte": null, "predicateur": "Ronnie KOLODZIEJSKI", "presidentCulte": "Tadeusz POREBA", "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Émerick GROS-DESORMEAUX", "baptisteCollecte2": "Jofre JORGE"}, {"id": "row7", "date": "2026-02-01", "mois": "Février", "typeCulte": "Sainte-Cène", "predicateur": "Silvain LUBAN", "presidentCulte": "Tadeusz POREBA", "presidentSainteCene": "Tadeusz POREBA", "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": "Stéphane BELLAMIO", "baptisteDist2": "Corinne WERBROUCK", "remarques": null}, {"id": "row8", "date": "2026-02-08", "mois": "Février", "typeCulte": null, "predicateur": "Philippe PEM", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Émerick GROS-DESORMEAUX", "baptisteCollecte2": "Sifa"}, {"id": "row9", "date": "2026-02-15", "mois": "Février", "typeCulte": null, "predicateur": "Bogdan ZAJAC", "presidentCulte": "Xavier POREBA", "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Stéphanie FLORINS", "baptisteCollecte2": null}, {"id": "row10", "date": "2026-02-22", "mois": "Février", "typeCulte": "Petit-déjeuner", "predicateur": "Témoignages : PATON et F. BIKOUTA", "presidentCulte": "Tadeusz POREBA", "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Gaël BERTHELEAU", "baptisteCollecte2": "Dalia BERTHELEAU"}, {"id": "row11", "date": "2026-03-01", "mois": "Mars", "typeCulte": "Sainte-Cène", "predicateur": "J-P et Dolorès KASEMIERCZACK", "presidentCulte": "Philippe PEM", "presidentSainteCene": "Philippe PEM", "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": "Stéphane DHERINNES", "baptisteDist2": "Thomas PETIAUX", "remarques": null}, {"id": "row12", "date": "2026-03-08", "mois": "Mars", "typeCulte": null, "predicateur": "Mateusz JAWDYK", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Rachid TABTI", "baptisteCollecte2": "Adélaïde TABTI"}, {"id": "row13", "date": "2026-03-15", "mois": "Mars", "typeCulte": null, "predicateur": "Invité de Pologne", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Marie-Hélène WILLEM", "baptisteCollecte2": "Stéphane DHERINNES"}, {"id": "row14", "date": "2026-03-22", "mois": "Mars", "typeCulte": null, "predicateur": "Josué et Kely PACHECO", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "David PASCAL", "baptisteCollecte2": "Émerick GROS-DESORMEAUX"}, {"id": "row15", "date": "2026-03-29", "mois": "Mars", "typeCulte": null, "predicateur": "Jean BARTHABURU", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Fabrice FLORINS", "baptisteCollecte2": "Stéphanie FLORINS"}, {"id": "row16", "date": "2026-04-05", "mois": "Avril", "typeCulte": "Sainte-Cène", "predicateur": "Xavier POREBA", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": "Allain GUEGUEN", "baptisteDist2": "Robert BÉDART", "remarques": null}, {"id": "row17", "date": "2026-04-12", "mois": "Avril", "typeCulte": null, "predicateur": "Culte par les jeunes", "presidentCulte": "Jeunes", "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": "Jeunes", "unionCollecte2": "Jeunes", "baptisteCollecte1": "Jeunes", "baptisteCollecte2": "Jeunes"}, {"id": "row18", "date": "2026-04-19", "mois": "Avril", "typeCulte": null, "predicateur": "Tadeusz POREBA", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": "PhPEM à VIE NOUVELLE", "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Stéphane DHERINNES", "baptisteCollecte2": "Marie-Hélène WILLEM"}, {"id": "row19", "date": "2026-04-26", "mois": "Avril", "typeCulte": null, "predicateur": "Erdan BEKIROVIC", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Judith PEM", "baptisteCollecte2": "Émerick GROS-DESORMEAUX"}, {"id": "row20", "date": "2026-05-03", "mois": "Mai", "typeCulte": "Sainte-Cène", "predicateur": "Silvain LUBAN", "presidentCulte": "Fabrice FLORINS", "presidentSainteCene": "Fabrice FLORINS", "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": "Joëlle PAKULA", "baptisteDist2": "Stéphanie FLORINS", "remarques": null}, {"id": "row21", "date": "2026-05-10", "mois": "Mai", "typeCulte": null, "predicateur": "Bogdan ZAJAC", "presidentCulte": "Philippe PEM", "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Carlos GAMEIRO", "baptisteCollecte2": "Fred GASPARD"}, {"id": "row22", "date": "2026-05-17", "mois": "Mai", "typeCulte": null, "predicateur": "Fabrice FLORINS", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Steeve TONDEREAU", "baptisteCollecte2": "Valérie HONORÉ"}, {"id": "row23", "date": "2026-05-24", "mois": "Mai", "typeCulte": null, "predicateur": "Bernard VERDIERE", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": "PhPEM à VIE NOUVELLE", "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Zohra ALLOUACHE", "baptisteCollecte2": "Moussa BENBAHLOULI"}, {"id": "row24", "date": "2026-05-31", "mois": "Mai", "typeCulte": null, "predicateur": "Mateusz JAWDYK", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Erdan BEKIROVIC", "baptisteCollecte2": "Jean-Gabriel WERBROUCK"}, {"id": "row25", "date": "2026-06-07", "mois": "Juin", "typeCulte": null, "predicateur": "Fête de l'Écodim", "presidentCulte": "Tadeusz POREBA", "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row26", "date": "2026-06-14", "mois": "Juin", "typeCulte": "Sainte-Cène", "predicateur": "Tadeusz POREBA", "presidentCulte": "Xavier POREBA", "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": "Stéphanie FLORINS", "baptisteDist2": "Marie-Christine GASPARD", "remarques": null}, {"id": "row27", "date": "2026-06-21", "mois": "Juin", "typeCulte": "Petit-déjeuner", "predicateur": "Philippe PEM (Pacours de vie)", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row28", "date": "2026-06-28", "mois": "Juin", "typeCulte": null, "predicateur": "Xavier POREBA", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row29", "date": "2026-07-05", "mois": "Juillet", "typeCulte": "Sainte-Cène", "predicateur": "Erdan BEKIROVIC", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row30", "date": "2026-07-12", "mois": "Juillet", "typeCulte": null, "predicateur": "Bernard VERDIERE", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": "PhPEM à VIE NOUVELLE"}, {"id": "row31", "date": "2026-07-19", "mois": "Juillet", "typeCulte": null, "predicateur": "Bogdan ZAJAC", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row32", "date": "2026-07-26", "mois": "Juillet", "typeCulte": null, "predicateur": "Philippe PEM", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row33", "date": "2026-08-02", "mois": "Août", "typeCulte": "Sainte-Cène", "predicateur": "Philippe PEM", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row34", "date": "2026-08-09", "mois": "Août", "typeCulte": null, "predicateur": "Mateusz JAWDYK", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row35", "date": "2026-08-16", "mois": "Août", "typeCulte": null, "predicateur": "Silvain LUBAN", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row36", "date": "2026-08-23", "mois": "Août", "typeCulte": null, "predicateur": "Invité : Viclaire", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": "invité"}, {"id": "row37", "date": "2026-08-30", "mois": "Août", "typeCulte": null, "predicateur": "Fabrice FLORINS", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row38", "date": "2026-09-06", "mois": "Septembre", "typeCulte": "Sainte-Cène", "predicateur": "Tadeusz POREBA", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row39", "date": "2026-09-13", "mois": "Septembre", "typeCulte": null, "predicateur": "Xavier POREBA", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row40", "date": "2026-09-20", "mois": "Septembre", "typeCulte": null, "predicateur": "Invité : Frédéric Manceau", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": "invité"}, {"id": "row41", "date": "2026-09-27", "mois": "Septembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row42", "date": "2026-10-04", "mois": "Octobre", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row43", "date": "2026-10-11", "mois": "Octobre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row44", "date": "2026-10-18", "mois": "Octobre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row45", "date": "2026-10-25", "mois": "Octobre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row46", "date": "2026-11-01", "mois": "Novembre", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row47", "date": "2026-11-08", "mois": "Novembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row48", "date": "2026-11-15", "mois": "Novembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row49", "date": "2026-11-22", "mois": "Novembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row50", "date": "2026-11-29", "mois": "Novembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row51", "date": "2026-12-06", "mois": "Décembre", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row52", "date": "2026-12-13", "mois": "Décembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row53", "date": "2026-12-20", "mois": "Décembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row54", "date": "2026-12-27", "mois": "Décembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}]
 </script>
-<script id="planning-2028" type="application/json">
-[{"id": "y28_row1", "date": "2028-01-02", "mois": "Janvier", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row2", "date": "2028-01-09", "mois": "Janvier", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row3", "date": "2028-01-16", "mois": "Janvier", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row4", "date": "2028-01-23", "mois": "Janvier", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row5", "date": "2028-01-30", "mois": "Janvier", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row6", "date": "2028-02-06", "mois": "Février", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row7", "date": "2028-02-13", "mois": "Février", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row8", "date": "2028-02-20", "mois": "Février", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row9", "date": "2028-02-27", "mois": "Février", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row10", "date": "2028-03-05", "mois": "Mars", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row11", "date": "2028-03-12", "mois": "Mars", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row12", "date": "2028-03-19", "mois": "Mars", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row13", "date": "2028-03-26", "mois": "Mars", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row14", "date": "2028-04-02", "mois": "Avril", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row15", "date": "2028-04-09", "mois": "Avril", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row16", "date": "2028-04-16", "mois": "Avril", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row17", "date": "2028-04-23", "mois": "Avril", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row18", "date": "2028-04-30", "mois": "Avril", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row19", "date": "2028-05-07", "mois": "Mai", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row20", "date": "2028-05-14", "mois": "Mai", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row21", "date": "2028-05-21", "mois": "Mai", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row22", "date": "2028-05-28", "mois": "Mai", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row23", "date": "2028-06-04", "mois": "Juin", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row24", "date": "2028-06-11", "mois": "Juin", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row25", "date": "2028-06-18", "mois": "Juin", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row26", "date": "2028-06-25", "mois": "Juin", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row27", "date": "2028-07-02", "mois": "Juillet", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row28", "date": "2028-07-09", "mois": "Juillet", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row29", "date": "2028-07-16", "mois": "Juillet", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row30", "date": "2028-07-23", "mois": "Juillet", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row31", "date": "2028-07-30", "mois": "Juillet", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row32", "date": "2028-08-06", "mois": "Août", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row33", "date": "2028-08-13", "mois": "Août", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row34", "date": "2028-08-20", "mois": "Août", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row35", "date": "2028-08-27", "mois": "Août", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row36", "date": "2028-09-03", "mois": "Septembre", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row37", "date": "2028-09-10", "mois": "Septembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row38", "date": "2028-09-17", "mois": "Septembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row39", "date": "2028-09-24", "mois": "Septembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row40", "date": "2028-10-01", "mois": "Octobre", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row41", "date": "2028-10-08", "mois": "Octobre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row42", "date": "2028-10-15", "mois": "Octobre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row43", "date": "2028-10-22", "mois": "Octobre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row44", "date": "2028-10-29", "mois": "Octobre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row45", "date": "2028-11-05", "mois": "Novembre", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row46", "date": "2028-11-12", "mois": "Novembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row47", "date": "2028-11-19", "mois": "Novembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row48", "date": "2028-11-26", "mois": "Novembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row49", "date": "2028-12-03", "mois": "Décembre", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row50", "date": "2028-12-10", "mois": "Décembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row51", "date": "2028-12-17", "mois": "Décembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row52", "date": "2028-12-24", "mois": "Décembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}, {"id": "y28_row53", "date": "2028-12-31", "mois": "Décembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": null, "baptisteCollecte2": null, "remarques": null}]
-</script>
+
 <script>
 window.__ADMIN_CODE__ = "DIMANCHE91";
 </script>
+
+<!--
+  ===========================================================================
+  CONFIGURATION FIREBASE — à compléter avant la mise en ligne.
+  Remplacez les valeurs ci-dessous par celles de VOTRE projet Firebase
+  (Paramètres du projet > Vos applis > configuration SDK).
+  Ces valeurs ne sont pas un secret : Firebase est conçu pour qu'elles
+  soient visibles dans le code envoyé au navigateur. La sécurité réelle
+  des données se fait via les règles Firestore (voir le guide fourni).
+  ===========================================================================
+-->
 <script>
 window.__FIREBASE_CONFIG__ = {
   apiKey: "AIzaSyB9n6tiBbvv7A07h5uOg9HZYr5GHHZPF6w",
@@ -167,15 +308,17 @@ window.__FIREBASE_CONFIG__ = {
   appId: "1:237708325644:web:ee76d379d0530f4bcc8f29"
 };
 </script>
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
   import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
   var cfg = window.__FIREBASE_CONFIG__;
-  if(!cfg || cfg.apiKey==="REMPLACER"){
-    window.__FIREBASE_CONFIG_MISSING__=true;
+  if (!cfg || cfg.apiKey === "REMPLACER_PAR_VOTRE_API_KEY") {
+    window.__FIREBASE_CONFIG_MISSING__ = true;
     window.dispatchEvent(new Event('firebase-ready'));
   } else {
-    var app = initializeApp(cfg, "app2027");
+    var app = initializeApp(cfg);
     window.__FIRESTORE_DB__ = getFirestore(app);
     window.__FIRESTORE_DOC__ = doc;
     window.__FIRESTORE_ON_SNAPSHOT__ = onSnapshot;
@@ -184,808 +327,766 @@ window.__FIREBASE_CONFIG__ = {
     window.dispatchEvent(new Event('firebase-ready'));
   }
 </script>
+
 <script>
 (function(){
-"use strict";
+  "use strict";
 
-var PLANNING = {
-  2027: JSON.parse(document.getElementById('planning-2027').textContent),
-  2028: JSON.parse(document.getElementById('planning-2028').textContent)
-};
-var INTERVENANTS_BASE = window.__INTERVENANTS__;
-var ADMIN_CODE = window.__ADMIN_CODE__;
+  var PLANNING_RAW = JSON.parse(document.getElementById('planning-data').textContent);
+  var INTERVENANTS_BASE = window.__INTERVENANTS__;
+  var ADMIN_CODE = window.__ADMIN_CODE__;
 
-var BASE_PERM_FIELDS = ['predication','presidenceCulte','presidenceSainteCene','distributionSainteCene','collecteOffrandes','accueil'];
-var BASE_PERM_LABELS = {
-  predication:'Prédicateur', presidenceCulte:'Président du culte',
-  presidenceSainteCene:'Président Sainte-Cène', distributionSainteCene:'Distribution Sainte-Cène',
-  collecteOffrandes:'Collecte offrandes', accueil:'Accueil'
-};
+  var PERM_FIELDS = ['predication','presidenceCulte','presidenceSainteCene','distributionSainteCene','collecteOffrandes'];
 
-function getAllPermFields(){
-  var fields = BASE_PERM_FIELDS.slice();
-  (state.customRubriques||[]).forEach(function(r){ if(fields.indexOf(r.perm)<0) fields.push(r.perm); });
-  return fields;
-}
-function getAllPermLabels(){
-  var labels = Object.assign({}, BASE_PERM_LABELS);
-  (state.customRubriques||[]).forEach(function(r){ labels[r.perm]=r.label; });
-  return labels;
-}
-
-function getSlotDefs(row){
-  var defs = [
-    {key:'predicateur',label:'Prédicateur',perm:'predication',group:null},
-    {key:'presidentCulte',label:'Président du culte',perm:'presidenceCulte',group:null},
-    {key:'accueil1',label:'Accueil 1',perm:'accueil',group:null},
-    {key:'accueil2',label:'Accueil 2',perm:'accueil',group:null},
-    {key:'accueil3',label:'Accueil 3',perm:'accueil',group:null},
-    {key:'accueil4',label:'Accueil 4',perm:'accueil',group:null},
-  ];
-  if(row.hasSainteCene){
-    defs.push({key:'presidentSainteCene',label:'Président Sainte-Cène',perm:'presidenceSainteCene',group:null,scOnly:true});
-    defs.push({key:'unionDist1',label:'Distributeur SC 1',perm:'distributionSainteCene',group:'UNION',scOnly:true});
-    defs.push({key:'unionDist2',label:'Distributeur SC 2',perm:'distributionSainteCene',group:'UNION',scOnly:true});
-    defs.push({key:'baptisteDist1',label:'Distributeur SC 1',perm:'distributionSainteCene',group:'BAPTISTE',scOnly:true});
-    defs.push({key:'baptisteDist2',label:'Distributeur SC 2',perm:'distributionSainteCene',group:'BAPTISTE',scOnly:true});
+  // intervenantsOverrides: nom -> objet intervenant complet (ajout ou remplacement d'une personne de la base)
+  function getEffectiveIntervenants(){
+    var byNomBase = {};
+    INTERVENANTS_BASE.forEach(function(p){ byNomBase[p.nom] = p; });
+    var overrides = state.intervenantsOverrides || {};
+    // Appliquer overrides : ajouts, modifications, suppressions
+    Object.keys(overrides).forEach(function(nom){
+      if(nom.indexOf('__deleted__') === 0){
+        // Supprimer l'entrée de base correspondante
+        var originalNom = nom.slice('__deleted__'.length);
+        delete byNomBase[originalNom];
+      } else if(overrides[nom] && overrides[nom].__deleted){
+        // Ignorer
+      } else {
+        byNomBase[nom] = overrides[nom];
+      }
+    });
+    return Object.keys(byNomBase).map(function(nom){ return byNomBase[nom]; });
   }
-  defs.push({key:'unionCollecte1',label:'Collecte offrandes 1',perm:'collecteOffrandes',group:'UNION'});
-  defs.push({key:'unionCollecte2',label:'Collecte offrandes 2',perm:'collecteOffrandes',group:'UNION'});
-  defs.push({key:'baptisteCollecte1',label:'Collecte offrandes 1',perm:'collecteOffrandes',group:'BAPTISTE'});
-  defs.push({key:'baptisteCollecte2',label:'Collecte offrandes 2',perm:'collecteOffrandes',group:'BAPTISTE'});
-  (state.customRubriques||[]).forEach(function(r){
-    if(r.scOnly && !row.hasSainteCene) return;
-    defs.push({key:r.key+'_1',label:r.label+' 1',perm:r.perm,group:r.group||null,scOnly:!!r.scOnly});
-    defs.push({key:r.key+'_2',label:r.label+' 2',perm:r.perm,group:r.group||null,scOnly:!!r.scOnly});
-  });
-  return defs;
-}
 
-var state = {
-  year:2027, overrides:{2027:{},2028:{}},
-  intervenantsOverrides:{}, customRubriques:[], scOverrides:{},
-  currentUser:null, isAdmin:false, loading:true, configMissing:false, toast:null,
-  showLoginAdmin:false, adminCodeInput:'', adminError:'',
-  showManageIntervenants:false, showManageRubriques:false,
-  managePersonEditing:null, manageForm:null,
-  manageRubriqueEditing:null, manageRubriqueForm:null,
-  showGuestModal:false, guestTarget:null, guestName:'',
-  showRemarqueModal:false, remarqueTarget:null, remarqueText:'',
-  showHelp:false, helpTab:'intervenants'
-};
-
-var db, fsDoc, fsOnSnapshot, fsSetDoc;
-var DOC_OV27, DOC_OV28, DOC_IV, DOC_CFG;
-
-function loadOverrides(){
-  db=window.__FIRESTORE_DB__; fsDoc=window.__FIRESTORE_DOC__;
-  fsOnSnapshot=window.__FIRESTORE_ON_SNAPSHOT__; fsSetDoc=window.__FIRESTORE_SET_DOC__;
-  DOC_OV27=fsDoc(db,'planning_culte_2027','overrides');
-  DOC_OV28=fsDoc(db,'planning_culte_2027','overrides_2028');
-  DOC_IV=fsDoc(db,'planning_culte_2027','intervenants');
-  DOC_CFG=fsDoc(db,'planning_culte_2027','config');
-  function listen(ref,cb){
-    fsOnSnapshot(ref,function(snap){
-      var v=(snap.exists()&&snap.data()&&snap.data().value)?JSON.parse(snap.data().value):null;
-      cb(v); state.loading=false; render();
-    },function(e){ console.error(e); state.loading=false; render(); });
-  }
-  listen(DOC_OV27,function(v){ state.overrides[2027]=v||{}; });
-  listen(DOC_OV28,function(v){ state.overrides[2028]=v||{}; });
-  listen(DOC_IV,function(v){
-    var p=v||{};
-    state.intervenantsOverrides=p.people||p||{};
-    if(typeof state.intervenantsOverrides!=='object') state.intervenantsOverrides={};
-  });
-  listen(DOC_CFG,function(v){ var c=v||{}; state.customRubriques=c.rubriques||[]; state.scOverrides=c.scOverrides||{}; });
-}
-async function saveOverrides(year){
-  try{ await fsSetDoc(year===2027?DOC_OV27:DOC_OV28,{value:JSON.stringify(state.overrides[year])}); }
-  catch(e){ console.error(e); showToast("Connexion impossible."); }
-}
-async function saveIntervenants(){
-  try{ await fsSetDoc(DOC_IV,{value:JSON.stringify({people:state.intervenantsOverrides})}); }
-  catch(e){ console.error(e); showToast("Connexion impossible."); }
-}
-async function saveConfig(){
-  try{ await fsSetDoc(DOC_CFG,{value:JSON.stringify({rubriques:state.customRubriques,scOverrides:state.scOverrides})}); }
-  catch(e){ console.error(e); showToast("Connexion impossible."); }
-}
-
-function getEffectiveIntervenants(){
-  var byNom={};
-  INTERVENANTS_BASE.forEach(function(p){ byNom[p.nom]=Object.assign({},p,{_base:true}); });
-  var ov=state.intervenantsOverrides||{};
-  Object.keys(ov).forEach(function(nom){
-    if(nom.indexOf('__deleted__')===0){
-      var orig=nom.slice('__deleted__'.length);
-      delete byNom[orig];
-    } else if(ov[nom] && ov[nom].__deleted){
-      // garder pour la vue admin
-      byNom[nom]=Object.assign({},byNom[nom]||{},ov[nom]);
-    } else {
-      byNom[nom]=Object.assign({},byNom[nom]||{},ov[nom]);
-    }
-  });
-  return Object.values(byNom);
-}
-function getActiveIntervenants(){ return getEffectiveIntervenants().filter(function(p){ return !p._deleted; }); }
-function getNamesSorted(inclDel){
-  var list=inclDel?getEffectiveIntervenants():getActiveIntervenants();
-  return list.map(function(p){return p.nom;}).sort(function(a,b){return a.localeCompare(b,'fr',{sensitivity:'base'});});
-}
-function byName(nom){ var l=getEffectiveIntervenants(); for(var i=0;i<l.length;i++){ if(l[i].nom===nom) return l[i]; } return null; }
-
-function getRowEffective(row){
-  var hasSC=row.hasSainteCene;
-  if(Object.prototype.hasOwnProperty.call(state.scOverrides,row.id)) hasSC=!!state.scOverrides[row.id];
-  return Object.assign({},row,{hasSainteCene:hasSC,typeCulte:hasSC?'Sainte-Cène':row.typeCulte});
-}
-function getEffectiveValue(row,fieldKey){
-  var ov=(state.overrides[state.year]||{})[row.id];
-  if(ov&&Object.prototype.hasOwnProperty.call(ov,fieldKey)) return ov[fieldKey];
-  return row[fieldKey]||null;
-}
-
-function showToast(msg){ state.toast=msg; render(); setTimeout(function(){ state.toast=null; render(); },2600); }
-
-function takeSlot(rowId,fieldKey,label,guestName){
-  if(!state.currentUser){ showToast("Choisissez d'abord votre nom."); return; }
-  var val=guestName?('Invité : '+guestName):state.currentUser;
-  if(!state.overrides[state.year][rowId]) state.overrides[state.year][rowId]={};
-  state.overrides[state.year][rowId][fieldKey]=val;
-  if(guestName && !state.overrides[state.year][rowId].__remarque)
-    state.overrides[state.year][rowId].__remarque='Invité : '+guestName;
-  saveOverrides(state.year);
-  showToast("Inscrit comme "+label+"."); render();
-}
-function releaseSlot(rowId,fieldKey,currentValue){
-  if(!state.currentUser||currentValue!==state.currentUser) return;
-  if(!state.overrides[state.year][rowId]) state.overrides[state.year][rowId]={};
-  state.overrides[state.year][rowId][fieldKey]=null;
-  saveOverrides(state.year); showToast("Inscription retirée."); render();
-}
-function adminSetSlot(rowId,fieldKey,value){
-  if(!state.overrides[state.year][rowId]) state.overrides[state.year][rowId]={};
-  state.overrides[state.year][rowId][fieldKey]=value||null;
-  saveOverrides(state.year); showToast(value?"Inscription mise à jour.":"Case libérée."); render();
-}
-function adminSetRemarque(rowId,texte){
-  if(!state.overrides[state.year][rowId]) state.overrides[state.year][rowId]={};
-  state.overrides[state.year][rowId].__remarque=texte||null;
-  saveOverrides(state.year); showToast("Remarque enregistrée.");
-}
-function adminToggleSC(rowId,currentHasSC){
-  state.scOverrides[rowId]=!currentHasSC;
-  saveConfig();
-  showToast((!currentHasSC)?"Sainte-Cène activée.":"Sainte-Cène retirée."); render();
-}
-function tryAdminLogin(){
-  if(state.adminCodeInput.trim()===ADMIN_CODE){
-    state.isAdmin=true; state.showLoginAdmin=false; state.adminCodeInput=''; state.adminError=''; render();
-  } else { state.adminError='Code incorrect.'; render(); }
-}
-
-// ---- Gestion intervenants ----
-function openNewPersonForm(){
-  state.managePersonEditing='__new__';
-  var f={nom:'',groupe:'UNION',_deleted:false};
-  getAllPermFields().forEach(function(p){f[p]=false;});
-  state.manageForm=f; render();
-}
-function openEditPersonForm(nom){
-  var p=byName(nom); if(!p) return;
-  state.managePersonEditing=nom;
-  var f={nom:p.nom, nomOriginal:p.nom, groupe:p.groupe, _deleted:!!p._deleted};
-  getAllPermFields().forEach(function(pf){f[pf]=!!p[pf];});
-  state.manageForm=f; render();
-}
-function closePersonForm(){ state.managePersonEditing=null; state.manageForm=null; render(); }
-function savePersonForm(){
-  var f=state.manageForm;
-  var nom=(f.nom||'').trim();
-  if(!nom){ showToast("Merci de saisir un nom."); return; }
-  var isNew=state.managePersonEditing==='__new__';
-  if(isNew && byName(nom)){ showToast("Ce nom existe déjà."); return; }
-  var nomOriginal=f.nomOriginal||nom;
-  var nomChange=!isNew && nom!==nomOriginal;
-  if(nomChange && byName(nom)){ showToast("Ce nom existe déjà."); return; }
-  var record={nom:nom,groupe:f.groupe,_deleted:!!f._deleted};
-  getAllPermFields().forEach(function(p){record[p]=!!f[p];});
-  if(!state.intervenantsOverrides) state.intervenantsOverrides={};
-  var countMigrated=0;
-  if(nomChange){
-    delete state.intervenantsOverrides[nomOriginal];
-    state.intervenantsOverrides['__deleted__'+nomOriginal]={__deleted:true,nom:nomOriginal};
-    [2027,2028].forEach(function(yr){
-      Object.keys(state.overrides[yr]).forEach(function(rowId){
-        var row=state.overrides[yr][rowId]; if(!row) return;
-        Object.keys(row).forEach(function(k){
-          if(row[k]===nomOriginal){ row[k]=nom; countMigrated++; }
-        });
-      });
-      saveOverrides(yr);
+  function getNamesSorted(){
+    return getEffectiveIntervenants().map(function(p){return p.nom;}).sort(function(a,b){
+      return a.localeCompare(b, 'fr', {sensitivity:'base'});
     });
   }
-  state.intervenantsOverrides[nom]=record;
-  saveIntervenants();
-  if(isNew) showToast("Intervenant ajouté.");
-  else if(nomChange) showToast("Nom corrigé"+(countMigrated?" — "+countMigrated+" inscription(s) mise(s) à jour.":" — aucune inscription à migrer."));
-  else showToast("Modifications enregistrées.");
-  closePersonForm();
-}
-function deletePerson(nom){
-  if(!state.intervenantsOverrides) state.intervenantsOverrides={};
-  var p=byName(nom)||{};
-  state.intervenantsOverrides[nom]=Object.assign({},p,{nom:nom,_deleted:true});
-  saveIntervenants(); showToast("Intervenant supprimé (inscriptions conservées)."); render();
-}
-function restorePerson(nom){
-  if(state.intervenantsOverrides && state.intervenantsOverrides[nom]){
-    state.intervenantsOverrides[nom]._deleted=false;
-    saveIntervenants(); showToast("Intervenant restauré."); render();
+
+  function byName(nom){
+    var list = getEffectiveIntervenants();
+    for(var i=0;i<list.length;i++){ if(list[i].nom===nom) return list[i]; }
+    return null;
   }
-}
 
-// ---- Gestion rubriques ----
-function openNewRubriqueForm(){ state.manageRubriqueEditing='__new__'; state.manageRubriqueForm={label:'',perm:'',group:null,scOnly:false}; render(); }
-function openEditRubriqueForm(idx){ state.manageRubriqueEditing=idx; state.manageRubriqueForm=Object.assign({},state.customRubriques[idx]); render(); }
-function closeRubriqueForm(){ state.manageRubriqueEditing=null; state.manageRubriqueForm=null; render(); }
-function saveRubriqueForm(){
-  var f=state.manageRubriqueForm;
-  var label=(f.label||'').trim();
-  if(!label){ showToast("Donnez un nom à la rubrique."); return; }
-  var perm=label.toLowerCase().replace(/[^a-z0-9]/g,'_').replace(/_+/g,'_');
-  var key=perm+'_custom';
-  var isNew=state.manageRubriqueEditing==='__new__';
-  var record={key:key,label:label,perm:perm,group:f.group||null,scOnly:!!f.scOnly};
-  if(isNew) state.customRubriques.push(record);
-  else state.customRubriques[state.manageRubriqueEditing]=record;
-  saveConfig(); showToast(isNew?"Rubrique créée.":"Rubrique modifiée."); closeRubriqueForm();
-}
-function deleteRubrique(idx){ state.customRubriques.splice(idx,1); saveConfig(); showToast("Rubrique supprimée."); render(); }
-
-// ---- DOM helpers ----
-function el(tag,attrs,children){
-  var node=document.createElement(tag); attrs=attrs||{};
-  Object.keys(attrs).forEach(function(k){
-    var v=attrs[k]; if(v==null) return;
-    if(k==='class') node.className=v;
-    else if(k==='html') node.innerHTML=v;
-    else if(k.indexOf('on')===0&&typeof v==='function') node.addEventListener(k.slice(2),v);
-    else if(k==='disabled'){if(v) node.setAttribute('disabled','disabled');}
-    else if(k==='checked'){node.checked=!!v;}
-    else if(k==='selected'){if(v) node.setAttribute('selected','selected');}
-    else if(k==='style') node.setAttribute('style',v);
-    else node.setAttribute(k,v);
-  });
-  (children||[]).forEach(function(c){
-    if(c==null) return;
-    if(typeof c==='string') node.appendChild(document.createTextNode(c));
-    else node.appendChild(c);
-  });
-  return node;
-}
-
-function renderTopbar(){
-  var yearBtns=[2027,2028].map(function(y){
-    return el('button',{class:'year-tab'+(state.year===y?' active':''),onclick:function(){
-      state.year=y; document.body.className=y===2028?'year-2028':''; render();
-    }},[y+'']);
-  });
-  var adminBtns=[];
-  if(state.isAdmin){
-    adminBtns.push(el('button',{class:'pill-btn small',onclick:function(){ state.showManageIntervenants=true; render(); }},['Intervenants']));
-    adminBtns.push(el('button',{class:'pill-btn small',onclick:function(){ state.showManageRubriques=true; render(); }},['Rubriques']));
-    adminBtns.push(el('button',{class:'pill-btn ghost small',onclick:function(){ state.isAdmin=false; render(); }},['Quitter admin']));
-  } else {
-    adminBtns.push(el('button',{class:'pill-btn ghost small',onclick:function(){ state.showLoginAdmin=true; state.adminError=''; render(); }},['Administrateur']));
-  }
-  return el('div',{class:'topbar'},[
-    el('div',{class:'brand'},[
-      el('div',{class:'mark'},['✝']),
-      el('div',{class:'brand-text'},[
-        el('span',{class:'t1'},['Planning des cultes '+(state.year===2027?'2027':'2028')]),
-        el('span',{class:'t2'},['Église Baptiste & Union — Roubaix'])
-      ])
-    ]),
-    el('div',{class:'topbar-right'},[
-      el('button',{class:'pill-btn ghost small',onclick:function(){ state.showHelp=true; state.helpTab=state.isAdmin?'admin':'intervenants'; render(); }},['? Aide']),
-      el('div',{class:'year-tabs'},yearBtns),
-      ...adminBtns
-    ])
-  ]);
-}
-
-function renderIdentityBar(){
-  if(state.isAdmin){
-    return el('div',{class:'admin-banner'},[
-      el('span',{},[el('b',{},['Mode administrateur']),' — modifier ou libérer n’importe quelle case.'])
-    ]);
-  }
-  if(state.currentUser){
-    var initials=state.currentUser.split(' ').map(function(w){return w[0];}).slice(0,2).join('').toUpperCase();
-    return el('div',{class:'identity-bar'},[
-      el('span',{class:'label'},['Vous êtes :']),
-      el('span',{class:'you-badge'},[
-        el('span',{class:'avatar'},[initials]),
-        state.currentUser,
-        el('button',{title:'Changer',onclick:function(){ state.currentUser=null; render(); }},['✕'])
-      ])
-    ]);
-  }
-  var noms=getNamesSorted(false);
-  var sel=el('select',{class:'name-select',onchange:function(e){ state.currentUser=e.target.value||null; render(); }},
-    [el('option',{value:''},['— Choisissez votre nom —'])].concat(
-      noms.map(function(n){ return el('option',{value:n},[n]); })
-    )
-  );
-  return el('div',{class:'identity-bar'},[el('span',{class:'label'},['Qui êtes-vous ?']),sel]);
-}
-
-function renderMonthNav(){
-  var mois=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-  var btns=mois.map(function(m,idx){
-    return el('button',{class:'month-btn',onclick:function(){
-      var anchor=document.getElementById('month-anchor-'+idx);
-      if(anchor){ window.scrollTo({top:anchor.getBoundingClientRect().top+window.pageYOffset-120,behavior:'smooth'}); }
-    }},[m]);
-  });
-  return el('div',{class:'month-nav'},btns);
-}
-
-function dateFR(iso){
-  var d=new Date(iso+'T00:00:00');
-  var days=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
-  var months=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
-  return {dayLabel:days[d.getDay()],full:d.getDate()+' '+months[d.getMonth()],year:d.getFullYear(),monthIdx:d.getMonth()};
-}
-function cardType(row){
-  if(row.hasSainteCene||row.typeCulte==='Sainte-Cène') return {cls:'sc',label:'Sainte-Cène'};
-  if(row.typeCulte==='Petit-déjeuner') return {cls:'dej',label:'Petit-déjeuner'};
-  return {cls:'normal',label:'Culte'};
-}
-function slotEligible(person,def){
-  if(!person||person._deleted) return false;
-  if(!person[def.perm]) return false;
-  if(def.group&&person.groupe!==def.group) return false;
-  return true;
-}
-
-function renderSlot(row,def){
-  var value=getEffectiveValue(row,def.key);
-  var hasValue=value!=null&&value!==''&&value!=='-----';
-  var isGuest=hasValue&&value.indexOf('Invité')===0;
-  var mine=hasValue&&state.currentUser&&value===state.currentUser;
-  var slotClasses='slot'+(hasValue?' locked':' empty')+(mine?' mine':'');
-  var valueNode=el('span',{class:'slot-value'},[hasValue?value:'À pourvoir']);
-  var actionNode;
-  if(state.isAdmin){
-    var allNames=getNamesSorted(false);
-    var sel=el('select',{class:'admin-select',onchange:function(e){
-      var v=e.target.value;
-      if(v==='__guest__'){
-        state.showGuestModal=true; state.guestTarget={rowId:row.id,fieldKey:def.key,label:def.label}; state.guestName=''; render(); return;
-      }
-      adminSetSlot(row.id,def.key,v);
-    }},
-      [el('option',{value:''},['— vide —'])]
-      .concat(allNames.map(function(n){
-        var opt=el('option',{value:n},[n]); if(n===value) opt.setAttribute('selected','selected'); return opt;
-      }))
-      .concat([el('option',{value:'__guest__',selected:isGuest},['Invité…'])])
-    );
-    actionNode=sel;
-  } else if(hasValue&&mine){
-    actionNode=el('button',{class:'btn-clear',onclick:function(){ releaseSlot(row.id,def.key,value); }},['Retirer mon inscription']);
-  } else if(hasValue){
-    actionNode=el('span',{class:'lock-icon'},['🔒']);
-  } else {
-    var person=state.currentUser?byName(state.currentUser):null;
-    var eligible=slotEligible(person,def);
-    actionNode=el('button',{
-      class:'btn-take',disabled:!state.currentUser||!eligible,
-      title:!state.currentUser?'Choisissez votre nom':(!eligible?'Non habilité pour cette rubrique':''),
-      onclick:function(){ takeSlot(row.id,def.key,def.label); }
-    },[state.currentUser&&!eligible?'Non habilité':'Je m’inscris']);
-  }
-  return el('div',{class:slotClasses},[
-    el('span',{class:'slot-label'},[def.label]),
-    valueNode,
-    el('span',{class:'slot-action'},[actionNode])
-  ]);
-}
-
-function renderCard(row){
-  var effRow=getRowEffective(row);
-  var ct=cardType(effRow);
-  var d=dateFR(row.date);
-  var defs=getSlotDefs(effRow);
-  var defByKey={}; defs.forEach(function(d){defByKey[d.key]=d;});
-  var slotsContainer=el('div',{class:'slots'},[]);
-
-  var groups=[{title:null,keys:['predicateur','presidentCulte','accueil1','accueil2','accueil3','accueil4']}];
-  if(effRow.hasSainteCene){
-    groups.push({title:'Sainte-Cène',keys:['presidentSainteCene']});
-    groups.push({title:'Union — distribution Sainte-Cène',keys:['unionDist1','unionDist2']});
-    groups.push({title:'Baptiste — distribution Sainte-Cène',keys:['baptisteDist1','baptisteDist2']});
-  }
-  groups.push({title:'Union — collecte offrandes',keys:['unionCollecte1','unionCollecte2']});
-  groups.push({title:'Baptiste — collecte offrandes',keys:['baptisteCollecte1','baptisteCollecte2']});
-  (state.customRubriques||[]).forEach(function(r){
-    if(r.scOnly&&!effRow.hasSainteCene) return;
-    groups.push({title:r.label+(r.group?' — '+r.group:''),keys:[r.key+'_1',r.key+'_2']});
-  });
-
-  groups.forEach(function(g){
-    var hasAny=g.keys.some(function(k){return defByKey[k];});
-    if(!hasAny) return;
-    if(g.title) slotsContainer.appendChild(el('div',{class:'slot-group-title'},[g.title]));
-    g.keys.forEach(function(k){ if(defByKey[k]) slotsContainer.appendChild(renderSlot(effRow,defByKey[k])); });
-  });
-
-  var remarque=getEffectiveValue(effRow,'__remarque')||row.remarques;
-  var bodyChildren=[];
-  var topChildren=[
-    el('div',{class:'date-block'},[
-      el('span',{class:'date-main'},[d.dayLabel.charAt(0).toUpperCase()+d.dayLabel.slice(1)+' '+d.full]),
-      el('span',{class:'date-sub'},[d.year+(row.typeCulte==='Petit-déjeuner'?' · petit-déjeuner partagé':'')])
-    ]),
-    el('div',{style:'display:flex;gap:6px;align-items:center;flex-wrap:wrap;'},[
-      el('span',{class:'type-badge '+ct.cls},[ct.label]),
-      state.isAdmin?el('button',{
-        class:'pill-btn ghost small',
-        title:effRow.hasSainteCene?'Retirer la Sainte-Cène':'Ajouter la Sainte-Cène',
-        onclick:function(e){ e.stopPropagation(); adminToggleSC(row.id,effRow.hasSainteCene); }
-      },[effRow.hasSainteCene?'✗ SC':'+ SC']):null
-    ])
+  // ---- slot definitions: which fields exist on a row, their permission key, and grouping ----
+  var SLOT_DEFS = [
+    {key:'predicateur',        label:'Prédicateur',                 perm:'predication',            group:null},
+    {key:'presidentCulte',     label:'Président du culte',          perm:'presidenceCulte',         group:null},
+    {key:'presidentSainteCene',label:'Président Sainte-Cène',       perm:'presidenceSainteCene',    group:null, scOnly:true},
+    {key:'unionDist1',         label:'Distributeur SC 1',           perm:'distributionSainteCene',  group:'UNION', scOnly:true},
+    {key:'unionDist2',         label:'Distributeur SC 2',           perm:'distributionSainteCene',  group:'UNION', scOnly:true},
+    {key:'baptisteDist1',      label:'Distributeur SC 1',           perm:'distributionSainteCene',  group:'BAPTISTE', scOnly:true},
+    {key:'baptisteDist2',      label:'Distributeur SC 2',           perm:'distributionSainteCene',  group:'BAPTISTE', scOnly:true},
+    {key:'unionCollecte1',     label:'Collecte offrandes 1',        perm:'collecteOffrandes',       group:'UNION'},
+    {key:'unionCollecte2',     label:'Collecte offrandes 2',        perm:'collecteOffrandes',       group:'UNION'},
+    {key:'baptisteCollecte1',  label:'Collecte offrandes 1',        perm:'collecteOffrandes',       group:'BAPTISTE'},
+    {key:'baptisteCollecte2',  label:'Collecte offrandes 2',        perm:'collecteOffrandes',       group:'BAPTISTE'}
   ];
-  bodyChildren.push(el('div',{class:'card-top'},topChildren));
 
-  if(remarque){
-    var remDiv;
-    if(state.isAdmin){
-      remDiv=el('div',{class:'remark-admin'},[
-        el('span',{},['📋 '+remarque]),
-        el('button',{class:'pill-btn ghost small',onclick:function(){
-          state.showRemarqueModal=true; state.remarqueTarget=row.id; state.remarqueText=remarque||''; render();
-        }},['Modifier'])
-      ]);
-    } else {
-      remDiv=el('div',{class:'remark'},['📋 '+remarque]);
-    }
-    bodyChildren.push(remDiv);
-  } else if(state.isAdmin){
-    bodyChildren.push(el('button',{
-      class:'pill-btn ghost small',style:'margin-bottom:8px;font-size:11px;',
-      onclick:function(){ state.showRemarqueModal=true; state.remarqueTarget=row.id; state.remarqueText=''; render(); }
-    },['+ Ajouter une remarque']));
+  function dateFR(iso){
+    var d = new Date(iso+"T00:00:00");
+    var days = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+    var months = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+    return {
+      dayLabel: days[d.getDay()],
+      full: d.getDate()+' '+months[d.getMonth()],
+      year: d.getFullYear()
+    };
   }
-  bodyChildren.push(slotsContainer);
-  return el('div',{class:'card'},[el('div',{class:'stripe '+ct.cls}),el('div',{class:'card-body'},bodyChildren)]);
-}
 
-function renderMain(){
-  var main=el('div',{class:'main'},[]);
-  main.appendChild(el('div',{class:'legend-row'},[
-    el('span',{class:'legend-item'},[el('span',{class:'dot',style:'background:var(--sc-col)'}),' Sainte-Cène']),
-    el('span',{class:'legend-item'},[el('span',{class:'dot',style:'background:var(--accent)'}),' Culte']),
-    el('span',{class:'legend-item'},[el('span',{class:'dot',style:'background:var(--dej-col)'}),' Petit-déjeuner'])
-  ]));
-  var rows=PLANNING[state.year];
-  var lastMonth=null; var monthCounts={};
-  rows.forEach(function(r){monthCounts[r.mois]=(monthCounts[r.mois]||0)+1;});
-  var MONTHS_ORDER=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-  var anchorsRendered={};
-  rows.forEach(function(row){
-    if(row.mois!==lastMonth){
-      lastMonth=row.mois;
-      var mIdx=MONTHS_ORDER.indexOf(row.mois);
-      if(!anchorsRendered[mIdx]){
-        anchorsRendered[mIdx]=true;
-        main.appendChild(el('div',{id:'month-anchor-'+mIdx,class:'month-anchor'},[]));
-      }
-      main.appendChild(el('div',{class:'month-header'},[
-        row.mois,
-        el('span',{class:'count'},[(monthCounts[row.mois]||0)+' dimanche'+(monthCounts[row.mois]>1?'s':'')])
-      ]));
+  function cardType(row){
+    if(row.typeCulte === 'Sainte-Cène') return {cls:'sc', label:'Sainte-Cène'};
+    if(row.typeCulte === 'Petit-déjeuner') return {cls:'dej', label:'Petit-déjeuner'};
+    return {cls:'normal', label:'Culte'};
+  }
+
+  // =========================================================
+  // STATE
+  // =========================================================
+  var state = {
+    overrides: {},              // rowId -> { fieldKey: nameValue }
+    intervenantsOverrides: {},  // nom -> objet intervenant (ajouts/modifs admin)
+    currentUser: null,  // string or null
+    isAdmin: false,
+    loading: true,
+    configMissing: false,
+    toast: null,
+    showLoginAdmin: false,
+    adminCodeInput: '',
+    adminError: '',
+    showManageIntervenants: false,
+    managePersonEditing: null,   // nom de la personne en cours d'édition, ou '__new__' pour création
+    manageForm: null             // brouillon du formulaire en cours
+  };
+
+  // =========================================================
+  // PERSISTENCE (Firebase Firestore)
+  // =========================================================
+  // Document unique pour les inscriptions, document unique pour les intervenants ajoutés/modifiés.
+  // Initialisés à l'intérieur de loadOverrides() pour garantir que le SDK Firebase
+  // (chargé en module, donc de façon asynchrone) est bien prêt avant utilisation.
+  var db, fsDoc, fsOnSnapshot, fsSetDoc, OVERRIDES_DOC, INTERVENANTS_DOC;
+
+  function loadOverrides(){
+    db = window.__FIRESTORE_DB__;
+    fsDoc = window.__FIRESTORE_DOC__;
+    fsOnSnapshot = window.__FIRESTORE_ON_SNAPSHOT__;
+    fsSetDoc = window.__FIRESTORE_SET_DOC__;
+    OVERRIDES_DOC = fsDoc(db, 'planning_culte_2026', 'overrides');
+    INTERVENANTS_DOC = fsDoc(db, 'planning_culte_2026', 'intervenants');
+
+    // Écoute en temps réel : toute modification faite par quelqu'un d'autre
+    // met à jour l'écran de tout le monde automatiquement, sans recharger la page.
+    fsOnSnapshot(OVERRIDES_DOC, function(snap){
+      state.overrides = (snap.exists() && snap.data() && snap.data().value) ? JSON.parse(snap.data().value) : {};
+      state.loading = false;
+      render();
+    }, function(err){
+      console.error(err);
+      state.loading = false;
+      showToast("Connexion à la base de données impossible.");
+      render();
+    });
+
+    fsOnSnapshot(INTERVENANTS_DOC, function(snap){
+      state.intervenantsOverrides = (snap.exists() && snap.data() && snap.data().value) ? JSON.parse(snap.data().value) : {};
+      render();
+    }, function(err){
+      console.error(err);
+    });
+  }
+
+  async function saveOverrides(){
+    try{
+      await fsSetDoc(OVERRIDES_DOC, { value: JSON.stringify(state.overrides) });
+    }catch(e){
+      console.error(e);
+      showToast("Connexion impossible, réessayez.");
     }
-    main.appendChild(renderCard(row));
-  });
-  return main;
-}
+  }
 
-// ---- Modales ----
-function renderAdminLoginModal(){
-  if(!state.showLoginAdmin) return null;
-  var input;
-  var overlay=el('div',{class:'overlay',onclick:function(e){if(e.target===overlay){state.showLoginAdmin=false;render();}}},[
-    el('div',{class:'modal'},[
-      el('h2',{},['Accès administrateur']),
-      el('p',{},['Saisissez le code pour accéder au mode administration.']),
-      (input=el('input',{type:'password',placeholder:'Code administrateur',value:state.adminCodeInput,oninput:function(e){state.adminCodeInput=e.target.value;}})),
-      state.adminError?el('div',{class:'err-msg'},[state.adminError]):null,
-      el('div',{class:'modal-actions'},[
-        el('button',{class:'pill-btn ghost',onclick:function(){state.showLoginAdmin=false;render();}},['Annuler']),
-        el('button',{class:'pill-btn admin',onclick:tryAdminLogin},['Entrer'])
-      ])
-    ])
-  ]);
-  setTimeout(function(){input.addEventListener('keydown',function(e){if(e.key==='Enter')tryAdminLogin();});input.focus();},0);
-  return overlay;
-}
+  async function saveIntervenantsOverrides(){
+    try{
+      await fsSetDoc(INTERVENANTS_DOC, { value: JSON.stringify(state.intervenantsOverrides) });
+    }catch(e){
+      console.error(e);
+      showToast("Connexion impossible, réessayez.");
+    }
+  }
 
-function renderGuestModal(){
-  if(!state.showGuestModal) return null;
-  var input;
-  var overlay=el('div',{class:'overlay',onclick:function(e){if(e.target===overlay){state.showGuestModal=false;render();}}},[
-    el('div',{class:'modal'},[
-      el('h2',{},['Invité']),
-      el('p',{},['Précisez le nom et prénom de l’invité.']),
-      (input=el('input',{type:'text',placeholder:'Prénom NOM',value:state.guestName,oninput:function(e){state.guestName=e.target.value;}})),
-      el('div',{class:'modal-actions'},[
-        el('button',{class:'pill-btn ghost',onclick:function(){state.showGuestModal=false;render();}},['Annuler']),
-        el('button',{class:'pill-btn admin',onclick:function(){
-          var name=(state.guestName||'').trim();
-          if(!name){showToast("Saisissez un nom.");return;}
-          var t=state.guestTarget; state.showGuestModal=false;
-          if(state.isAdmin){ adminSetSlot(t.rowId,t.fieldKey,'Invité : '+name); adminSetRemarque(t.rowId,'Invité : '+name); }
-          else { takeSlot(t.rowId,t.fieldKey,t.label,name); }
-          render();
-        }},['Valider'])
-      ])
-    ])
-  ]);
-  setTimeout(function(){input.focus();},0);
-  return overlay;
-}
+  function getEffectiveValue(row, fieldKey){
+    var ov = state.overrides[row.id];
+    if(ov && Object.prototype.hasOwnProperty.call(ov, fieldKey)){
+      return ov[fieldKey]; // could be null meaning cleared
+    }
+    return row[fieldKey];
+  }
 
-function renderRemarqueModal(){
-  if(!state.showRemarqueModal) return null;
-  var ta;
-  var overlay=el('div',{class:'overlay',onclick:function(e){if(e.target===overlay){state.showRemarqueModal=false;render();}}},[
-    el('div',{class:'modal'},[
-      el('h2',{},['Remarque']),
-      el('p',{},['Visible par tous les intervenants.']),
-      (ta=el('textarea',{placeholder:'Saisissez une remarque…',style:'min-height:80px;resize:vertical;'},[])),
-      el('div',{class:'modal-actions'},[
-        el('button',{class:'pill-btn ghost',onclick:function(){state.showRemarqueModal=false;render();}},['Annuler']),
-        state.remarqueText?el('button',{class:'pill-btn danger',onclick:function(){
-          adminSetRemarque(state.remarqueTarget,''); state.showRemarqueModal=false; render();
-        }},['Effacer']):null,
-        el('button',{class:'pill-btn admin',onclick:function(){
-          adminSetRemarque(state.remarqueTarget,ta.value.trim()); state.showRemarqueModal=false; render();
-        }},['Enregistrer'])
-      ])
-    ])
-  ]);
-  setTimeout(function(){ta.value=state.remarqueText||'';ta.focus();},0);
-  return overlay;
-}
+  // =========================================================
+  // ACTIONS
+  // =========================================================
+  function showToast(msg){
+    state.toast = msg;
+    render();
+    setTimeout(function(){ state.toast = null; render(); }, 2400);
+  }
 
-function renderPersonForm(){
-  var f=state.manageForm;
-  var isNew=state.managePersonEditing==='__new__';
-  var nomInput;
-  var allPerms=getAllPermFields(); var allLabels=getAllPermLabels();
-  var checkboxes=allPerms.map(function(perm){
-    return el('label',{class:'perm-row'},[
-      el('input',{type:'checkbox',checked:!!f[perm],onchange:function(e){f[perm]=e.target.checked;}}),
-      el('span',{},[allLabels[perm]||perm])
-    ]);
-  });
-  var groupeSelect=el('select',{class:'field-select',onchange:function(e){f.groupe=e.target.value;}},[
-    el('option',{value:'UNION',selected:f.groupe==='UNION'},['UNION']),
-    el('option',{value:'BAPTISTE',selected:f.groupe==='BAPTISTE'},['BAPTISTE'])
-  ]);
-  return el('div',{class:'overlay',onclick:function(e){if(e.target.classList.contains('overlay'))closePersonForm();}},[
-    el('div',{class:'modal'},[
-      el('h2',{},[isNew?'Ajouter un intervenant':'Modifier — '+f.nomOriginal]),
-      el('label',{class:'field-label'},['Nom et prénom']),
-      isNew
-        ?(nomInput=el('input',{type:'text',placeholder:'Ex. Marie Dupont',value:f.nom,oninput:function(e){f.nom=e.target.value;}}))
-        :el('div',{},[
-            el('input',{type:'text',value:f.nom,oninput:function(e){f.nom=e.target.value;},title:'Corrigez l’orthographe si nécessaire.'}),
-            el('p',{style:'font-size:11.5px;color:var(--ink-soft);margin:4px 0 0;'},
-              ['⚠️ Les inscriptions existantes seront mises à jour automatiquement.'])
-          ]),
-      el('label',{class:'field-label'},['Église']),
-      groupeSelect,
-      el('label',{class:'field-label'},['Habilitations']),
-      el('div',{class:'perm-list'},checkboxes),
-      el('div',{class:'modal-actions'},[
-        el('button',{class:'pill-btn ghost',onclick:closePersonForm},['Annuler']),
-        el('button',{class:'pill-btn admin',onclick:savePersonForm},[isNew?'Ajouter':'Enregistrer'])
-      ])
-    ])
-  ]);
-}
+  function takeSlot(rowId, fieldKey, label){
+    if(!state.currentUser){
+      showToast("Choisissez d'abord votre nom en haut de page.");
+      return;
+    }
+    if(!state.overrides[rowId]) state.overrides[rowId] = {};
+    state.overrides[rowId][fieldKey] = state.currentUser;
+    saveOverrides();
+    showToast("Inscrit comme " + label + ".");
+    render();
+  }
 
-function renderManageIntervenantsModal(){
-  if(!state.showManageIntervenants) return null;
-  if(state.managePersonEditing) return renderPersonForm();
-  var list=getEffectiveIntervenants().slice().sort(function(a,b){return a.nom.localeCompare(b.nom,'fr',{sensitivity:'base'});});
-  var allLabels=getAllPermLabels();
-  var rows=list.map(function(p){
-    var permsActive=getAllPermFields().filter(function(f){return p[f];}).map(function(f){return allLabels[f]||f;});
-    return el('div',{class:'person-row'},[
-      el('div',{class:'person-info'},[
-        el('div',{class:'person-name'+(p._deleted?' person-deleted':'')},[p.nom+(p._deleted?' [supprimé]':'')]),
-        el('div',{class:'person-meta'},[p.groupe+(permsActive.length?' · '+permsActive.join(', '):'')+(permsActive.length?'':' · aucune habilitation')])
+  function releaseSlot(rowId, fieldKey, currentValue){
+    // Une personne ne peut libérer que sa propre case (vérifié aussi côté affichage).
+    if(!state.currentUser || currentValue !== state.currentUser) return;
+    if(!state.overrides[rowId]) state.overrides[rowId] = {};
+    state.overrides[rowId][fieldKey] = null;
+    saveOverrides();
+    showToast("Votre inscription a été retirée.");
+    render();
+  }
+
+  function adminSetSlot(rowId, fieldKey, value){
+    if(!state.overrides[rowId]) state.overrides[rowId] = {};
+    if(value === '' || value == null){
+      state.overrides[rowId][fieldKey] = null;
+    } else {
+      state.overrides[rowId][fieldKey] = value;
+    }
+    saveOverrides();
+    showToast(value ? "Inscription mise à jour." : "Case libérée.");
+    render();
+  }
+
+  function tryAdminLogin(){
+    if(state.adminCodeInput.trim() === ADMIN_CODE){
+      state.isAdmin = true;
+      state.showLoginAdmin = false;
+      state.adminCodeInput = '';
+      state.adminError = '';
+      render();
+    } else {
+      state.adminError = 'Code incorrect.';
+      render();
+    }
+  }
+
+  // =========================================================
+  // GESTION DES INTERVENANTS (admin)
+  // =========================================================
+  function openNewPersonForm(){
+    state.managePersonEditing = '__new__';
+    state.manageForm = {
+      nom: '', groupe: 'UNION',
+      predication: false, presidenceCulte: false, presidenceSainteCene: false,
+      distributionSainteCene: false, collecteOffrandes: false
+    };
+    render();
+  }
+
+  function openEditPersonForm(nom){
+    var p = byName(nom);
+    if(!p) return;
+    state.managePersonEditing = nom;
+    state.manageForm = {
+      nom: p.nom, nomOriginal: p.nom, groupe: p.groupe,
+      predication: !!p.predication, presidenceCulte: !!p.presidenceCulte,
+      presidenceSainteCene: !!p.presidenceSainteCene,
+      distributionSainteCene: !!p.distributionSainteCene, collecteOffrandes: !!p.collecteOffrandes
+    };
+    render();
+  }
+
+  function closePersonForm(){
+    state.managePersonEditing = null;
+    state.manageForm = null;
+    render();
+  }
+
+  function savePersonForm(){
+    var f = state.manageForm;
+    var nom = (f.nom || '').trim();
+    if(!nom){
+      showToast("Merci de saisir un nom.");
+      return;
+    }
+    var isNew = state.managePersonEditing === '__new__';
+    if(isNew && byName(nom)){
+      showToast("Ce nom existe déjà dans la liste.");
+      return;
+    }
+
+    var nomOriginal = f.nomOriginal || nom;
+    var nomChange = !isNew && nom !== nomOriginal;
+
+    if(nomChange && byName(nom)){
+      showToast("Ce nom existe déjà — choisissez un nom différent.");
+      return;
+    }
+
+    var record = {
+      nom: nom,
+      groupe: f.groupe,
+      predication: !!f.predication,
+      presidenceCulte: !!f.presidenceCulte,
+      presidenceSainteCene: !!f.presidenceSainteCene,
+      distributionSainteCene: !!f.distributionSainteCene,
+      collecteOffrandes: !!f.collecteOffrandes
+    };
+
+    if(!state.intervenantsOverrides) state.intervenantsOverrides = {};
+
+    var countMigrated = 0;
+    if(nomChange){
+      // Supprimer l'ancienne entrée dans les overrides
+      delete state.intervenantsOverrides[nomOriginal];
+      // Marquer l'ancien nom comme supprimé pour ne pas que la liste statique le réapparaisse
+      state.intervenantsOverrides['__deleted__' + nomOriginal] = { __deleted: true, nom: nomOriginal };
+      // Migrer toutes les inscriptions existantes vers le nouveau nom
+      Object.keys(state.overrides).forEach(function(rowId){
+        var row = state.overrides[rowId];
+        if(!row) return;
+        Object.keys(row).forEach(function(fieldKey){
+          if(row[fieldKey] === nomOriginal){
+            row[fieldKey] = nom;
+            countMigrated++;
+          }
+        });
+      });
+      if(countMigrated > 0) saveOverrides();
+    }
+
+    state.intervenantsOverrides[nom] = record;
+    saveIntervenantsOverrides();
+
+    if(isNew){
+      showToast("Intervenant ajouté.");
+    } else if(nomChange){
+      showToast("Nom corrigé" + (countMigrated > 0 ? " — " + countMigrated + " inscription(s) mise(s) à jour." : " — aucune inscription à migrer."));
+    } else {
+      showToast("Habilitations mises à jour.");
+    }
+    closePersonForm();
+  }
+
+  // =========================================================
+  // RENDER HELPERS
+  // =========================================================
+  function el(tag, attrs, children){
+    var node = document.createElement(tag);
+    attrs = attrs || {};
+    Object.keys(attrs).forEach(function(k){
+      var v = attrs[k];
+      if(k === 'class') node.className = v;
+      else if(k === 'html') node.innerHTML = v;
+      else if(k.indexOf('on') === 0 && typeof v === 'function') node.addEventListener(k.slice(2), v);
+      else if(k === 'disabled') { if(v) node.setAttribute('disabled','disabled'); }
+      else if(k === 'checked') { node.checked = !!v; if(v) node.setAttribute('checked','checked'); }
+      else if(k === 'selected') { if(v) node.setAttribute('selected','selected'); }
+      else if(k === 'style') node.setAttribute('style', v);
+      else if(v == null) { /* skip null/undefined attrs */ }
+      else node.setAttribute(k, v);
+    });
+    (children||[]).forEach(function(c){
+      if(c == null) return;
+      if(typeof c === 'string') node.appendChild(document.createTextNode(c));
+      else node.appendChild(c);
+    });
+    return node;
+  }
+
+
+  // =========================================================
+  // BARRE NAVIGATION MOIS
+  // =========================================================
+  var MOIS_NAV = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+  function renderMonthNav(){
+    var btns = MOIS_NAV.map(function(m, idx){
+      return el('button', {class:'month-nav-btn', onclick:function(){
+        var anchor = document.getElementById('month-nav-anchor-'+idx);
+        if(anchor){
+          var top = anchor.getBoundingClientRect().top + window.pageYOffset - 150;
+          window.scrollTo({top:top, behavior:'smooth'});
+        }
+      }}, [m]);
+    });
+    return el('div', {class:'month-nav'}, btns);
+  }
+
+  function renderTopbar(){
+    var actions = [];
+
+    if(state.isAdmin){
+      actions.push(el('button', {class:'pill-btn', onclick:function(){ state.showManageIntervenants = true; render(); }}, ['Gérer les intervenants']));
+      actions.push(el('button', {class:'pill-btn', onclick:function(){ state.isAdmin=false; render(); }}, ['Quitter le mode admin']));
+    } else {
+      actions.push(el('button', {class:'pill-btn ghost', onclick:function(){ state.showLoginAdmin = true; state.adminError=''; render(); }}, ['Administrateur']));
+    }
+
+    return el('div', {class:'topbar'}, [
+      el('div', {class:'brand'}, [
+        el('div', {class:'mark'}, ['C']),
+        el('div', {class:'brand-text'}, [
+          el('span', {class:'t1'}, ['Planning des cultes']),
+          el('span', {class:'t2'}, ['Année 2026 — inscriptions des intervenants'])
+        ])
       ]),
-      el('div',{class:'person-actions'},[
-        el('button',{class:'pill-btn ghost small',onclick:function(){openEditPersonForm(p.nom);}},['Modifier']),
-        p._deleted
-          ?el('button',{class:'pill-btn small',onclick:function(){restorePerson(p.nom);}},['Restaurer'])
-          :el('button',{class:'pill-btn danger small',onclick:function(){
-              if(confirm('Supprimer '+p.nom+' ? Les inscriptions sont conservées.')){ deletePerson(p.nom); }
-            }},['Supprimer'])
-      ])
+      el('div', {class:'topbar-actions'}, actions)
     ]);
-  });
-  return el('div',{class:'overlay',onclick:function(e){if(e.target.classList.contains('overlay')){state.showManageIntervenants=false;render();}}},[
-    el('div',{class:'modal modal-wide'},[
-      el('div',{class:'modal-header-row'},[el('h2',{},['Gérer les intervenants']),el('button',{class:'pill-btn admin small',onclick:openNewPersonForm},['+ Ajouter'])]),
-      el('p',{},['Ajoutez, modifiez ou supprimez des intervenants. La suppression conserve les inscriptions existantes.']),
-      el('div',{class:'person-list'},rows),
-      el('div',{class:'modal-actions'},[el('button',{class:'pill-btn',onclick:function(){state.showManageIntervenants=false;render();}},['Fermer'])])
-    ])
-  ]);
-}
+  }
 
-function renderManageRubriquesModal(){
-  if(!state.showManageRubriques) return null;
-  if(state.manageRubriqueEditing!=null){
-    var f=state.manageRubriqueForm;
-    var isNew=state.manageRubriqueEditing==='__new__';
-    var labelInput;
-    var groupSelect=el('select',{class:'field-select',onchange:function(e){f.group=e.target.value||null;}},[
-      el('option',{value:'',selected:!f.group},['Commune (Union + Baptiste)']),
-      el('option',{value:'UNION',selected:f.group==='UNION'},['UNION uniquement']),
-      el('option',{value:'BAPTISTE',selected:f.group==='BAPTISTE'},['BAPTISTE uniquement'])
+  function renderWhoAmI(){
+    if(state.isAdmin){
+      return el('div', {class:'admin-banner'}, [
+        el('span', {}, [el('b',{},['Mode administrateur']), ' — vous pouvez modifier ou libérer n\u2019importe quelle case.'])
+      ]);
+    }
+
+    if(state.currentUser){
+      var initials = state.currentUser.split(' ').map(function(w){return w[0];}).slice(0,2).join('').toUpperCase();
+      return el('div', {class:'whoami'}, [
+        el('span', {class:'label'}, ['Vous êtes :']),
+        el('span', {class:'you-badge'}, [
+          el('span', {class:'avatar'}, [initials]),
+          state.currentUser,
+          el('button', {title:'Changer', onclick:function(){ state.currentUser = null; render(); }}, ['✕'])
+        ])
+      ]);
+    }
+
+    var select = el('select', {class:'name-select', onchange:function(e){
+      state.currentUser = e.target.value || null;
+      render();
+    }}, [el('option', {value:''}, ['— Choisissez votre nom —'])].concat(
+      getNamesSorted().map(function(n){ return el('option', {value:n}, [n]); })
+    ));
+
+    return el('div', {class:'whoami'}, [
+      el('span', {class:'label'}, ['Qui êtes-vous ?']),
+      select
     ]);
-    return el('div',{class:'overlay',onclick:function(e){if(e.target.classList.contains('overlay'))closeRubriqueForm();}},[
-      el('div',{class:'modal'},[
-        el('h2',{},[isNew?'Créer une rubrique':'Modifier la rubrique']),
-        el('label',{class:'field-label'},['Nom de la rubrique']),
-        (labelInput=el('input',{type:'text',placeholder:'Ex. Louange, Animation…',value:f.label||'',oninput:function(e){f.label=e.target.value;}})),
-        el('label',{class:'field-label'},['Groupe']),
-        groupSelect,
-        el('label',{class:'perm-row',style:'margin-top:10px;'},[
-          el('input',{type:'checkbox',checked:!!f.scOnly,onchange:function(e){f.scOnly=e.target.checked;}}),
-          el('span',{},['Uniquement les dimanches de Sainte-Cène'])
-        ]),
-        el('div',{class:'modal-actions'},[
-          el('button',{class:'pill-btn ghost',onclick:closeRubriqueForm},['Annuler']),
-          el('button',{class:'pill-btn admin',onclick:saveRubriqueForm},[isNew?'Créer':'Enregistrer'])
+  }
+
+  function renderLegend(){
+    return el('div', {class:'legend-row'}, [
+      el('span', {class:'legend-item'}, [el('span',{class:'dot', style:'background:var(--terracotta)'}), 'Sainte-Cène']),
+      el('span', {class:'legend-item'}, [el('span',{class:'dot', style:'background:var(--denim)'}), 'Culte']),
+      el('span', {class:'legend-item'}, [el('span',{class:'dot', style:'background:var(--sage)'}), 'Petit-déjeuner'])
+    ]);
+  }
+
+  function slotEligible(person, slotDef){
+    if(!person) return false;
+    if(!person[slotDef.perm]) return false;
+    // Pour les rubriques de distribution/collecte (propres à chaque église),
+    // l'intervenant doit appartenir au même groupe (UNION ou BAPTISTE).
+    // Prédicateur / Président du culte / Président Sainte-Cène restent communs.
+    if(slotDef.group && person.groupe !== slotDef.group) return false;
+    return true;
+  }
+
+  function renderSlot(row, def){
+    var rawVal = row[def.key];
+    var jeunesLocked = rawVal === 'Jeunes';
+    var value = getEffectiveValue(row, def.key);
+    var hasValue = value != null && value !== '' && value !== '-----';
+    var mine = hasValue && state.currentUser && value === state.currentUser;
+
+    var slotClasses = 'slot' + (hasValue ? ' locked' : ' empty') + (mine ? ' mine' : '');
+
+    var valueNode = el('span', {class:'slot-value'}, [hasValue ? value : 'À pourvoir']);
+
+    var actionNode;
+    if(state.isAdmin){
+      var sel = el('select', {class:'admin-select', onchange:function(e){
+        adminSetSlot(row.id, def.key, e.target.value);
+      }}, [el('option',{value:''},['— vide —'])].concat(
+        getNamesSorted().map(function(n){
+          var opt = el('option', {value:n}, [n]);
+          if(n === value) opt.setAttribute('selected','selected');
+          return opt;
+        })
+      ));
+      actionNode = sel;
+    } else if(jeunesLocked){
+      actionNode = el('span', {class:'lock-icon'}, ['🔒']);
+    } else if(hasValue && mine){
+      // L'intervenant peut retirer sa propre inscription, et personne d'autre.
+      actionNode = el('button', {
+        class:'btn-clear',
+        onclick: function(){ releaseSlot(row.id, def.key, value); }
+      }, ['Retirer mon inscription']);
+    } else if(hasValue){
+      actionNode = el('span', {class:'lock-icon'}, ['🔒']);
+    } else {
+      var person = state.currentUser ? byName(state.currentUser) : null;
+      var eligible = slotEligible(person, def);
+      actionNode = el('button', {
+        class:'btn-take',
+        disabled: !state.currentUser || !eligible,
+        title: !state.currentUser ? 'Choisissez votre nom' : (!eligible ? 'Vous n\u2019êtes pas habilité pour cette rubrique' : ''),
+        onclick: function(){ takeSlot(row.id, def.key, def.label); }
+      }, [state.currentUser && !eligible ? 'Non habilité' : 'Je m\u2019inscris']);
+    }
+
+    return el('div', {class:slotClasses}, [
+      el('span', {class:'slot-label'}, [def.label]),
+      valueNode,
+      el('span', {class:'slot-action'}, [actionNode])
+    ]);
+  }
+
+  function renderCard(row, occurrence){
+    var ct = cardType(row);
+    var d = dateFR(row.date);
+    var slotsContainer = el('div', {class:'slots'}, []);
+
+    ['predicateur','presidentCulte'].forEach(function(key){
+      var def = SLOT_DEFS.filter(function(s){return s.key===key;})[0];
+      slotsContainer.appendChild(renderSlot(row, def));
+    });
+
+    if(row.hasSainteCene){
+      slotsContainer.appendChild(el('div', {class:'slot-group-title'}, ['Sainte-Cène']));
+      var scDef = SLOT_DEFS.filter(function(s){return s.key==='presidentSainteCene';})[0];
+      slotsContainer.appendChild(renderSlot(row, scDef));
+
+      slotsContainer.appendChild(el('div', {class:'slot-group-title'}, ['Union — distribution Sainte-Cène']));
+      ['unionDist1','unionDist2'].forEach(function(key){
+        var def = SLOT_DEFS.filter(function(s){return s.key===key;})[0];
+        slotsContainer.appendChild(renderSlot(row, def));
+      });
+
+      slotsContainer.appendChild(el('div', {class:'slot-group-title'}, ['Baptiste — distribution Sainte-Cène']));
+      ['baptisteDist1','baptisteDist2'].forEach(function(key){
+        var def = SLOT_DEFS.filter(function(s){return s.key===key;})[0];
+        slotsContainer.appendChild(renderSlot(row, def));
+      });
+    }
+
+    // Collecte des offrandes : tous les dimanches, pour les deux églises
+    slotsContainer.appendChild(el('div', {class:'slot-group-title'}, ['Union — collecte offrandes']));
+    ['unionCollecte1','unionCollecte2'].forEach(function(key){
+      var def = SLOT_DEFS.filter(function(s){return s.key===key;})[0];
+      slotsContainer.appendChild(renderSlot(row, def));
+    });
+
+    slotsContainer.appendChild(el('div', {class:'slot-group-title'}, ['Baptiste — collecte offrandes']));
+    ['baptisteCollecte1','baptisteCollecte2'].forEach(function(key){
+      var def = SLOT_DEFS.filter(function(s){return s.key===key;})[0];
+      slotsContainer.appendChild(renderSlot(row, def));
+    });
+
+    var topChildren = [
+      el('div', {class:'date-block'}, [
+        el('span', {class:'date-main'}, [d.dayLabel.charAt(0).toUpperCase()+d.dayLabel.slice(1)+' '+d.full]),
+        el('span', {class:'date-sub'}, [d.year + (row.typeCulte === 'Petit-déjeuner' ? ' · petit-déjeuner partagé' : '') + (occurrence>1 ? ' · 2ᵉ intervenant ce jour' : '')])
+      ]),
+      el('span', {class:'type-badge '+ct.cls}, [ct.label])
+    ];
+
+    var bodyChildren = [el('div', {class:'card-top'}, topChildren)];
+    if(row.remarques){
+      bodyChildren.push(el('div', {class:'remark'}, ['Remarque : ' + row.remarques]));
+    }
+    bodyChildren.push(slotsContainer);
+
+    return el('div', {class:'card'}, [
+      el('div', {class:'stripe '+ct.cls}),
+      el('div', {class:'card-body'}, bodyChildren)
+    ]);
+  }
+
+  function renderMain(){
+    var main = el('div', {class:'main'}, []);
+    main.appendChild(renderLegend());
+
+    var lastMonth = null;
+    var lastDate = null;
+    var dateOccurrence = 0;
+    PLANNING_RAW.forEach(function(row){
+      if(row.mois && row.mois !== lastMonth){
+        lastMonth = row.mois;
+        var mIdx = MOIS_NAV.indexOf(lastMonth);
+        if(mIdx >= 0){
+          main.appendChild(el('div', {id:'month-nav-anchor-'+mIdx, class:'month-anchor'}, []));
+        }
+        var countInMonth = PLANNING_RAW.filter(function(r){return r.mois===lastMonth;}).length;
+        main.appendChild(el('div', {class:'month-header'}, [
+          lastMonth,
+          el('span', {class:'count'}, [countInMonth + ' dimanche' + (countInMonth>1?'s':'')])
+        ]));
+      }
+      if(row.date === lastDate){ dateOccurrence++; } else { dateOccurrence = 1; lastDate = row.date; }
+      main.appendChild(renderCard(row, dateOccurrence));
+    });
+
+    return main;
+  }
+
+  function renderAdminModal(){
+    if(!state.showLoginAdmin) return null;
+    var input;
+    var overlay = el('div', {class:'overlay', onclick:function(e){ if(e.target===overlay){ state.showLoginAdmin=false; render(); } }}, [
+      el('div', {class:'modal'}, [
+        el('h2', {}, ['Accès administrateur']),
+        el('p', {}, ['Saisissez le code pour modifier ou libérer une inscription.']),
+        (input = el('input', {type:'password', placeholder:'Code administrateur', value:state.adminCodeInput, oninput:function(e){ state.adminCodeInput = e.target.value; }})),
+        state.adminError ? el('div', {class:'err-msg'}, [state.adminError]) : null,
+        el('div', {class:'modal-actions'}, [
+          el('button', {class:'pill-btn ghost', onclick:function(){ state.showLoginAdmin=false; render(); }}, ['Annuler']),
+          el('button', {class:'pill-btn admin', onclick:tryAdminLogin}, ['Entrer'])
         ])
       ])
     ]);
+    setTimeout(function(){
+      input.addEventListener('keydown', function(e){ if(e.key==='Enter') tryAdminLogin(); });
+      input.focus();
+    }, 0);
+    return overlay;
   }
-  var rows=(state.customRubriques||[]).map(function(r,idx){
-    return el('div',{class:'rubrique-row'},[
-      el('div',{},[
-        el('div',{class:'rubrique-info'},[r.label]),
-        el('div',{class:'rubrique-meta'},[(r.group||'Commune')+(r.scOnly?' · Sainte-Cène uniquement':'')])
-      ]),
-      el('div',{style:'display:flex;gap:6px;'},[
-        el('button',{class:'pill-btn ghost small',onclick:function(){openEditRubriqueForm(idx);}},['Modifier']),
-        el('button',{class:'pill-btn danger small',onclick:function(){
-          if(confirm('Supprimer la rubrique "'+r.label+'" ?')){ deleteRubrique(idx); }
-        }},['Supprimer'])
-      ])
-    ]);
-  });
-  return el('div',{class:'overlay',onclick:function(e){if(e.target.classList.contains('overlay')){state.showManageRubriques=false;render();}}},[
-    el('div',{class:'modal modal-wide'},[
-      el('div',{class:'modal-header-row'},[el('h2',{},['Gérer les rubriques']),el('button',{class:'pill-btn admin small',onclick:openNewRubriqueForm},['+ Nouvelle rubrique'])]),
-      el('p',{},['Créez des rubriques supplémentaires (Louange, Sonorisation…). Elles apparaissent dans tous les dimanches.']),
-      rows.length?el('div',{class:'rubrique-list'},rows):el('p',{style:'color:var(--ink-soft);font-style:italic;'},['Aucune rubrique personnalisée.']),
-      el('div',{class:'modal-actions'},[el('button',{class:'pill-btn',onclick:function(){state.showManageRubriques=false;render();}},['Fermer'])])
-    ])
-  ]);
-}
 
-function renderHelpModal(){
-  if(!state.showHelp) return null;
-  var isAdmin=state.helpTab==='admin';
-  var tabIntervenants=el('button',{class:'pill-btn small'+(state.helpTab==='intervenants'?' admin':' ghost'),onclick:function(){state.helpTab='intervenants';render();}},['Intervenants']);
-  var tabAdmin=el('button',{class:'pill-btn small'+(state.helpTab==='admin'?' admin':' ghost'),onclick:function(){state.helpTab='admin';render();}},['Administrateurs']);
-  function section(title,items){
-    return el('div',{style:'margin-bottom:16px;'},[
-      el('p',{style:'font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);margin:0 0 8px;'},[title]),
-      el('div',{style:'display:flex;flex-direction:column;gap:5px;'},
-        items.map(function(item){
-          return el('div',{style:'display:flex;gap:10px;padding:8px 10px;background:var(--cream);border-radius:10px;'},[
-            el('span',{style:'font-size:14px;flex:none;'},[item[0]]),
-            el('p',{style:'margin:0;font-size:13px;line-height:1.5;'},[item[1]])
-          ]);
-        })
-      )
+  var PERM_LABELS = {
+    predication: 'Prédicateur',
+    presidenceCulte: 'Président du culte',
+    presidenceSainteCene: 'Président Sainte-Cène',
+    distributionSainteCene: 'Distribution Sainte-Cène',
+    collecteOffrandes: 'Collecte offrandes'
+  };
+
+  function renderPersonForm(){
+    var f = state.manageForm;
+    var isNew = state.managePersonEditing === '__new__';
+    var nomInput;
+
+    var checkboxes = PERM_FIELDS.map(function(field){
+      return el('label', {class:'perm-row'}, [
+        el('input', {type:'checkbox', checked: !!f[field], onchange:function(e){
+          f[field] = e.target.checked;
+        }}),
+        el('span', {}, [PERM_LABELS[field]])
+      ]);
+    });
+
+    var groupeSelect = el('select', {class:'admin-select', onchange:function(e){ f.groupe = e.target.value; }}, [
+      el('option', {value:'UNION', selected: f.groupe==='UNION'}, ['UNION']),
+      el('option', {value:'BAPTISTE', selected: f.groupe==='BAPTISTE'}, ['BAPTISTE'])
     ]);
-  }
-  var content;
-  if(!isAdmin){
-    content=el('div',{},[
-      section('Se connecter',[
-        ['👤','Dans la barre « Qui êtes-vous ? » en haut, choisissez votre nom. Il reste affiché pendant toute la navigation.'],
-        ['📅','Cliquez sur un mois dans la barre de navigation pour y accéder directement.'],
-        ['🔢','Les onglets 2027 et 2028 permettent de basculer entre les deux années. La couleur change pour éviter toute confusion.']
-      ]),
-      section('S'inscrire',[
-        ['✅','Sur le dimanche souhaité, cliquez sur « Je m'inscris » en face de la rubrique voulue.'],
-        ['🔒','Une case déjà prise est verrouillée — vous ne pouvez pas la modifier.'],
-        ['↩️','Vous pouvez retirer votre propre inscription en cliquant sur « Retirer mon inscription ».']
-      ]),
-      section('Bon à savoir',[
-        ['👁️','Vous ne voyez actifs que les rubriques pour lesquelles vous êtes habilité(e).'],
-        ['🔄','Les inscriptions sont visibles en temps réel par tous.'],
-        ['⚠️','Les inscriptions de 2027 et 2028 sont indépendantes — vérifiez que vous êtes sur la bonne année.']
+
+    return el('div', {class:'modal'}, [
+      el('h2', {}, [isNew ? 'Ajouter un intervenant' : 'Modifier — ' + f.nomOriginal]),
+      el('p', {}, [isNew
+        ? 'Renseignez le nom, l\u2019église et les rubriques auxquelles cette personne sera habilitée à s\u2019inscrire.'
+        : 'Cochez ou décochez les rubriques auxquelles ' + f.nom + ' est habilité(e) à s\u2019inscrire.']),
+      el('label', {class:'field-label'}, ['Nom et prénom']),
+      isNew
+        ? (nomInput = el('input', {type:'text', placeholder:'Ex. Marie Dupont', value:f.nom, oninput:function(e){ f.nom = e.target.value; }}))
+        : el('div', {}, [
+            el('input', {type:'text', value:f.nom,
+              oninput:function(e){ f.nom = e.target.value; },
+              title:'Corrigez l\u2019orthographe si n\u00e9cessaire.'}),
+            el('p', {style:'font-size:11.5px;color:var(--ink-soft);margin:4px 0 0;line-height:1.4;'},
+              ['⚠️ Si vous corrigez ce nom, toutes les inscriptions existantes seront automatiquement rebasculées vers le nouveau nom.'])
+          ]),
+      el('label', {class:'field-label'}, ['Église']),
+      groupeSelect,
+      el('label', {class:'field-label'}, ['Habilitations']),
+      el('div', {class:'perm-list'}, checkboxes),
+      el('div', {class:'modal-actions'}, [
+        el('button', {class:'pill-btn ghost', onclick:closePersonForm}, ['Annuler']),
+        el('button', {class:'pill-btn admin', onclick:savePersonForm}, [isNew ? 'Ajouter' : 'Enregistrer'])
       ])
     ]);
+  }
+
+  function renderManageIntervenantsModal(){
+    if(!state.showManageIntervenants) return null;
+
+    if(state.managePersonEditing){
+      var overlay1 = el('div', {class:'overlay', onclick:function(e){ if(e.target===overlay1){ closePersonForm(); } }}, [
+        renderPersonForm()
+      ]);
+      return overlay1;
+    }
+
+    var list = getEffectiveIntervenants().slice().sort(function(a,b){
+      return a.nom.localeCompare(b.nom, 'fr', {sensitivity:'base'});
+    });
+
+    var rows = list.map(function(p){
+      var permsActive = PERM_FIELDS.filter(function(f){ return p[f]; }).map(function(f){ return PERM_LABELS[f]; });
+      return el('div', {class:'person-row'}, [
+        el('div', {class:'person-info'}, [
+          el('div', {class:'person-name'}, [p.nom]),
+          el('div', {class:'person-meta'}, [p.groupe + (permsActive.length ? ' · ' + permsActive.join(', ') : ' · aucune habilitation')])
+        ]),
+        el('button', {class:'pill-btn ghost small', onclick:function(){ openEditPersonForm(p.nom); }}, ['Modifier'])
+      ]);
+    });
+
+    var overlay = el('div', {class:'overlay', onclick:function(e){ if(e.target===overlay){ state.showManageIntervenants=false; render(); } }}, [
+      el('div', {class:'modal modal-wide'}, [
+        el('div', {class:'modal-header-row'}, [
+          el('h2', {}, ['Gérer les intervenants']),
+          el('button', {class:'pill-btn admin small', onclick:openNewPersonForm}, ['+ Ajouter un intervenant'])
+        ]),
+        el('p', {}, ['Modifiez les habilitations d\u2019un intervenant existant, ou ajoutez une nouvelle personne à la liste.']),
+        el('div', {class:'person-list'}, rows),
+        el('div', {class:'modal-actions'}, [
+          el('button', {class:'pill-btn', onclick:function(){ state.showManageIntervenants=false; render(); }}, ['Fermer'])
+        ])
+      ])
+    ]);
+    return overlay;
+  }
+
+  function renderToast(){
+    if(!state.toast) return null;
+    return el('div', {class:'toast'}, [state.toast]);
+  }
+
+  function render(){
+    var root = document.getElementById('root');
+    root.innerHTML = '';
+    root.appendChild(renderTopbar());
+
+    if(state.configMissing){
+      root.appendChild(el('div', {class:'empty-state'}, [
+        el('div', {class:'display'}, ['Connexion à la base de données impossible']),
+        el('p', {style:'max-width:420px; margin:10px auto 0; font-size:13.5px; line-height:1.6;'}, [
+          'Soit ce fichier n\u2019est pas encore relié à un projet Firebase (ouvrez le fichier dans un éditeur de texte et complétez le bloc "CONFIGURATION FIREBASE"), soit la connexion réseau a échoué. Vérifiez votre connexion et rechargez la page.'
+        ])
+      ]));
+      return;
+    }
+
+    root.appendChild(renderWhoAmI());
+    root.appendChild(renderMonthNav());
+
+    if(state.loading){
+      root.appendChild(el('div', {class:'empty-state'}, [
+        el('div', {class:'display'}, ['Chargement du planning…'])
+      ]));
+    } else {
+      root.appendChild(renderMain());
+      root.appendChild(el('div', {class:'footer-note'}, [
+        'Les inscriptions sont partagées en temps réel entre tous les intervenants. Chacun peut modifier ou retirer sa propre inscription à tout moment ; un administrateur peut modifier toutes les cases.'
+      ]));
+    }
+
+    var modal = renderAdminModal();
+    if(modal) root.appendChild(modal);
+    var manageModal = renderManageIntervenantsModal();
+    if(manageModal) root.appendChild(manageModal);
+    var toast = renderToast();
+    if(toast) root.appendChild(toast);
+  }
+
+  function bootstrapApp(){
+    if (window.__FIREBASE_CONFIG_MISSING__) {
+      state.loading = false;
+      state.configMissing = true;
+      render();
+      return;
+    }
+    render();
+    loadOverrides();
+  }
+
+  var bootstrapped = false;
+  function bootstrapOnce(){
+    if (bootstrapped) return;
+    bootstrapped = true;
+    bootstrapApp();
+  }
+
+  if (window.__FIREBASE_READY__ || window.__FIREBASE_CONFIG_MISSING__) {
+    bootstrapOnce();
   } else {
-    content=el('div',{},[
-      section('Accès admin',[
-        ['🔐','Cliquez sur « Administrateur », saisissez le code. Le bandeau bleu foncé confirme l'accès.']
-      ]),
-      section('Sur chaque dimanche',[
-        ['✏️','Modifiez ou videz n'importe quelle case via le menu déroulant.'],
-        ['🙋','Pour inscrire un invité, choisissez « Invité… » et saisissez son nom.'],
-        ['📋','Ajoutez ou modifiez une remarque visible par tous.'],
-        ['✝️','Activez ou désactivez la Sainte-Cène sur un dimanche précis (+ SC / ✗ SC).']
-      ]),
-      section('Gérer les intervenants',[
-        ['➕','Bouton « Intervenants » → ajouter, modifier les habilitations, corriger l'orthographe du nom ou supprimer.'],
-        ['🗑️','La suppression retire la personne de la liste mais conserve ses inscriptions passées.'],
-        ['✏️','Pour corriger un nom : cliquez Modifier, changez le nom — les inscriptions existantes sont mises à jour automatiquement.']
-      ]),
-      section('Gérer les rubriques',[
-        ['📌','Bouton « Rubriques » → créez de nouvelles rubriques (Louange, Sonorisation…).'],
-        ['🔧','Choisissez si la rubrique est commune ou réservée à UNION/BAPTISTE, et si elle s'affiche uniquement les dimanches de Sainte-Cène.']
-      ])
-    ]);
+    window.addEventListener('firebase-ready', bootstrapOnce, { once:true });
+    // Filet de sécurité : si le module Firebase ne se charge pas du tout
+    // (URL bloquée, pas de réseau, erreur de configuration), on affiche
+    // un message clair plutôt que de laisser la page vide indéfiniment.
+    setTimeout(function(){
+      if (!bootstrapped) {
+        window.__FIREBASE_CONFIG_MISSING__ = true;
+        bootstrapOnce();
+      }
+    }, 4000);
   }
-  return el('div',{class:'overlay',onclick:function(e){if(e.target.classList.contains('overlay')){state.showHelp=false;render();}}},[
-    el('div',{class:'modal modal-wide'},[
-      el('div',{class:'modal-header-row'},[el('h2',{},['Guide d'utilisation']),el('button',{class:'pill-btn ghost small',onclick:function(){state.showHelp=false;render();}},['Fermer'])]),
-      el('div',{style:'display:flex;gap:6px;margin-bottom:16px;'},[tabIntervenants,tabAdmin]),
-      content
-    ])
-  ]);
-}
-
-function renderToast(){ if(!state.toast) return null; return el('div',{class:'toast'},[state.toast]); }
-
-function render(){
-  var root=document.getElementById('root'); root.innerHTML='';
-  root.appendChild(renderTopbar());
-  if(state.configMissing){
-    root.appendChild(el('div',{class:'empty-state'},[el('div',{class:'display'},['Connexion impossible']),el('p',{},'Vérifiez la configuration Firebase.')]));
-    return;
-  }
-  root.appendChild(renderIdentityBar());
-  root.appendChild(renderMonthNav());
-  if(state.loading){
-    root.appendChild(el('div',{class:'empty-state'},[el('div',{class:'display'},['Chargement du planning…'])]));
-  } else {
-    root.appendChild(renderMain());
-    root.appendChild(el('div',{class:'footer-note'},['Les inscriptions sont synchronisées en temps réel. Chacun peut retirer sa propre inscription ; l’administrateur peut tout modifier.']));
-  }
-  [renderAdminLoginModal(),renderManageIntervenantsModal(),renderManageRubriquesModal(),
-   renderGuestModal(),renderRemarqueModal(),renderHelpModal(),renderToast()
-  ].forEach(function(m){if(m)root.appendChild(m);});
-}
-
-function bootstrapApp(){
-  if(window.__FIREBASE_CONFIG_MISSING__){state.loading=false;state.configMissing=true;render();return;}
-  render(); loadOverrides();
-}
-var bootstrapped=false;
-function bootstrapOnce(){ if(bootstrapped)return; bootstrapped=true; bootstrapApp(); }
-if(window.__FIREBASE_READY__||window.__FIREBASE_CONFIG_MISSING__){ bootstrapOnce(); }
-else { window.addEventListener('firebase-ready',bootstrapOnce,{once:true}); setTimeout(function(){if(!bootstrapped){window.__FIREBASE_CONFIG_MISSING__=true;bootstrapOnce();}},4000); }
 
 })();
 </script>
+
 </body>
 </html>
