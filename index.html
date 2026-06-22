@@ -262,7 +262,7 @@
     background:var(--white);border-bottom:1px solid var(--line);
     padding:7px 16px;overflow-x:auto;white-space:nowrap;
     display:flex;gap:6px;align-items:center;scrollbar-width:none;
-    position:sticky;top:102px;z-index:27;
+    position:sticky;top:var(--month-nav-top,104px);z-index:27;
   }
   .month-nav::-webkit-scrollbar{display:none;}
   .month-nav-btn{
@@ -672,12 +672,29 @@ window.__FIREBASE_CONFIG__ = {
   // =========================================================
   var MOIS_NAV = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 
+  function getStickyOffset(){
+    // Hauteur totale des barres sticky au-dessus du contenu
+    var topbar = document.querySelector('.topbar');
+    var whoami = document.querySelector('.whoami, .admin-banner');
+    var monthnav = document.querySelector('.month-nav');
+    var h = 0;
+    if(topbar) h += topbar.offsetHeight;
+    if(whoami) h += whoami.offsetHeight;
+    if(monthnav) h += monthnav.offsetHeight;
+    // Mettre à jour la variable CSS pour le positionnement sticky de la barre mois
+    var topbarH = topbar ? topbar.offsetHeight : 52;
+    var whoamiH = whoami ? whoami.offsetHeight : 50;
+    document.documentElement.style.setProperty('--month-nav-top', (topbarH + whoamiH) + 'px');
+    return h + 8;
+  }
+
   function renderMonthNav(){
     var btns = MOIS_NAV.map(function(m, idx){
       return el('button', {class:'month-nav-btn', onclick:function(){
         var anchor = document.getElementById('month-nav-anchor-'+idx);
         if(anchor){
-          var top = anchor.getBoundingClientRect().top + window.pageYOffset - 150;
+          var offset = getStickyOffset();
+          var top = anchor.getBoundingClientRect().top + window.pageYOffset - offset;
           window.scrollTo({top:top, behavior:'smooth'});
         }
       }}, [m]);

@@ -1278,6 +1278,11 @@ function bootstrapApp(){
   loadPlanningData();
   initFirebase();
   render();
+  // Filet de sécurité : si Firebase ne répond pas dans 4s (règles bloquantes, réseau…)
+  // on passe quand même à false pour afficher la grille vide plutôt qu'un écran de chargement
+  setTimeout(function(){
+    if(state.loading){ state.loading=false; render(); }
+  }, 4000);
 }
 
 var bootstrapped = false;
