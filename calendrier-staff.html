@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Calendrier Staff — Église Roubaix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F7F2E9;
+    --cream-deep:#EFE6D6;
+    --ink:#2B2A28;
+    --ink-soft:#5B5650;
+    --denim:#2E4D5E;
+    --denim-deep:#1F3B49;
+    --denim-pale:#E4ECEE;
+    --terracotta:#C6643E;
+    --terracotta-pale:#F4E2D4;
+    --sage:#6F8366;
+    --sage-pale:#E7EDE3;
+    --gold:#B08A3E;
+    --gold-pale:#F5EDD3;
+    --line:#DCD3C2;
+    --white:#FFFFFF;
+    --radius:14px;
+    --shadow:0 1px 2px rgba(43,42,40,.06), 0 6px 18px -8px rgba(43,42,40,.18);
+
+    /* Couleurs par département */
+    --col-culte:#2E4D5E;
+    --col-louange:#7B5EA7;
+    --col-sono:#3A7D6B;
+    --col-ecodim:#C6643E;
+    --col-jeunes:#2D7DC8;
+    --col-priere:#B08A3E;
+    --col-accueil:#6F8366;
+    --col-streaming:#1A5C8A;
+    --col-agapes:#A85C6E;
+    --col-aines:#7A6650;
+    --col-femmes:#9B5E8F;
+    --col-hommes:#4A6FA5;
+    --col-menage:#5C7A5C;
+    --col-autre:#888070;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Source Sans 3', system-ui, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100%;
+  }
+  #root{min-height:100vh;display:flex;flex-direction:column;}
+
+  /* ---- Topbar ---- */
+  .topbar{
+    position:sticky;top:0;z-index:30;
+    background:rgba(247,242,233,.93);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    padding:12px 18px;
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;min-width:0;}
+  .brand .mark{
+    width:34px;height:34px;border-radius:9px;
+    background:linear-gradient(155deg,var(--denim),var(--denim-deep));
+    display:flex;align-items:center;justify-content:center;
+    color:var(--cream);font-family:'Fraunces',serif;font-weight:700;font-size:17px;
+    flex:none;
+  }
+  .brand-text{display:flex;flex-direction:column;min-width:0;}
+  .brand-text .t1{font-family:'Fraunces',serif;font-weight:600;font-size:16px;line-height:1.15;color:var(--ink);}
+  .brand-text .t2{font-size:11.5px;color:var(--ink-soft);letter-spacing:.02em;}
+  .topbar-actions{display:flex;align-items:center;gap:8px;flex:none;}
+
+  .pill-btn{
+    border:1px solid var(--line);background:var(--white);color:var(--ink);
+    border-radius:999px;padding:8px 14px;font-size:13.5px;font-weight:600;
+    cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;
+    transition:transform .12s ease,box-shadow .12s ease,background .15s ease;
+    white-space:nowrap;
+  }
+  .pill-btn:hover{box-shadow:var(--shadow);transform:translateY(-1px);}
+  .pill-btn:active{transform:translateY(0);}
+  .pill-btn.ghost{background:transparent;}
+  .pill-btn.admin{background:var(--denim);border-color:var(--denim);color:var(--cream);}
+  .pill-btn.admin:hover{background:var(--denim-deep);}
+  .pill-btn.danger{background:var(--terracotta);border-color:var(--terracotta);color:var(--white);}
+  .pill-btn.small{padding:5px 11px;font-size:12.5px;}
+
+  /* ---- Identity bar ---- */
+  .id-bar{
+    background:var(--denim-pale);border-bottom:1px solid var(--line);
+    padding:10px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  }
+  .id-bar label{font-size:13px;font-weight:600;color:var(--denim-deep);}
+  .id-bar select{
+    font-family:inherit;font-size:13.5px;padding:6px 10px;border-radius:10px;
+    border:1.5px solid var(--line);background:var(--white);color:var(--ink);
+    cursor:pointer;
+  }
+  .admin-banner{
+    background:var(--denim-deep);color:var(--cream);padding:9px 18px;
+    font-size:13px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  }
+  .admin-banner b{font-weight:700;}
+
+  /* ---- Nav semaine ---- */
+  .month-nav-staff{
+    display:flex; gap:6px; flex-wrap:wrap; padding:8px 16px 0;
+    background:var(--cream); border-bottom:1px solid var(--line);
+    position:sticky; top:52px; z-index:90;
+  }
+  .month-btn-staff{
+    font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:999px;
+    border:1.5px solid var(--line); background:transparent; color:var(--ink-soft);
+    cursor:pointer; transition:all .15s;
+  }
+  .month-btn-staff:hover{ background:var(--denim-pale); color:var(--denim-deep); border-color:var(--denim); }
+  .month-btn-staff.active{ background:var(--denim); color:#fff; border-color:var(--denim); }
+
+
+  .week-nav{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    padding:12px 18px 8px;
+  }
+  .week-label{
+    font-family:'Fraunces',serif;font-weight:600;font-size:18px;color:var(--ink);
+    text-align:center;flex:1;
+  }
+  .week-label small{display:block;font-family:'Source Sans 3',sans-serif;font-weight:400;font-size:12px;color:var(--ink-soft);margin-top:2px;}
+  .btn-nav{
+    border:1px solid var(--line);background:var(--white);
+    width:36px;height:36px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;font-size:16px;flex:none;
+    transition:box-shadow .12s,transform .12s;
+  }
+  .btn-nav:hover{box-shadow:var(--shadow);transform:translateY(-1px);}
+  .btn-today{
+    border:1px solid var(--denim);background:var(--denim-pale);color:var(--denim-deep);
+    border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:600;
+    cursor:pointer;font-family:inherit;flex:none;
+    transition:box-shadow .12s;
+  }
+  .btn-today:hover{box-shadow:var(--shadow);}
+
+  /* ---- Grille semaine ---- */
+  .week-grid{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:0;
+    border-left:1px solid var(--line);
+    border-top:1px solid var(--line);
+    margin:0 18px 8px;
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .day-col{
+    border-right:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    min-height:200px;
+    display:flex;flex-direction:column;
+  }
+  .day-header{
+    padding:8px 8px 6px;
+    background:var(--cream-deep);
+    border-bottom:1px solid var(--line);
+    text-align:center;
+    cursor:pointer;
+    user-select:none;
+  }
+  .day-header:hover{background:var(--denim-pale);}
+  .day-header .dh-day{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);}
+  .day-header .dh-date{font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:var(--ink);line-height:1.1;}
+  .day-header.today{background:var(--denim-pale);}
+  .day-header.today .dh-date{color:var(--denim);}
+  .day-body{flex:1;padding:4px;display:flex;flex-direction:column;gap:3px;}
+
+  /* ---- Event chips ---- */
+  .event-chip{
+    border-radius:7px;padding:4px 7px;font-size:11.5px;line-height:1.3;
+    cursor:pointer;border:none;text-align:left;font-family:inherit;
+    display:block;width:100%;
+    transition:opacity .12s,transform .12s;
+  }
+  .event-chip:hover{opacity:.85;transform:translateY(-1px);}
+  .event-chip .ec-dept{font-weight:700;font-size:10px;letter-spacing:.04em;text-transform:uppercase;opacity:.8;}
+  .event-chip .ec-title{font-weight:600;margin-top:1px;}
+  .event-chip .ec-who{font-size:10.5px;opacity:.75;margin-top:1px;}
+
+  /* Couleurs chips par département */
+  .chip-culte{background:var(--denim);color:var(--cream);}
+  .chip-louange{background:#7B5EA7;color:#fff;}
+  .chip-sono{background:#3A7D6B;color:#fff;}
+  .chip-ecodim{background:var(--terracotta);color:#fff;}
+  .chip-jeunes{background:#2D7DC8;color:#fff;}
+  .chip-priere{background:var(--gold);color:#fff;}
+  .chip-accueil{background:var(--sage);color:#fff;}
+  .chip-streaming{background:#1A5C8A;color:#fff;}
+  .chip-agapes{background:#A85C6E;color:#fff;}
+  .chip-aines{background:#7A6650;color:#fff;}
+  .chip-femmes{background:#9B5E8F;color:#fff;}
+  .chip-hommes{background:#4A6FA5;color:#fff;}
+  .chip-menage{background:#5C7A5C;color:#fff;}
+  .chip-autre{background:#888070;color:#fff;}
+
+  .add-chip{
+    border-radius:7px;padding:4px 7px;font-size:11px;
+    border:1.5px dashed var(--line);background:transparent;color:var(--ink-soft);
+    cursor:pointer;text-align:center;font-family:inherit;
+    transition:border-color .15s,color .15s;
+    width:100%;
+  }
+  .add-chip:hover{border-color:var(--denim);color:var(--denim);}
+
+  /* ---- Légende ---- */
+  .legend{
+    display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 14px;
+  }
+  .legend-item{
+    display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--ink-soft);
+  }
+  .legend-dot{width:10px;height:10px;border-radius:3px;flex:none;}
+
+  /* ---- Section rubriques culte (dimanche) ---- */
+  .culte-section{
+    background:var(--denim-pale);border:1px solid #c8d9e0;
+    border-radius:10px;margin:3px 4px;padding:6px 8px;font-size:11px;
+  }
+  .culte-section .cs-title{
+    font-weight:700;text-transform:uppercase;letter-spacing:.04em;
+    color:var(--denim-deep);font-size:9.5px;margin-bottom:4px;
+  }
+  .culte-row{display:flex;align-items:center;justify-content:space-between;gap:4px;margin-bottom:3px;}
+  .culte-row .cr-label{color:var(--denim-deep);flex:1;font-size:10.5px;}
+  .culte-row .cr-value{font-weight:600;font-size:10.5px;color:var(--denim-deep);text-align:right;}
+  .culte-row .cr-empty{font-size:10px;color:#8aabbb;font-style:italic;}
+
+  /* ---- Overlay / Modal ---- */
+  .overlay{
+    position:fixed;inset:0;background:rgba(43,42,40,.45);
+    display:flex;align-items:center;justify-content:center;
+    z-index:50;padding:16px;
+  }
+  .modal{
+    background:var(--white);border-radius:var(--radius);
+    padding:24px;max-width:480px;width:100%;
+    box-shadow:0 20px 60px -10px rgba(43,42,40,.35);
+    max-height:90vh;overflow-y:auto;
+  }
+  .modal.modal-wide{max-width:540px;}
+  .modal h2{font-family:'Fraunces',serif;font-weight:600;font-size:20px;margin:0 0 6px;}
+  .modal p{font-size:13.5px;color:var(--ink-soft);margin:0 0 16px;line-height:1.5;}
+  .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;}
+  .field-label{display:block;font-size:12px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.03em;margin:14px 0 5px;}
+  .field-label:first-of-type{margin-top:4px;}
+  .modal input,.modal select,.modal textarea{
+    width:100%;font-family:inherit;font-size:14.5px;padding:10px 12px;
+    border-radius:10px;border:1.5px solid var(--line);background:var(--cream);color:var(--ink);
+    margin-bottom:0;
+  }
+  .modal input:focus,.modal select:focus,.modal textarea:focus{outline:none;border-color:var(--denim);}
+  .modal textarea{min-height:70px;resize:vertical;}
+  .err-msg{font-size:12.5px;color:var(--terracotta);margin:6px 0 0;font-weight:600;}
+
+  /* Récurrence */
+  .recur-row{display:flex;align-items:center;gap:10px;margin-top:8px;}
+  .recur-row label{display:flex;align-items:center;gap:6px;font-size:13.5px;cursor:pointer;}
+  .recur-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--denim);cursor:pointer;}
+  .recur-opts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+  .recur-opt{
+    border:1.5px solid var(--line);border-radius:8px;padding:5px 12px;
+    font-size:12.5px;cursor:pointer;background:var(--cream);
+    transition:border-color .15s,background .15s;
+  }
+  .recur-opt.active{border-color:var(--denim);background:var(--denim-pale);color:var(--denim-deep);font-weight:600;}
+
+  /* Vue liste département ---- */
+  .dept-filter{
+    display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 12px;
+  }
+  .dept-btn{
+    border:1.5px solid var(--line);border-radius:8px;padding:5px 12px;
+    font-size:12px;cursor:pointer;background:var(--white);font-family:inherit;
+    transition:all .15s;
+  }
+  .dept-btn.active{color:#fff;border-color:transparent;}
+
+  /* Toast */
+  .toast{
+    position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
+    background:var(--ink);color:var(--cream);padding:11px 20px;border-radius:999px;
+    font-size:13.5px;font-weight:600;z-index:80;box-shadow:0 10px 30px -8px rgba(0,0,0,.4);
+    animation:rise .25s ease;pointer-events:none;
+  }
+  @keyframes rise{from{opacity:0;transform:translate(-50%,8px);}to{opacity:1;transform:translate(-50%,0);}}
+
+  .footer-note{text-align:center;font-size:11.5px;color:var(--ink-soft);padding:18px 16px 26px;}
+
+  /* ---- Event detail panel ---- */
+  .detail-dept-badge{
+    display:inline-block;border-radius:6px;padding:3px 10px;
+    font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+    margin-bottom:12px;color:#fff;
+  }
+  .detail-row{display:flex;gap:10px;align-items:baseline;font-size:13.5px;margin-bottom:6px;}
+  .detail-row .dr-label{font-weight:700;color:var(--ink-soft);min-width:90px;font-size:12px;text-transform:uppercase;letter-spacing:.03em;}
+
+  /* Liaison culte badge */
+  .linked-badge{
+    display:inline-flex;align-items:center;gap:5px;
+    background:var(--denim-pale);color:var(--denim-deep);
+    border:1px solid #c8d9e0;border-radius:8px;
+    padding:5px 10px;font-size:12px;font-weight:600;margin-top:8px;
+  }
+
+  @media(max-width:700px){
+    .week-grid{grid-template-columns:repeat(7,minmax(0,1fr));margin:0 8px 8px;}
+    .event-chip .ec-who,.event-chip .ec-dept{display:none;}
+    .legend{display:none;}
+    .week-nav{padding:10px 10px 6px;}
+  }
+  @media(max-width:480px){
+    .day-header .dh-date{font-size:14px;}
+    .day-header .dh-day{font-size:9px;}
+    .brand-text .t2{display:none;}
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<!--
+  ===========================================================================
+  CONFIGURATION FIREBASE — partagée avec l'appli Planning des cultes
+  Même projet Firebase, nouvelle collection : calendrier_staff
+  ===========================================================================
+-->
+<script>
+window.__FIREBASE_CONFIG__ = {
+  apiKey: "AIzaSyB9n6tiBbvv7A07h5uOg9HZYr5GHHZPF6w",
+  authDomain: "planning-culte-2026.firebaseapp.com",
+  projectId: "planning-culte-2026",
+  storageBucket: "planning-culte-2026.firebasestorage.app",
+  messagingSenderId: "237708325644",
+  appId: "1:237708325644:web:ee76d379d0530f4bcc8f29"
+};
+// Code d'accès unique pour le Staff
+window.__STAFF_CODE__ = "STAFF91";
+// Code admin (même que l'appli culte)
+window.__ADMIN_CODE__ = "DIMANCHE91";
+</script>
+
+<script>
+// ---- Liste des membres Staff (responsables de département) ----
+window.__STAFF_MEMBRES__ = [
+  // Pasteurs / Anciens
+  {nom:"Tadeusz POREBA",  dept:["Culte","Prière lundi","Prière mercredi"], groupe:"UNION"},
+  {nom:"Philippe PEM",    dept:["Culte","Prière lundi"], groupe:"BAPTISTE"},
+  {nom:"Fabrice FLORINS", dept:["Culte"], groupe:"BAPTISTE"},
+  // Responsables département
+  {nom:"Xavier POREBA",        dept:["Louange","Culte"], groupe:"UNION"},
+  {nom:"Bogdan ZAJAC",          dept:["Culte","Écodim"], groupe:"UNION"},
+  {nom:"Silvain LUBAN",         dept:["Sono / Vidéo","Streaming"], groupe:"UNION"},
+  {nom:"Mateusz JAWDYK",        dept:["Sono / Vidéo","Streaming"], groupe:"UNION"},
+  {nom:"Erdan BEKIROVIC",       dept:["Jeunes","Culte"], groupe:"BAPTISTE"},
+  {nom:"Josué PACHECO",         dept:["Jeunes"], groupe:"BAPTISTE"},
+  {nom:"Stéphanie FLORINS",     dept:["Écodim","Femmes"], groupe:"BAPTISTE"},
+  {nom:"Bernard VERDIERE",      dept:["Aînés"], groupe:"UNION"},
+  {nom:"Marie-Christine GASPARD", dept:["Femmes","Agapes"], groupe:"BAPTISTE"},
+  {nom:"Stéphane DHERINNES",    dept:["Accueil / Sécurité"], groupe:"BAPTISTE"},
+  {nom:"Thomas PETIAUX",        dept:["Accueil / Sécurité"], groupe:"BAPTISTE"},
+  {nom:"Jean BARTHABURU",       dept:["Hommes","Culte"], groupe:"BAPTISTE"},
+  {nom:"Firmin BIKOUTA",        dept:["Culte","Prière lundi"], groupe:"BAPTISTE"},
+  {nom:"Joëlle PAKULA",         dept:["Ménage"], groupe:"BAPTISTE"},
+  {nom:"Geoffrey Dardenne",     dept:["Sono / Vidéo"], groupe:"UNION"},
+  {nom:"Paulina JAWDYK",        dept:["Écodim"], groupe:"UNION"},
+  {nom:"Fred GASPARD",          dept:["Agapes","Hommes"], groupe:"BAPTISTE"},
+];
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  import { getFirestore, collection, doc, onSnapshot, setDoc, deleteDoc, query, where, getDocs }
+    from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+  var cfg = window.__FIREBASE_CONFIG__;
+  if (!cfg || cfg.apiKey === "REMPLACER") {
+    window.__FIREBASE_CONFIG_MISSING__ = true;
+    window.dispatchEvent(new Event('firebase-staff-ready'));
+  } else {
+    var app = initializeApp(cfg, "staff-app");
+    var db = getFirestore(app);
+    window.__STAFF_DB__ = db;
+    window.__STAFF_DOC__ = doc;
+    window.__STAFF_COLLECTION__ = collection;
+    window.__STAFF_ON_SNAPSHOT__ = onSnapshot;
+    window.__STAFF_SET_DOC__ = setDoc;
+    window.__STAFF_DELETE_DOC__ = deleteDoc;
+    window.__STAFF_QUERY__ = query;
+    window.__STAFF_WHERE__ = where;
+    window.__STAFF_GET_DOCS__ = getDocs;
+    window.__FIREBASE_STAFF_READY__ = true;
+    window.dispatchEvent(new Event('firebase-staff-ready'));
+  }
+</script>
+
+<script>
+(function(){
+"use strict";
+
+// ============================================================
+// CONSTANTES
+// ============================================================
+var STAFF_CODE  = window.__STAFF_CODE__;
+var ADMIN_CODE  = window.__ADMIN_CODE__;
+var MEMBRES     = window.__STAFF_MEMBRES__ || [];
+
+var JOURS_FR    = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+var JOURS_LONG  = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+var MOIS_FR     = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+var DEPTS = [
+  {id:'Culte',              label:'Culte du dimanche',    cls:'culte'},
+  {id:'Louange',            label:'Louange',              cls:'louange'},
+  {id:'Sono / Vidéo',       label:'Sono / Vidéo',         cls:'sono'},
+  {id:'Écodim',             label:'Écodim',               cls:'ecodim'},
+  {id:'Jeunes',             label:'Jeunes',               cls:'jeunes'},
+  {id:'Prière lundi',       label:'Prière du lundi',      cls:'priere'},
+  {id:'Prière mercredi',    label:'Prière du mercredi',   cls:'priere'},
+  {id:'Accueil / Sécurité', label:'Accueil / Sécurité',   cls:'accueil'},
+  {id:'Streaming',          label:'Streaming',            cls:'streaming'},
+  {id:'Agapes',             label:'Agapes',               cls:'agapes'},
+  {id:'Aînés',              label:'Réunion aînés',        cls:'aines'},
+  {id:'Femmes',             label:'Réunion femmes',       cls:'femmes'},
+  {id:'Hommes',             label:'Réunion hommes',       cls:'hommes'},
+  {id:'Ménage',             label:'Tournus ménage',       cls:'menage'},
+  {id:'Autre',              label:'Autre',                cls:'autre'},
+];
+
+function deptById(id){
+  for(var i=0;i<DEPTS.length;i++){ if(DEPTS[i].id===id) return DEPTS[i]; }
+  return {id:id,label:id,cls:'autre'};
+}
+
+// Rubriques partagées avec l'appli Planning des cultes
+var CULTE_SHARED_FIELDS = [
+  {key:'predicateur',     label:'Prédicateur'},
+  {key:'typeCulte',       label:'Type de culte'},
+  {key:'presidentCulte',  label:'Président'},
+  {key:'remarques',       label:'Remarques'},
+];
+
+// ============================================================
+// ÉTAT
+// ============================================================
+var state = {
+  // Auth
+  isStaff: false,
+  isAdmin: false,
+  currentUser: null,
+  staffCodeInput: '',
+  staffError: '',
+  showLoginStaff: false,
+  showLoginAdmin: false,
+  adminCodeInput: '',
+  adminError: '',
+  // Navigation
+  weekOffset: 0,        // 0 = semaine courante
+  // Données
+  events: {},           // id -> event
+  culteDataByYear: {},  // year -> rowId -> overrides (une entrée par année active)
+  loading: false,
+  configMissing: false,
+  // UI
+  toast: null,
+  showEventForm: false,
+  editingEvent: null,   // null = nouvel event
+  eventFormDate: null,  // date ISO pré-remplie
+  showEventDetail: null, // id de l'event à afficher
+};
+
+// ============================================================
+// FIREBASE
+// ============================================================
+var db, fsDoc, fsCollection, fsOnSnapshot, fsSetDoc, fsDeleteDoc;
+
+function initFirebase(){
+  db          = window.__STAFF_DB__;
+  fsDoc       = window.__STAFF_DOC__;
+  fsCollection= window.__STAFF_COLLECTION__;
+  fsOnSnapshot= window.__STAFF_ON_SNAPSHOT__;
+  fsSetDoc    = window.__STAFF_SET_DOC__;
+  fsDeleteDoc = window.__STAFF_DELETE_DOC__;
+
+  // Écoute en temps réel de tous les événements
+  var colRef = fsCollection(db, 'calendrier_staff');
+  fsOnSnapshot(colRef, function(snap){
+    var evts = {};
+    snap.forEach(function(d){ evts[d.id] = Object.assign({id:d.id}, d.data()); });
+    state.events = evts;
+    state.loading = false;
+    render();
+  }, function(err){
+    console.error(err);
+    state.loading = false;
+    showToast("Erreur de connexion à la base de données.");
+    render();
+  });
+
+  // Écoute multi-années des données culte partagées
+  // Une collection par année : planning_culte_2026, planning_culte_2027, …
+  // Le calendrier staff écoute automatiquement toutes les années couvertes (2026-2035)
+  loadPlanningData(); // Générer d'abord les dates pour connaître les années
+  var CULTE_YEARS = [];
+  for(var cy = 2026; cy <= 2035; cy++) CULTE_YEARS.push(cy);
+
+  CULTE_YEARS.forEach(function(yr){
+    var ref = fsDoc(db, 'planning_culte_' + yr, 'overrides');
+    fsOnSnapshot(ref, function(snap){
+      if(snap.exists() && snap.data() && snap.data().value){
+        state.culteDataByYear[yr] = JSON.parse(snap.data().value);
+      } else {
+        state.culteDataByYear[yr] = {};
+      }
+      render();
+    }, function(){}); // silencieux si la collection n'existe pas encore
+  });
+}
+
+// Données statiques du planning culte (dates + types)
+var PLANNING_CULTE_DATES = {};
+
+// ============================================================
+// GÉNÉRATEUR AUTOMATIQUE DES DIMANCHES
+// Couvre 2026 → 2035 sans aucune maintenance annuelle.
+// Règle Sainte-Cène : 1er dimanche du mois (sauf si décalé
+// manuellement via Firebase — les overrides priment toujours).
+// Les prédicateurs et présidents sont saisis dans Firebase
+// par les admins ; ici on génère uniquement la structure.
+// ============================================================
+function loadPlanningData(){
+  var START_YEAR = 2026;
+  var END_YEAR   = 2035;
+  var rowIndex   = 1;
+
+  for(var year = START_YEAR; year <= END_YEAR; year++){
+    for(var month = 0; month < 12; month++){
+      // Trouver tous les dimanches du mois
+      var d = new Date(year, month, 1);
+      // Avancer jusqu'au premier dimanche
+      while(d.getDay() !== 0) d.setDate(d.getDate() + 1);
+      var firstSundayOfMonth = true;
+      while(d.getMonth() === month){
+        var iso = toISO(d);
+        var hasSC = firstSundayOfMonth; // Sainte-Cène le 1er dimanche
+        PLANNING_CULTE_DATES[iso] = {
+          id:           'row' + rowIndex,
+          date:         iso,
+          hasSainteCene: hasSC,
+          // Ces champs seront surchargés par Firebase (overrides)
+          predicateur:   null,
+          presidentCulte:null,
+          typeCulte:     hasSC ? 'Sainte-Cène' : null,
+          remarques:     null,
+        };
+        rowIndex++;
+        firstSundayOfMonth = false;
+        d.setDate(d.getDate() + 7);
+      }
+    }
+  }
+}
+
+// ============================================================
+// PERSISTANCE
+// ============================================================
+function genId(){
+  return 'ev_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
+}
+
+async function saveEvent(evtData){
+  try{
+    var id = evtData.id || genId();
+    evtData.id = id;
+    await fsSetDoc(fsDoc(db, 'calendrier_staff', id), evtData);
+    showToast(evtData._new ? "Événement ajouté." : "Événement mis à jour.");
+  }catch(e){
+    console.error(e);
+    showToast("Erreur — veuillez réessayer.");
+  }
+}
+
+async function deleteEvent(id){
+  try{
+    await fsDeleteDoc(fsDoc(db, 'calendrier_staff', id));
+    showToast("Événement supprimé.");
+  }catch(e){
+    console.error(e);
+    showToast("Erreur — veuillez réessayer.");
+  }
+}
+
+// Sauvegarder une rubrique culte partagée
+// Écrit dans la collection de l'année concernée (planning_culte_YYYY/overrides)
+async function saveCulteField(dateISO, fieldKey, value){
+  try{
+    var year = dateISO.slice(0, 4);
+    var collectionName = 'planning_culte_' + year;
+    var existing = state.culteDataByYear[year] || {};
+    var rowId = PLANNING_CULTE_DATES[dateISO] ? PLANNING_CULTE_DATES[dateISO].id : null;
+    if(!rowId){ showToast("Date introuvable dans le planning culte."); return; }
+    if(!existing[rowId]) existing[rowId] = {};
+    existing[rowId][fieldKey] = value || null;
+    existing[rowId]['_date'] = dateISO;
+    await fsSetDoc(fsDoc(db, collectionName, 'overrides'), { value: JSON.stringify(existing) });
+    state.culteDataByYear[year] = existing;
+    showToast("Rubrique culte mise à jour.");
+  }catch(e){
+    console.error(e);
+    showToast("Erreur — veuillez réessayer.");
+  }
+}
+
+// ============================================================
+// UTILITAIRES DATE
+// ============================================================
+function mondayOf(d){
+  var day = d.getDay(); // 0=dim
+  var diff = (day === 0) ? -6 : 1 - day;
+  var m = new Date(d); m.setDate(d.getDate() + diff); m.setHours(0,0,0,0);
+  return m;
+}
+
+// Semaine de référence = lundi de la semaine courante au chargement
+// weekOffset 0 = semaine actuelle, négatif = passé, positif = futur
+var START_WEEK = (function(){
+  var today = new Date(); today.setHours(0,0,0,0);
+  var day = today.getDay(); // 0=dim
+  var diff = (day === 0) ? -6 : 1 - day;
+  today.setDate(today.getDate() + diff);
+  return today;
+})();
+
+function getWeekDates(){
+  var base = new Date(START_WEEK);
+  base.setDate(base.getDate() + state.weekOffset * 7);
+  var days = [];
+  for(var i=0;i<7;i++){
+    var d = new Date(base); d.setDate(base.getDate() + i); d.setHours(0,0,0,0);
+    days.push(d);
+  }
+  return days;
+}
+
+function toISO(d){
+  var y = d.getFullYear();
+  var m = String(d.getMonth()+1).padStart(2,'0');
+  var dd = String(d.getDate()).padStart(2,'0');
+  return y+'-'+m+'-'+dd;
+}
+
+function isToday(d){
+  var t = new Date(); t.setHours(0,0,0,0);
+  return d.getTime() === t.getTime();
+}
+
+function weekLabel(days){
+  var a = days[0], b = days[6];
+  if(a.getMonth()===b.getMonth()){
+    return a.getDate() + ' – ' + b.getDate() + ' ' + MOIS_FR[a.getMonth()] + ' ' + a.getFullYear();
+  }
+  return a.getDate()+' '+MOIS_FR[a.getMonth()]+' – '+b.getDate()+' '+MOIS_FR[b.getMonth()]+' '+b.getFullYear();
+}
+
+function getCulteOverrideForDate(dateISO){
+  var baseRow = PLANNING_CULTE_DATES[dateISO];
+  if(!baseRow) return null;
+  var year = dateISO.slice(0, 4);
+  var yearData = state.culteDataByYear[year] || {};
+  var ov = yearData[baseRow.id] || {};
+  // __remarque est la clé utilisée par Planning des cultes
+  var remarque = ov.__remarque !== undefined ? ov.__remarque
+               : ov.remarques  !== undefined ? ov.remarques
+               : baseRow.remarques;
+  return {
+    predicateur:    ov.predicateur    !== undefined ? ov.predicateur    : baseRow.predicateur,
+    typeCulte:      ov.typeCulte      !== undefined ? ov.typeCulte      : baseRow.typeCulte,
+    presidentCulte: ov.presidentCulte !== undefined ? ov.presidentCulte : baseRow.presidentCulte,
+    remarques:      remarque,
+    hasSainteCene:  baseRow.hasSainteCene,
+    _rowId:         baseRow.id,
+  };
+}
+
+// ============================================================
+// HELPERS DOM
+// ============================================================
+function el(tag, attrs, children){
+  var node = document.createElement(tag);
+  attrs = attrs || {};
+  Object.keys(attrs).forEach(function(k){
+    var v = attrs[k];
+    if(k==='class') node.className = v;
+    else if(k==='html') node.innerHTML = v;
+    else if(k.indexOf('on')===0 && typeof v==='function') node.addEventListener(k.slice(2),v);
+    else if(k==='disabled'){ if(v) node.setAttribute('disabled','disabled'); }
+    else if(k==='checked'){ node.checked=!!v; if(v) node.setAttribute('checked','checked'); }
+    else if(k==='selected'){ if(v) node.setAttribute('selected','selected'); }
+    else if(k==='style') node.setAttribute('style',v);
+    else if(v==null){}
+    else node.setAttribute(k,v);
+  });
+  (children||[]).forEach(function(c){
+    if(c==null) return;
+    if(typeof c==='string') node.appendChild(document.createTextNode(c));
+    else node.appendChild(c);
+  });
+  return node;
+}
+
+function showToast(msg){
+  state.toast = msg; render();
+  setTimeout(function(){ state.toast=null; render(); }, 2600);
+}
+
+// ============================================================
+// AUTH
+// ============================================================
+function tryStaffLogin(){
+  var code = state.staffCodeInput.trim().toUpperCase();
+  if(code === ADMIN_CODE){ state.isStaff=true; state.isAdmin=true; state.showLoginStaff=false; state.staffError=''; render(); return; }
+  if(code === STAFF_CODE){ state.isStaff=true; state.isAdmin=false; state.showLoginStaff=false; state.staffError=''; render(); return; }
+  state.staffError = "Code incorrect. Contactez un administrateur."; render();
+}
+
+function tryAdminLogin(){
+  var code = state.adminCodeInput.trim().toUpperCase();
+  if(code === ADMIN_CODE){ state.isAdmin=true; state.showLoginAdmin=false; state.adminError=''; render(); return; }
+  state.adminError = "Code administrateur incorrect."; render();
+}
+
+// ============================================================
+// FORMULAIRE ÉVÉNEMENT
+// ============================================================
+var formDraft = {};
+
+function openNewEvent(dateISO){
+  if(!state.isStaff){ state.showLoginStaff=true; state.staffError=''; render(); return; }
+  formDraft = {
+    date: dateISO || '',
+    heureDebut: '',
+    heureFin: '',
+    departement: '',
+    titre: '',
+    responsable: state.currentUser || '',
+    notes: '',
+    recurrence: 'none',
+    recurrenceJusquau: '',
+  };
+  state.editingEvent = null;
+  state.showEventForm = true;
+  render();
+}
+
+function openEditEvent(evt){
+  if(!state.isStaff){ state.showLoginStaff=true; state.staffError=''; render(); return; }
+  formDraft = {
+    id: evt.id,
+    date: evt.date || '',
+    heureDebut: evt.heureDebut || '',
+    heureFin: evt.heureFin || '',
+    departement: evt.departement || '',
+    titre: evt.titre || '',
+    responsable: evt.responsable || '',
+    notes: evt.notes || '',
+    recurrence: 'none',
+    recurrenceJusquau: '',
+  };
+  state.editingEvent = evt.id;
+  state.showEventForm = true;
+  render();
+}
+
+function closeEventForm(){
+  state.showEventForm = false;
+  state.editingEvent = null;
+  render();
+}
+
+async function submitEventForm(){
+  if(!formDraft.date){ showToast("Veuillez choisir une date."); return; }
+  if(!formDraft.departement){ showToast("Veuillez choisir un département."); return; }
+  if(!formDraft.titre.trim()){ showToast("Veuillez saisir un titre."); return; }
+  if(!formDraft.responsable){ showToast("Veuillez indiquer un responsable."); return; }
+
+  // Vérifier que l'utilisateur peut modifier (le sien ou admin)
+  if(!state.isAdmin && state.editingEvent){
+    var existing = state.events[state.editingEvent];
+    if(existing && existing.responsable !== state.currentUser){
+      showToast("Vous ne pouvez modifier que vos propres événements.");
+      return;
+    }
+  }
+
+  var evtData = {
+    date: formDraft.date,
+    heureDebut: formDraft.heureDebut,
+    heureFin: formDraft.heureFin,
+    departement: formDraft.departement,
+    titre: formDraft.titre.trim(),
+    responsable: formDraft.responsable,
+    notes: formDraft.notes.trim(),
+    createdBy: state.currentUser || 'Staff',
+    updatedAt: new Date().toISOString(),
+  };
+  if(!state.editingEvent) evtData._new = true;
+  if(state.editingEvent) evtData.id = state.editingEvent;
+
+  closeEventForm();
+
+  // Récurrence : générer plusieurs événements
+  if(!state.editingEvent && formDraft.recurrence !== 'none' && formDraft.recurrenceJusquau){
+    var dates = buildRecurrenceDates(formDraft.date, formDraft.recurrence, formDraft.recurrenceJusquau);
+    for(var i=0;i<dates.length;i++){
+      var copy = Object.assign({}, evtData);
+      copy.date = dates[i];
+      copy.id = genId();
+      delete copy._new;
+      await saveEvent(copy);
+    }
+    showToast(dates.length + " occurrences créées.");
+  } else {
+    await saveEvent(evtData);
+  }
+}
+
+function buildRecurrenceDates(startISO, freq, endISO){
+  var dates = [];
+  var cur = new Date(startISO + 'T00:00:00');
+  var end = new Date(endISO + 'T00:00:00');
+  var step = {hebdomadaire:7, bimensuel:14, mensuel:28}[freq] || 7;
+  // On commence à la date de départ
+  while(cur <= end){
+    dates.push(toISO(cur));
+    cur.setDate(cur.getDate() + step);
+  }
+  return dates;
+}
+
+// ============================================================
+// RENDER — TOPBAR
+// ============================================================
+function renderTopbar(){
+  var actions = [];
+  if(state.isAdmin){
+    actions.push(el('button',{class:'pill-btn small',onclick:function(){ state.showLoginAdmin=false; state.isAdmin=false; render(); }},['Quitter admin']));
+  } else if(state.isStaff && !state.isAdmin){
+    actions.push(el('button',{class:'pill-btn ghost small',onclick:function(){ state.showLoginAdmin=true; state.adminError=''; render(); }},['Admin']));
+  }
+  if(state.isStaff){
+    actions.push(el('button',{class:'pill-btn admin small',onclick:function(){ openNewEvent(null); }},['＋ Événement']));
+    actions.push(el('button',{class:'pill-btn ghost small',onclick:function(){ state.isStaff=false; state.isAdmin=false; state.currentUser=null; render(); }},['Déconnexion']));
+  } else {
+    actions.push(el('button',{class:'pill-btn admin small',onclick:function(){ state.showLoginStaff=true; state.staffError=''; render(); }},['Accès Staff']));
+  }
+
+  return el('div',{class:'topbar'},[
+    el('div',{class:'brand'},[
+      el('div',{class:'mark'},['S']),
+      el('div',{class:'brand-text'},[
+        el('span',{class:'t1'},['Calendrier Staff']),
+        el('span',{class:'t2'},['Église de l\'Union & Baptiste — Roubaix'])
+      ])
+    ]),
+    el('div',{class:'topbar-actions'},actions)
+  ]);
+}
+
+// ============================================================
+// RENDER — IDENTITY BAR
+// ============================================================
+function renderIdBar(){
+  if(!state.isStaff) return null;
+  var children = [];
+
+  if(state.isAdmin){
+    return el('div',{class:'admin-banner'},[
+      el('span',{},[el('b',{},['Mode administrateur']),' — modification de tous les événements autorisée.']),
+    ]);
+  }
+
+  var nomsSorted = MEMBRES.map(function(m){return m.nom;}).sort(function(a,b){return a.localeCompare(b,'fr',{sensitivity:'base'});});
+  var selOpts = [el('option',{value:''},['Choisissez votre nom'])].concat(
+    nomsSorted.map(function(n){
+      return el('option',{value:n, selected:state.currentUser===n},[n]);
+    })
+  );
+  var sel = el('select',{onchange:function(e){ state.currentUser=e.target.value||null; render(); }},selOpts);
+
+  children.push(el('label',{},['Vous êtes :']), sel);
+  return el('div',{class:'id-bar'},children);
+}
+
+// ============================================================
+// RENDER — NAVIGATION SEMAINE
+// ============================================================
+
+function renderMonthNav(){
+  var MOIS = ['Janvier','Février','Mars','Avril','Mai','Juin',
+              'Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  var now = new Date();
+  var currentYear = now.getFullYear();
+  // Calculer le mois affiché actuellement
+  var days = getWeekDates();
+  var currentMonth = days[0].getMonth();
+
+  var btns = MOIS.map(function(m, idx){
+    var isActive = idx === currentMonth;
+    return el('button',{
+      class:'month-btn-staff'+(isActive?' active':''),
+      onclick:function(){
+        // Aller à la première semaine du mois idx de l'année courante
+        var target = new Date(currentYear, idx, 1);
+        // Trouver le lundi de cette semaine
+        var day = target.getDay();
+        var diff = (day === 0) ? -6 : 1 - day;
+        target.setDate(target.getDate() + diff);
+        // Calculer weekOffset depuis START_WEEK
+        var diffMs = target - START_WEEK;
+        state.weekOffset = Math.round(diffMs / (7*24*3600*1000));
+        render();
+      }
+    },[m]);
+  });
+  return el('div',{class:'month-nav-staff'},btns);
+}
+
+function renderWeekNav(){
+  var days = getWeekDates();
+  return el('div',{class:'week-nav'},[
+    el('button',{class:'btn-nav',onclick:function(){ state.weekOffset--; render(); }},['‹']),
+    el('button',{class:'btn-today',onclick:function(){ state.weekOffset=0; render(); }},['Cette semaine']),
+    el('div',{class:'week-label'},[
+      weekLabel(days),
+      el('small',{},['Semaine '+ getWeekNumber(days[0])])
+    ]),
+    el('button',{class:'btn-nav',onclick:function(){ state.weekOffset++; render(); }},['›']),
+  ]);
+}
+
+function getWeekNumber(d){
+  var onejan = new Date(d.getFullYear(),0,1);
+  return Math.ceil((((d-onejan)/86400000)+onejan.getDay()+1)/7);
+}
+
+// ============================================================
+// RENDER — GRILLE SEMAINE
+// ============================================================
+function renderWeekGrid(){
+  var days = getWeekDates();
+  var cols = days.map(function(d){ return renderDayCol(d); });
+  return el('div',{class:'week-grid'},cols);
+}
+
+function renderDayCol(d){
+  var iso = toISO(d);
+  var evtsOfDay = Object.values(state.events).filter(function(e){ return e.date===iso; });
+  evtsOfDay.sort(function(a,b){ return (a.heureDebut||'').localeCompare(b.heureDebut||''); });
+
+  var isSunday = d.getDay() === 0;
+  var culteInfo = isSunday ? getCulteOverrideForDate(iso) : null;
+
+  var headerCls = 'day-header' + (isToday(d) ? ' today' : '');
+
+  var bodyChildren = [];
+
+  // Bloc culte du dimanche (données partagées)
+  if(isSunday && culteInfo){
+    var culteChildren = [
+      el('div',{class:'cs-title'},['📖 Culte du dimanche'])
+    ];
+    var fields = [
+      {key:'predicateur',label:'Prédicateur'},
+      {key:'presidentCulte',label:'Président'},
+      {key:'typeCulte',label:'Type'},
+      {key:'remarques',label:'Remarques'},
+    ];
+    fields.forEach(function(f){
+      var val = culteInfo[f.key];
+      if(!val && !state.isAdmin) return;
+      if(!val && state.isAdmin && f.key === 'typeCulte') return;
+      var valNode = val
+        ? el('span',{class:'cr-value'},[val])
+        : el('span',{class:'cr-empty'},['—']);
+
+      // Admin peut éditer
+      if(state.isAdmin){
+        valNode = el('span',{
+          class:'cr-value',
+          style:'cursor:pointer;text-decoration:underline dotted;color:'+(val?'inherit':'#aaa'),
+          onclick:function(){ promptEditCulteField(iso, f.key, val, culteInfo._rowId); }
+        },[val || '(vide) ✏']);
+      }
+
+      culteChildren.push(el('div',{class:'culte-row'},[
+        el('span',{class:'cr-label'},[f.label]),
+        valNode
+      ]));
+    });
+    if(culteInfo.hasSainteCene){
+      culteChildren.push(el('div',{class:'cr-label',style:'margin-top:4px;font-size:9.5px;color:#2E4D5E;font-weight:700;'},['🍷 Sainte-Cène']));
+    }
+    bodyChildren.push(el('div',{class:'culte-section'},culteChildren));
+  }
+
+  // Événements
+  evtsOfDay.forEach(function(evt){
+    bodyChildren.push(renderEventChip(evt));
+  });
+
+  // Bouton ajouter
+  if(state.isStaff){
+    bodyChildren.push(el('button',{class:'add-chip',onclick:function(){ openNewEvent(iso); }},['＋']));
+  }
+
+  return el('div',{class:'day-col'},[
+    el('div',{class:headerCls,onclick:function(){ openNewEvent(iso); }},[
+      el('div',{class:'dh-day'},[JOURS_FR[d.getDay()]]),
+      el('div',{class:'dh-date'},[String(d.getDate())])
+    ]),
+    el('div',{class:'day-body'},bodyChildren)
+  ]);
+}
+
+function renderEventChip(evt){
+  var dept = deptById(evt.departement||'Autre');
+  var time = evt.heureDebut ? evt.heureDebut + (evt.heureFin ? '–'+evt.heureFin : '') : '';
+  return el('button',{
+    class:'event-chip chip-'+dept.cls,
+    onclick:function(e){ e.stopPropagation(); state.showEventDetail=evt.id; render(); }
+  },[
+    el('div',{class:'ec-dept'},[dept.label + (time ? ' · '+time : '')]),
+    el('div',{class:'ec-title'},[evt.titre]),
+    el('div',{class:'ec-who'},[evt.responsable||'']),
+  ]);
+}
+
+// ============================================================
+// RENDER — LÉGENDE
+// ============================================================
+function renderLegend(){
+  var items = DEPTS.map(function(d){
+    var dot = el('div',{class:'legend-dot',style:'background:var(--col-'+d.cls+')'},[]);
+    return el('div',{class:'legend-item'},[dot, d.label]);
+  });
+  return el('div',{class:'legend'},items);
+}
+
+// ============================================================
+// RENDER — MODAL LOGIN STAFF
+// ============================================================
+function renderLoginStaff(){
+  if(!state.showLoginStaff) return null;
+  var input;
+  var overlay = el('div',{class:'overlay',onclick:function(e){ if(e.target===overlay){ state.showLoginStaff=false; render(); } }},[
+    el('div',{class:'modal'},[
+      el('h2',{},['Accès Staff']),
+      el('p',{},['Saisissez le code d\'accès Staff pour consulter et saisir des événements. Le code vous a été communiqué par les responsables.']),
+      el('label',{class:'field-label'},['Votre nom']),
+      (function(){
+        var nomsSorted = MEMBRES.map(function(m){return m.nom;}).sort(function(a,b){return a.localeCompare(b,'fr',{sensitivity:'base'});});
+        var s = el('select',{onchange:function(e){ state.currentUser=e.target.value||null; }},
+          [el('option',{value:''},['— Choisissez votre nom —'])].concat(
+            nomsSorted.map(function(n){ return el('option',{value:n},[n]); })
+          )
+        );
+        return s;
+      })(),
+      el('label',{class:'field-label'},['Code d\'accès']),
+      (input = el('input',{type:'password',placeholder:'Code Staff',value:state.staffCodeInput,oninput:function(e){ state.staffCodeInput=e.target.value; }})),
+      state.staffError ? el('div',{class:'err-msg'},[state.staffError]) : null,
+      el('div',{class:'modal-actions'},[
+        el('button',{class:'pill-btn ghost',onclick:function(){ state.showLoginStaff=false; render(); }},['Annuler']),
+        el('button',{class:'pill-btn admin',onclick:tryStaffLogin},['Entrer'])
+      ])
+    ])
+  ]);
+  setTimeout(function(){ input.addEventListener('keydown',function(e){ if(e.key==='Enter') tryStaffLogin(); }); input.focus(); },0);
+  return overlay;
+}
+
+function renderLoginAdmin(){
+  if(!state.showLoginAdmin) return null;
+  var input;
+  var overlay = el('div',{class:'overlay',onclick:function(e){ if(e.target===overlay){ state.showLoginAdmin=false; render(); } }},[
+    el('div',{class:'modal'},[
+      el('h2',{},['Accès administrateur']),
+      el('p',{},['Code administrateur requis pour modifier tous les événements.']),
+      (input = el('input',{type:'password',placeholder:'Code administrateur',value:state.adminCodeInput,oninput:function(e){ state.adminCodeInput=e.target.value; }})),
+      state.adminError ? el('div',{class:'err-msg'},[state.adminError]) : null,
+      el('div',{class:'modal-actions'},[
+        el('button',{class:'pill-btn ghost',onclick:function(){ state.showLoginAdmin=false; render(); }},['Annuler']),
+        el('button',{class:'pill-btn admin',onclick:tryAdminLogin},['Entrer'])
+      ])
+    ])
+  ]);
+  setTimeout(function(){ input.addEventListener('keydown',function(e){ if(e.key==='Enter') tryAdminLogin(); }); input.focus(); },0);
+  return overlay;
+}
+
+// ============================================================
+// RENDER — FORMULAIRE ÉVÉNEMENT
+// ============================================================
+function renderEventForm(){
+  if(!state.showEventForm) return null;
+  var isEdit = !!state.editingEvent;
+
+  // Responsables selon département sélectionné
+  function getResponsables(){
+    var dept = formDraft.departement;
+    if(!dept) return MEMBRES;
+    return MEMBRES.filter(function(m){ return m.dept.indexOf(dept)>=0; }).concat(
+      MEMBRES.filter(function(m){ return m.dept.indexOf(dept)<0; })
+    );
+  }
+
+  var deptOpts = [el('option',{value:''},['— Département —'])].concat(
+    DEPTS.map(function(d){ return el('option',{value:d.id,selected:formDraft.departement===d.id},[d.label]); })
+  );
+
+  var nomsSorted = getResponsables().map(function(m){return m.nom;});
+  var respOpts = [el('option',{value:''},['— Responsable —'])].concat(
+    nomsSorted.map(function(n){ return el('option',{value:n,selected:formDraft.responsable===n},[n]); })
+  );
+
+  var recurrenceOpts = ['none','hebdomadaire','bimensuel','mensuel'];
+  var recurrenceLabels = {none:'Pas de récurrence',hebdomadaire:'Toutes les semaines',bimensuel:'Toutes les 2 semaines',mensuel:'Tous les mois (~4 sem.)'};
+  var recurBtns = recurrenceOpts.map(function(r){
+    return el('button',{
+      class:'recur-opt'+(formDraft.recurrence===r?' active':''),
+      onclick:function(){ formDraft.recurrence=r; render(); }
+    },[recurrenceLabels[r]]);
+  });
+
+  var overlay = el('div',{class:'overlay',onclick:function(e){ if(e.target===overlay) closeEventForm(); }},[
+    el('div',{class:'modal modal-wide'},[
+      el('h2',{},[isEdit ? 'Modifier l\'événement' : 'Nouvel événement']),
+
+      el('label',{class:'field-label'},['Date']),
+      el('input',{type:'date',value:formDraft.date,oninput:function(e){ formDraft.date=e.target.value; }}),
+
+      el('div',{style:'display:flex;gap:8px;margin-top:12px;'},[
+        el('div',{style:'flex:1;'},[
+          el('label',{class:'field-label'},['Heure début']),
+          el('input',{type:'time',value:formDraft.heureDebut,oninput:function(e){ formDraft.heureDebut=e.target.value; }})
+        ]),
+        el('div',{style:'flex:1;'},[
+          el('label',{class:'field-label'},['Heure fin']),
+          el('input',{type:'time',value:formDraft.heureFin,oninput:function(e){ formDraft.heureFin=e.target.value; }})
+        ]),
+      ]),
+
+      el('label',{class:'field-label'},['Département']),
+      el('select',{onchange:function(e){ formDraft.departement=e.target.value; render(); }},deptOpts),
+
+      el('label',{class:'field-label'},['Titre / Description courte']),
+      el('input',{type:'text',placeholder:'Ex. Répétition groupe louange, Réunion de prière…',value:formDraft.titre,oninput:function(e){ formDraft.titre=e.target.value; }}),
+
+      el('label',{class:'field-label'},['Responsable']),
+      el('select',{onchange:function(e){ formDraft.responsable=e.target.value; }},respOpts),
+
+      el('label',{class:'field-label'},['Notes (facultatif)']),
+      el('textarea',{placeholder:'Lieu, infos pratiques, lien Zoom…',oninput:function(e){ formDraft.notes=e.target.value; }},[formDraft.notes]),
+
+      !isEdit ? el('div',{},[
+        el('label',{class:'field-label'},['Récurrence']),
+        el('div',{class:'recur-opts'},recurBtns),
+        formDraft.recurrence !== 'none' ? el('div',{},[
+          el('label',{class:'field-label'},['Répéter jusqu\'au']),
+          el('input',{type:'date',value:formDraft.recurrenceJusquau,oninput:function(e){ formDraft.recurrenceJusquau=e.target.value; }})
+        ]) : null
+      ]) : null,
+
+      el('div',{class:'modal-actions'},[
+        el('button',{class:'pill-btn ghost',onclick:closeEventForm},['Annuler']),
+        el('button',{class:'pill-btn admin',onclick:submitEventForm},[isEdit ? 'Enregistrer' : 'Ajouter'])
+      ])
+    ])
+  ]);
+  return overlay;
+}
+
+// ============================================================
+// RENDER — DÉTAIL ÉVÉNEMENT
+// ============================================================
+function renderEventDetail(){
+  var id = state.showEventDetail;
+  if(!id) return null;
+  var evt = state.events[id];
+  if(!evt){ state.showEventDetail=null; render(); return null; }
+
+  var dept = deptById(evt.departement||'Autre');
+  var canEdit = state.isAdmin || (state.isStaff && evt.responsable===state.currentUser);
+  var canDelete = canEdit;
+
+  var overlay = el('div',{class:'overlay',onclick:function(e){ if(e.target===overlay){ state.showEventDetail=null; render(); } }},[
+    el('div',{class:'modal'},[
+      el('span',{class:'detail-dept-badge chip-'+dept.cls},[dept.label]),
+      el('h2',{},[evt.titre]),
+
+      el('div',{class:'detail-row'},[
+        el('span',{class:'dr-label'},['Date']),
+        el('span',{},[formatDateFR(evt.date) + (evt.heureDebut ? ' · '+evt.heureDebut+(evt.heureFin?'–'+evt.heureFin:'') : '')])
+      ]),
+      el('div',{class:'detail-row'},[
+        el('span',{class:'dr-label'},['Responsable']),
+        el('span',{},[evt.responsable||'—'])
+      ]),
+      evt.notes ? el('div',{class:'detail-row'},[
+        el('span',{class:'dr-label'},['Notes']),
+        el('span',{style:'white-space:pre-wrap;'},[evt.notes])
+      ]) : null,
+
+      // Liaison culte si dimanche
+      (function(){
+        var d = new Date(evt.date+'T00:00:00');
+        if(d.getDay()===0){
+          var ci = getCulteOverrideForDate(evt.date);
+          if(ci && ci.predicateur){
+            return el('div',{class:'linked-badge'},['🔗 Prédicateur : '+ci.predicateur]);
+          }
+        }
+        return null;
+      })(),
+
+      el('div',{class:'modal-actions'},[
+        canDelete ? el('button',{class:'pill-btn danger small',onclick:function(){ state.showEventDetail=null; deleteEvent(id); render(); }},['Supprimer']) : null,
+        canEdit ? el('button',{class:'pill-btn small',onclick:function(){ state.showEventDetail=null; openEditEvent(evt); }},['Modifier']) : null,
+        el('button',{class:'pill-btn admin',onclick:function(){ state.showEventDetail=null; render(); }},['Fermer'])
+      ])
+    ])
+  ]);
+  return overlay;
+}
+
+function formatDateFR(iso){
+  if(!iso) return '';
+  var d = new Date(iso+'T00:00:00');
+  return JOURS_LONG[d.getDay()] + ' ' + d.getDate() + ' ' + MOIS_FR[d.getMonth()] + ' ' + d.getFullYear();
+}
+
+// ============================================================
+// RENDER — ÉDITION RUBRIQUE CULTE
+// ============================================================
+function promptEditCulteField(dateISO, fieldKey, currentVal, rowId){
+  var label = {predicateur:'Prédicateur',typeCulte:'Type de culte',presidentCulte:'Président du culte',remarques:'Remarques'}[fieldKey] || fieldKey;
+  var val = prompt('Modifier « ' + label + ' » pour le ' + formatDateFR(dateISO) + ' :', currentVal || '');
+  if(val === null) return;
+  // Utiliser __remarque (clé de Planning) pour les remarques
+  var key = fieldKey === 'remarques' ? '__remarque' : fieldKey;
+  saveCulteField(dateISO, key, val.trim() || null);
+}
+
+// ============================================================
+// RENDER — ÉCRAN D'ACCUEIL (non connecté)
+// ============================================================
+function renderWelcome(){
+  return el('div',{style:'max-width:480px;margin:60px auto;padding:0 20px;text-align:center;'},[
+    el('div',{style:'font-size:48px;margin-bottom:16px;'},['📅']),
+    el('div',{style:'font-family:Fraunces,serif;font-size:24px;font-weight:600;color:var(--ink);margin-bottom:10px;'},['Calendrier Staff']),
+    el('p',{style:'color:var(--ink-soft);font-size:14px;line-height:1.6;margin-bottom:24px;'},
+      ['Cet outil est réservé aux responsables de l\'Église. Connectez-vous avec le code Staff pour accéder au calendrier et saisir vos événements de département.']),
+    el('button',{class:'pill-btn admin',style:'font-size:15px;padding:12px 24px;',onclick:function(){ state.showLoginStaff=true; state.staffError=''; render(); }},['Accès Staff'])
+  ]);
+}
+
+// ============================================================
+// RENDER PRINCIPAL
+// ============================================================
+function render(){
+  var root = document.getElementById('root');
+  root.innerHTML = '';
+
+  root.appendChild(renderTopbar());
+
+  if(state.configMissing){
+    root.appendChild(el('div',{style:'text-align:center;padding:60px 20px;'},['Connexion Firebase impossible.']));
+    return;
+  }
+
+  if(!state.isStaff){
+    root.appendChild(renderWelcome());
+    var loginS = renderLoginStaff();
+    if(loginS) root.appendChild(loginS);
+    return;
+  }
+
+  var idBar = renderIdBar();
+  if(idBar) root.appendChild(idBar);
+
+  root.appendChild(renderMonthNav());
+  root.appendChild(renderWeekNav());
+
+  if(state.loading){
+    root.appendChild(el('div',{style:'text-align:center;padding:40px;color:var(--ink-soft);'},['Chargement…']));
+  } else {
+    root.appendChild(renderWeekGrid());
+    root.appendChild(renderLegend());
+  }
+
+  root.appendChild(el('div',{class:'footer-note'},['Calendrier réservé au Staff — Église de l\'Union & Baptiste de Roubaix · Données synchronisées en temps réel']));
+
+  var ls = renderLoginStaff(); if(ls) root.appendChild(ls);
+  var la = renderLoginAdmin(); if(la) root.appendChild(la);
+  var ef = renderEventForm();  if(ef) root.appendChild(ef);
+  var ed = renderEventDetail();if(ed) root.appendChild(ed);
+  if(state.toast) root.appendChild(el('div',{class:'toast'},[state.toast]));
+}
+
+// ============================================================
+// BOOTSTRAP
+// ============================================================
+
+
+function bootstrapApp(){
+  if(window.__FIREBASE_CONFIG_MISSING__){
+    state.loading=false; state.configMissing=true; render(); return;
+  }
+  loadPlanningData();
+  initFirebase();
+  render();
+
+}
+
+var bootstrapped = false;
+function bootstrapOnce(){
+  if(bootstrapped) return;
+  bootstrapped = true;
+  bootstrapApp();
+}
+
+if(window.__FIREBASE_STAFF_READY__ || window.__FIREBASE_CONFIG_MISSING__){
+  bootstrapOnce();
+} else {
+  window.addEventListener('firebase-staff-ready', bootstrapOnce, {once:true});
+  setTimeout(function(){
+    if(!bootstrapped){ window.__FIREBASE_CONFIG_MISSING__=true; bootstrapOnce(); }
+  }, 5000);
+}
+
+})();
+</script>
+
+
+</body>
+</html>
