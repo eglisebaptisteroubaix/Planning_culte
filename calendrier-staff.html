@@ -1,0 +1,2505 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Calendrier Staff — Église Roubaix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F7F2E9;
+    --cream-deep:#EFE6D6;
+    --ink:#2B2A28;
+    --ink-soft:#5B5650;
+    --denim:#2E4D5E;
+    --denim-deep:#1F3B49;
+    --denim-pale:#E4ECEE;
+    --terracotta:#C6643E;
+    --terracotta-pale:#F4E2D4;
+    --sage:#6F8366;
+    --sage-pale:#E7EDE3;
+    --gold:#B08A3E;
+    --gold-pale:#F5EDD3;
+    --line:#DCD3C2;
+    --white:#FFFFFF;
+    --radius:14px;
+    --shadow:0 1px 2px rgba(43,42,40,.06), 0 6px 18px -8px rgba(43,42,40,.18);
+
+    /* Couleurs par département — palette moderne sans marron */
+    --col-culte:#2E4D5E;
+    --col-louange:#7C3AED;
+    --col-sono:#0891B2;
+    --col-ecodim:#059669;
+    --col-jeunes:#2563EB;
+    --col-priere:#4F46E5;   /* indigo — PRIÈRE */
+    --col-accueil:#0D9488;
+    --col-streaming:#1A5C8A;
+    --col-agapes:#E11D48;
+    --col-aines:#6366F1;
+    --col-femmes:#DB2777;
+    --col-hommes:#1D4ED8;
+    --col-menage:#15803D;
+    --col-autre:#64748B;
+    /* Couleurs pour depts renommés/créés via admin */
+    /* ── 7 depts prioritaires : couleurs clairement distinctes ── */
+    --col-conviv:#F43F5E;    /* rose vif      — CONVIVIALITÉ           */
+    --col-equiper:#F59E0B;   /* ambre/miel    — ÉQUIPER                */
+    --col-evangel:#EA580C;   /* orange brûlé  — ÉVANGÉLISATION         */
+    --col-intend:#65A30D;    /* vert-jaune    — INTENDANCE             */
+    --col-litt:#0D9488;      /* teal          — LITTÉRATURE            */
+    --col-priere:#4F46E5;    /* indigo        — PRIÈRE et ADORATION    */
+    --col-admin:#0EA5E9;
+  --col-deco:#DB2777;     /* bleu ciel     — ADMINISTRATION         */
+    /* ── autres depts ── */
+    --col-social:#16A34A;
+    --col-batiment:#CA8A04;
+    --col-comm:#0284C7;
+    --col-ecoute:#BE185D;
+    --col-minist:#1D4ED8;
+    /* Pool auto-assigné aux nouveaux depts */
+    --col-auto0:#7C3AED;
+    --col-auto1:#0891B2;
+    --col-auto2:#EA580C;
+    --col-auto3:#059669;
+    --col-auto4:#DC2626;
+    --col-auto5:#2563EB;
+    --col-auto6:#9333EA;
+    --col-auto7:#0F766E;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Source Sans 3', system-ui, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100%;
+  }
+  #root{min-height:100vh;display:flex;flex-direction:column;}
+
+  /* ---- Topbar ---- */
+  .topbar{
+    position:sticky;top:0;z-index:30;
+    background:rgba(247,242,233,.93);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    padding:12px 18px;
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+  }
+  .brand{display:flex;align-items:center;gap:10px;min-width:0;}
+  .brand .mark{
+    width:34px;height:34px;border-radius:9px;
+    background:linear-gradient(155deg,var(--denim),var(--denim-deep));
+    display:flex;align-items:center;justify-content:center;
+    color:var(--cream);font-family:'Fraunces',serif;font-weight:700;font-size:17px;
+    flex:none;
+  }
+  .brand-text{display:flex;flex-direction:column;min-width:0;}
+  .brand-text .t1{font-family:'Fraunces',serif;font-weight:600;font-size:16px;line-height:1.15;color:var(--ink);}
+  .brand-text .t2{font-size:11.5px;color:var(--ink-soft);letter-spacing:.02em;}
+  .topbar-actions{display:flex;align-items:center;gap:8px;flex:none;}
+
+  .pill-btn{
+    border:1px solid var(--line);background:var(--white);color:var(--ink);
+    border-radius:999px;padding:8px 14px;font-size:13.5px;font-weight:600;
+    cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px;
+    transition:transform .12s ease,box-shadow .12s ease,background .15s ease;
+    white-space:nowrap;
+  }
+  .pill-btn:hover{box-shadow:var(--shadow);transform:translateY(-1px);}
+  .pill-btn:active{transform:translateY(0);}
+  .pill-btn.ghost{background:transparent;}
+  .pill-btn.admin{background:var(--denim);border-color:var(--denim);color:var(--cream);}
+  .pill-btn.admin:hover{background:var(--denim-deep);}
+  .pill-btn.danger{background:var(--terracotta);border-color:var(--terracotta);color:var(--white);}
+  .pill-btn.small{padding:5px 11px;font-size:12.5px;}
+
+  /* ---- Identity bar ---- */
+  .id-bar{
+    background:var(--denim-pale);border-bottom:1px solid var(--line);
+    padding:10px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  }
+  .id-bar label{font-size:13px;font-weight:600;color:var(--denim-deep);}
+  .id-select{
+    font-family:inherit;font-size:13px;font-weight:500;
+    color:var(--ink);background:var(--white);
+    border:1.5px solid var(--denim);border-radius:8px;
+    padding:5px 10px;cursor:pointer;min-width:200px;
+  }
+  .id-bar select{
+    font-family:inherit;font-size:13.5px;padding:6px 10px;border-radius:10px;
+    border:1.5px solid var(--line);background:var(--white);color:var(--ink);
+    cursor:pointer;
+  }
+  .admin-banner{
+    background:var(--denim-deep);color:var(--cream);padding:9px 18px;
+    font-size:13px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  }
+  .admin-banner b{font-weight:700;}
+
+  /* ---- Nav semaine ---- */
+  .month-nav-staff{
+    display:flex; gap:6px; flex-wrap:wrap; padding:8px 16px 0;
+    background:var(--cream); border-bottom:1px solid var(--line);
+    position:sticky; top:52px; z-index:90;
+  }
+  .month-btn-staff{
+    font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:999px;
+    border:1.5px solid var(--line); background:transparent; color:var(--ink-soft);
+    cursor:pointer; transition:all .15s;
+  }
+  .month-btn-staff:hover{ background:var(--denim-pale); color:var(--denim-deep); border-color:var(--denim); }
+  .month-btn-staff.active{ background:var(--denim); color:#fff; border-color:var(--denim); }
+
+
+  .week-nav{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    padding:12px 18px 8px;
+  }
+  .week-label{
+    font-family:'Fraunces',serif;font-weight:600;font-size:18px;color:var(--ink);
+    text-align:center;flex:1;
+  }
+  .week-label small{display:block;font-family:'Source Sans 3',sans-serif;font-weight:400;font-size:12px;color:var(--ink-soft);margin-top:2px;}
+  .btn-nav{
+    border:1px solid var(--line);background:var(--white);
+    width:36px;height:36px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;font-size:16px;flex:none;
+    transition:box-shadow .12s,transform .12s;
+  }
+  .btn-nav:hover{box-shadow:var(--shadow);transform:translateY(-1px);}
+  .btn-today{
+    border:1px solid var(--denim);background:var(--denim-pale);color:var(--denim-deep);
+    border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:600;
+    cursor:pointer;font-family:inherit;flex:none;
+    transition:box-shadow .12s;
+  }
+  .btn-today:hover{box-shadow:var(--shadow);}
+
+  /* ---- Grille semaine ---- */
+  .week-grid{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:0;
+    border-left:1px solid var(--line);
+    border-top:1px solid var(--line);
+    margin:0 18px 8px;
+    border-radius:var(--radius);
+    overflow:hidden;
+  }
+  .day-col{
+    border-right:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    min-height:200px;
+    display:flex;flex-direction:column;
+  }
+  .day-header{
+    padding:8px 8px 6px;
+    background:var(--cream-deep);
+    border-bottom:1px solid var(--line);
+    text-align:center;
+    cursor:pointer;
+    user-select:none;
+  }
+  .day-header:hover{background:var(--denim-pale);}
+  .day-header .dh-day{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);}
+  .day-header .dh-date{font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:var(--ink);line-height:1.1;}
+  .day-header.today{background:var(--denim-pale);}
+  .day-header.today .dh-date{color:var(--denim);}
+  .day-body{flex:1;padding:4px;display:flex;flex-direction:column;gap:3px;}
+
+  /* ---- Event chips ---- */
+  .event-chip{
+    border-radius:7px;padding:5px 8px;font-size:11.5px;line-height:1.3;
+    cursor:pointer;text-align:left;font-family:inherit;
+    display:block;width:100%;
+    transition:box-shadow .12s,transform .12s;
+    /* fond blanc + bande colorée gauche via CSS custom prop */
+    background:#fff;
+    border:1px solid rgba(0,0,0,0.08);
+    border-left:3.5px solid var(--chip-color,#64748B);
+    box-shadow:0 1px 2px rgba(0,0,0,0.05);
+  }
+  .event-chip:hover{box-shadow:0 3px 8px rgba(0,0,0,0.12);transform:translateY(-1px);}
+  .event-chip .ec-time{font-weight:700;font-size:9.5px;letter-spacing:.03em;
+    color:var(--chip-color,#64748B);margin-bottom:1px;}
+  .event-chip .ec-title{font-weight:600;color:var(--ink);font-size:11.5px;}
+  .event-chip .ec-who{font-size:10px;color:var(--ink-soft);margin-top:1px;opacity:.8;}
+
+  /* Couleurs chips par département — bande gauche sur fond clair */
+  .event-chip{
+    background:#fff;
+    border:1px solid rgba(0,0,0,0.07);
+    border-left:3.5px solid var(--chip-color,#64748B);
+    color:var(--ink);
+    box-shadow:0 1px 3px rgba(0,0,0,0.06);
+  }
+  .event-chip .ec-time{color:var(--chip-color,#64748B);font-weight:700;font-size:10px;}
+  .event-chip .ec-title{color:var(--ink);}
+  .event-chip .ec-who{color:var(--ink-soft);}
+  .chip-culte{--chip-color:var(--col-culte);}
+  .chip-louange{--chip-color:var(--col-louange);}
+  .chip-sono{--chip-color:var(--col-sono);}
+  .chip-ecodim{--chip-color:var(--col-ecodim);}
+  .chip-jeunes{--chip-color:var(--col-jeunes);}
+  .chip-priere{--chip-color:var(--col-priere);}
+  .chip-accueil{--chip-color:var(--col-accueil);}
+  .chip-streaming{--chip-color:var(--col-streaming);}
+  .chip-agapes{--chip-color:var(--col-agapes);}
+  .chip-aines{--chip-color:var(--col-aines);}
+  .chip-femmes{--chip-color:var(--col-femmes);}
+  .chip-hommes{--chip-color:var(--col-hommes);}
+  .chip-menage{--chip-color:var(--col-menage);}
+  .chip-autre{--chip-color:var(--col-autre);}
+  .chip-evangel{--chip-color:var(--col-evangel);}
+  .chip-equiper{--chip-color:var(--col-equiper);}
+  .chip-conviv{--chip-color:var(--col-conviv);}
+  .chip-social{--chip-color:var(--col-social);}
+  .chip-batiment{--chip-color:var(--col-batiment);}
+  .chip-admin{--chip-color:var(--col-admin);}
+  .chip-deco{--chip-color:var(--col-deco);}
+  .chip-comm{--chip-color:var(--col-comm);}
+  .chip-ecoute{--chip-color:var(--col-ecoute);}
+  .chip-intend{--chip-color:var(--col-intend);}
+  .chip-litt{--chip-color:var(--col-litt);}
+  .chip-minist{--chip-color:var(--col-minist);}
+  .chip-auto0{--chip-color:var(--col-auto0);}
+  .chip-auto1{--chip-color:var(--col-auto1);}
+  .chip-auto2{--chip-color:var(--col-auto2);}
+  .chip-auto3{--chip-color:var(--col-auto3);}
+  .chip-auto4{--chip-color:var(--col-auto4);}
+  .chip-auto5{--chip-color:var(--col-auto5);}
+  .chip-auto6{--chip-color:var(--col-auto6);}
+  .chip-auto7{--chip-color:var(--col-auto7);}
+
+  .add-chip{
+    border-radius:7px;padding:4px 7px;font-size:11px;
+    border:1.5px dashed var(--line);background:transparent;color:var(--ink-soft);
+    cursor:pointer;text-align:center;font-family:inherit;
+    transition:border-color .15s,color .15s;
+    width:100%;
+  }
+  .add-chip:hover{border-color:var(--denim);color:var(--denim);}
+
+  /* ---- Légende ---- */
+  .legend{
+    display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 14px;
+  }
+  .legend-item{
+    display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink-soft);
+  }
+  .legend-bar{width:4px;height:14px;border-radius:2px;flex-shrink:0;}
+  .legend-dot{width:10px;height:10px;border-radius:3px;flex:none;}
+
+  /* ---- Section rubriques culte (dimanche) ---- */
+  .culte-section{
+    background:var(--denim-pale);border:1px solid #c8d9e0;
+    border-radius:10px;margin:3px 4px;padding:6px 8px;font-size:11px;
+  }
+  .culte-section .cs-title{
+    font-weight:700;text-transform:uppercase;letter-spacing:.04em;
+    color:var(--denim-deep);font-size:9.5px;margin-bottom:4px;
+  }
+  .culte-row{display:flex;align-items:center;justify-content:space-between;gap:4px;margin-bottom:3px;}
+  .culte-row .cr-label{color:var(--denim-deep);flex:1;font-size:10.5px;}
+  .culte-row .cr-value{font-weight:600;font-size:10.5px;color:var(--denim-deep);text-align:right;}
+  .culte-row .cr-empty{font-size:10px;color:#8aabbb;font-style:italic;}
+
+  /* ---- Overlay / Modal ---- */
+  .overlay{
+    position:fixed;inset:0;background:rgba(43,42,40,.45);
+    display:flex;align-items:center;justify-content:center;
+    z-index:200;padding:16px;
+  }
+  .modal{
+    z-index:201;background:var(--white);border-radius:var(--radius);
+    padding:24px;max-width:480px;width:100%;
+    box-shadow:0 20px 60px -10px rgba(43,42,40,.35);
+    max-height:90vh;overflow-y:auto;
+  }
+  .modal.modal-wide{max-width:540px;}
+  .modal h2{font-family:'Fraunces',serif;font-weight:600;font-size:20px;margin:0 0 6px;}
+  .modal p{font-size:13.5px;color:var(--ink-soft);margin:0 0 16px;line-height:1.5;}
+  .modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;}
+  .field-label{display:block;font-size:12px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.03em;margin:14px 0 5px;}
+  .field-label:first-of-type{margin-top:4px;}
+  .modal input,.modal select,.modal textarea{
+    width:100%;font-family:inherit;font-size:14.5px;padding:10px 12px;
+    border-radius:10px;border:1.5px solid var(--line);background:var(--cream);color:var(--ink);
+    margin-bottom:0;
+  }
+  .modal input:focus,.modal select:focus,.modal textarea:focus{outline:none;border-color:var(--denim);}
+  .modal textarea{min-height:70px;resize:vertical;}
+  .err-msg{font-size:12.5px;color:var(--terracotta);margin:6px 0 0;font-weight:600;}
+
+  /* Récurrence */
+  .recur-row{display:flex;align-items:center;gap:10px;margin-top:8px;}
+  .recur-row label{display:flex;align-items:center;gap:6px;font-size:13.5px;cursor:pointer;}
+  .recur-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--denim);cursor:pointer;}
+  .recur-opts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+  .recur-opt{
+    border:1.5px solid var(--line);border-radius:8px;padding:5px 12px;
+    font-size:12.5px;cursor:pointer;background:var(--cream);
+    transition:border-color .15s,background .15s;
+  }
+  .recur-opt.active{border-color:var(--denim);background:var(--denim-pale);color:var(--denim-deep);font-weight:600;}
+
+  /* Vue liste département ---- */
+  .dept-filter{
+    display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 12px;
+  }
+  .dept-btn{
+    border:1.5px solid var(--line);border-radius:8px;padding:5px 12px;
+    font-size:12px;cursor:pointer;background:var(--white);font-family:inherit;
+    transition:all .15s;
+  }
+  .dept-btn.active{color:#fff;border-color:transparent;}
+
+  /* Toast */
+  .toast{
+    position:fixed;bottom:22px;left:50%;transform:translateX(-50%);
+    background:var(--ink);color:var(--cream);padding:11px 20px;border-radius:999px;
+    font-size:13.5px;font-weight:600;z-index:80;box-shadow:0 10px 30px -8px rgba(0,0,0,.4);
+    animation:rise .25s ease;pointer-events:none;
+  }
+  @keyframes rise{from{opacity:0;transform:translate(-50%,8px);}to{opacity:1;transform:translate(-50%,0);}}
+
+  .footer-note{text-align:center;font-size:11.5px;color:var(--ink-soft);padding:18px 16px 26px;}
+
+  /* ---- Event detail panel ---- */
+  .detail-dept-badge{
+    display:inline-block;border-radius:6px;padding:3px 10px;
+    font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;
+    margin-bottom:12px;color:#fff;
+  }
+  .detail-row{display:flex;gap:10px;align-items:baseline;font-size:13.5px;margin-bottom:6px;}
+  .detail-row .dr-label{font-weight:700;color:var(--ink-soft);min-width:90px;font-size:12px;text-transform:uppercase;letter-spacing:.03em;}
+
+  /* Liaison culte badge */
+  .linked-badge{
+    display:inline-flex;align-items:center;gap:5px;
+    background:var(--denim-pale);color:var(--denim-deep);
+    border:1px solid #c8d9e0;border-radius:8px;
+    padding:5px 10px;font-size:12px;font-weight:600;margin-top:8px;
+  }
+
+  @media(max-width:700px){
+    .week-grid{grid-template-columns:repeat(7,minmax(0,1fr));margin:0 8px 8px;}
+    .event-chip .ec-who{display:none;}
+    .legend{display:none;}
+    .week-nav{padding:10px 10px 6px;}
+    .event-chip{padding:3px 5px 3px 6px;font-size:10.5px;}
+    .event-chip .ec-time{font-size:8.5px;}
+    .event-chip .ec-title{font-size:10.5px;}
+  }
+  @media(max-width:480px){
+    .day-header .dh-date{font-size:14px;}
+    .day-header .dh-day{font-size:9px;}
+    .brand-text .t2{display:none;}
+  }
+
+/* ── Durée / Plage multi-jours ── */
+  .duree-section{
+    background:var(--cream-deep); border:1px solid var(--line);
+    border-radius:10px; padding:12px 14px; margin-bottom:12px;
+  }
+  .multijour-row{ display:flex; align-items:flex-end; gap:10px; margin-top:4px; }
+  .multijour-preview{
+    margin-top:8px; padding:8px 12px; background:#EEF3FB;
+    border-radius:8px; font-size:12px; color:#2563EB;
+    display:flex; align-items:center; gap:6px; flex-wrap:wrap;
+  }
+  .chip-multiday .ec-time{ font-size:9px; }
+  /* Jours de continuation d'un événement multi-jours */
+  .chip-continuation{
+    opacity:0.82;
+    border-left-style:dashed !important;
+    border-left-width:3.5px !important;
+  }
+  .chip-continuation .ec-time{
+    font-style:italic;
+    font-size:9px;
+  }
+
+/* ── Jours de la semaine (récurrence) ── */
+  .jours-semaine-block{ margin:8px 0 4px; }
+  .jours-semaine-btns{ display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; }
+  .jour-btn{
+    width:34px; height:34px; border-radius:50%;
+    border:2px solid var(--line); background:var(--white);
+    font-size:12px; font-weight:700; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    font-family:inherit; transition:all .12s; color:var(--ink-soft);
+  }
+  .jour-btn:hover{ border-color:var(--denim); color:var(--denim); }
+  .jour-btn.actif{ background:var(--denim); border-color:var(--denim); color:#fff; }
+  .jours-warning{ font-size:11.5px; color:#c0623e; margin-top:5px; }
+
+/* ── Fin de récurrence (Jamais / Le / Après N) ── */
+  .recur-fin-section{ margin-top:10px; }
+  .recur-fin-options{ display:flex; flex-direction:column; gap:8px; margin-top:6px; }
+  .recur-fin-row{
+    display:flex; align-items:center; gap:6px;
+    font-size:13px; cursor:pointer;
+  }
+  .recur-fin-row input[type=radio]{ cursor:pointer; }
+  .recur-fin-date{
+    width:150px; padding:4px 8px; font-size:12px;
+    border:1px solid var(--line); border-radius:6px;
+    background:var(--white); font-family:inherit;
+  }
+  .recur-fin-count{
+    width:64px; padding:4px 8px; font-size:13px; text-align:center;
+    border:1px solid var(--line); border-radius:6px;
+    background:var(--white); font-family:inherit;
+  }
+  .recur-fin-disabled{ opacity:0.4; }
+
+/* ── Récurrence Nième jour du mois ── */
+  .nth-block{ margin-top:8px; }
+  .nth-row{ display:flex;align-items:center;gap:8px;flex-wrap:wrap; }
+  .nth-label{ font-size:13px;color:var(--ink-soft); }
+  .nth-select{
+    font-size:13px;padding:5px 10px;border-radius:8px;
+    border:1px solid var(--line);background:var(--white);
+    color:var(--ink);cursor:pointer;font-family:inherit;
+  }
+  .nth-select:focus{ outline:2px solid var(--denim);border-color:transparent; }
+
+/* ── Suppression / modification de série ── */
+  .serie-choices{ display:flex; flex-direction:column; gap:8px; }
+  .serie-choice{
+    display:block; width:100%; text-align:left;
+    background:var(--cream); border:2px solid var(--line);
+    border-radius:10px; padding:10px 14px; cursor:pointer;
+    transition:border-color .12s, background .12s;
+    font-family:inherit;
+  }
+  .serie-choice:hover{ background:var(--cream-deep); }
+  .serie-choice.selected{ border-color:var(--denim); background:#eef3f8; }
+  .sc-label{ font-weight:600; font-size:13.5px; color:var(--ink); }
+  .sc-sub{ font-size:11.5px; color:var(--ink-soft); margin-top:2px; }
+  .modal-sm{ max-width:460px; }
+  .serie-badge{
+    margin-top:10px; padding:8px 12px; border-radius:8px;
+    background:#e8f0fe; color:#2563EB; font-size:12px; line-height:1.4;
+  }
+  .pill-btn.disabled{ opacity:0.45; cursor:not-allowed; }
+  .recur-details{ display:flex; flex-direction:column; gap:4px; margin-top:6px; }
+  .multiday-toggle{ padding:6px 0; }
+
+/* ── Gestion depts/responsables ── */
+.manage-list{ display:flex; flex-direction:column; gap:8px; margin-top:8px; }
+.manage-row{
+  display:flex; align-items:center; justify-content:space-between;
+  background:var(--cream); border:1px solid var(--line);
+  border-radius:10px; padding:10px 14px;
+}
+.manage-row.deleted{ opacity:0.6; }
+.manage-nom{ font-size:13.5px; font-weight:500; }
+.manage-actions{ display:flex; gap:6px; }
+.manage-form{
+  background:var(--cream-deep); border:1px solid var(--line);
+  border-radius:12px; padding:14px; margin-bottom:12px;
+}
+.pill-btn.sm{ font-size:12px; padding:5px 11px; }
+.pill-btn.danger{ background:#c0623e; color:#fff; }
+.pill-btn.danger:hover{ background:#a34f30; }
+
+/* ── Œil mot de passe ── */
+input[type=text].pwd-visible, input[type=password]{ padding-right:44px; }
+
+/* ── Champ texte libre responsable ── */
+input[placeholder="Prénom Nom du responsable"]{ margin-top:6px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<!--
+  ===========================================================================
+  CONFIGURATION FIREBASE — partagée avec l'appli Planning des cultes
+  Même projet Firebase, nouvelle collection : calendrier_staff
+  ===========================================================================
+-->
+<script>
+window.__FIREBASE_CONFIG__ = {
+  apiKey: "AIzaSyB9n6tiBbvv7A07h5uOg9HZYr5GHHZPF6w",
+  authDomain: "planning-culte-2026.firebaseapp.com",
+  projectId: "planning-culte-2026",
+  storageBucket: "planning-culte-2026.firebasestorage.app",
+  messagingSenderId: "237708325644",
+  appId: "1:237708325644:web:ee76d379d0530f4bcc8f29"
+};
+// Code d'accès unique pour le Staff
+window.__INTERVENANTS_NOMS_BASE__ = ["Tadeusz POREBA", "Bogdan ZAJAC", "Bernard VERDIERE", "Mateusz JAWDYK", "Silvain LUBAN", "Xavier POREBA", "Geoffrey Dardenne", "Joseph Sopko", "Jacques Parent", "Jean-Paul Baley Shabany", "Matheis Zajac", "Jean Matthieu Roupain", "Julien Beaune", "Benjamin Peixoto", "Roberto Peixoto", "Ruth Peixoto", "Bruno Mazure", "Laurence Mazure", "Jannine Viera", "Paulina Jawdyk", "Fabian Mayslin", "Benjamin Florins", "Maryla Zajac", "Joshua Peronno", "Hélène Magalhes", "Bartek Iwan", "Olivier Garbe", "Prosper Momo", "Philippe PEM", "Jean BARTHABURU", "Firmin BIKOUTA", "Fabrice FLORINS", "Erdan BEKIROVIC", "Josué PACHECO", "Jean-Gabriel WERBROUCK", "Steeve TONDEREAU", "Carlos GAMEIRO", "Émerick GROS-DESORMEAUX", "Éric ELLANGOMO", "Fred GASPARD", "Gaël BERTHELEAU", "Merzouk BOUTERFA", "Miguel RENDAS", "Moussa BENBAHLOULI", "Rachid TABTI", "Robert BÉDART", "Stéphane DHERINNES", "Thomas PETIAUX", "Caleb AFFOLABI", "Philippe AFFOLABI", "Fancy BANGA", "Adélaïde TABTI", "Ewune MONONO", "Gisèle MAKOUANGOU", "Joëlle PAKULA", "Julie PILLET", "Léa ELLANGOMO", "Lydie PASCAL", "Lysiane-Maguy BATHABURU", "Noëlla DIMWANA", "Ophélie WEISS", "Sabrina BOUTERFA", "Sarah BENZIANI ALLOUACHE", "Sarah RENDAS ALILI", "Stéphanie FLORINS", "Sylvie DECOTTIGNIES", "Valérie HONORÉ", "Veneranda BIZIMUNGU", "Zohra ALLOUACHE", "Zuely GAMEIRO"];
+window.__STAFF_CODE__ = "STAFF91";
+// Code admin (même que l'appli culte)
+window.__ADMIN_CODE__ = "DIMANCHE91";
+</script>
+
+<script>
+// ---- Liste des membres Staff (responsables de département) ----
+window.__STAFF_MEMBRES__ = [
+  // Pasteurs / Anciens
+  {nom:"Tadeusz POREBA",  dept:["Culte","Prière lundi","Prière mercredi"], groupe:"UNION"},
+  {nom:"Philippe PEM",    dept:["Culte","Prière lundi"], groupe:"BAPTISTE"},
+  {nom:"Fabrice FLORINS", dept:["Culte"], groupe:"BAPTISTE"},
+  // Responsables département
+  {nom:"Xavier POREBA",        dept:["Louange","Culte"], groupe:"UNION"},
+  {nom:"Bogdan ZAJAC",          dept:["Culte","Écodim"], groupe:"UNION"},
+  {nom:"Silvain LUBAN",         dept:["Sono / Vidéo","Streaming"], groupe:"UNION"},
+  {nom:"Mateusz JAWDYK",        dept:["Sono / Vidéo","Streaming"], groupe:"UNION"},
+  {nom:"Erdan BEKIROVIC",       dept:["Jeunes","Culte"], groupe:"BAPTISTE"},
+  {nom:"Josué PACHECO",         dept:["Jeunes"], groupe:"BAPTISTE"},
+  {nom:"Stéphanie FLORINS",     dept:["Écodim","Femmes"], groupe:"BAPTISTE"},
+  {nom:"Bernard VERDIERE",      dept:["Aînés"], groupe:"UNION"},
+  {nom:"Marie-Christine GASPARD", dept:["Femmes","Agapes"], groupe:"BAPTISTE"},
+  {nom:"Stéphane DHERINNES",    dept:["Accueil / Sécurité"], groupe:"BAPTISTE"},
+  {nom:"Thomas PETIAUX",        dept:["Accueil / Sécurité"], groupe:"BAPTISTE"},
+  {nom:"Jean BARTHABURU",       dept:["Hommes","Culte"], groupe:"BAPTISTE"},
+  {nom:"Firmin BIKOUTA",        dept:["Culte","Prière lundi"], groupe:"BAPTISTE"},
+  {nom:"Joëlle PAKULA",         dept:["Ménage"], groupe:"BAPTISTE"},
+  {nom:"Geoffrey Dardenne",     dept:["Sono / Vidéo"], groupe:"UNION"},
+  {nom:"Paulina JAWDYK",        dept:["Écodim"], groupe:"UNION"},
+  {nom:"Fred GASPARD",          dept:["Agapes","Hommes"], groupe:"BAPTISTE"},
+];
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  import { getFirestore, collection, doc, onSnapshot, setDoc, deleteDoc, query, where, getDocs }
+    from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+  var cfg = window.__FIREBASE_CONFIG__;
+  if (!cfg || cfg.apiKey === "REMPLACER") {
+    window.__FIREBASE_CONFIG_MISSING__ = true;
+    window.dispatchEvent(new Event('firebase-staff-ready'));
+  } else {
+    var app = initializeApp(cfg, "staff-app");
+    var db = getFirestore(app);
+    window.__STAFF_DB__ = db;
+    window.__STAFF_DOC__ = doc;
+    window.__STAFF_COLLECTION__ = collection;
+    window.__STAFF_ON_SNAPSHOT__ = onSnapshot;
+    window.__STAFF_SET_DOC__ = setDoc;
+    window.__STAFF_DELETE_DOC__ = deleteDoc;
+    window.__STAFF_QUERY__ = query;
+    window.__STAFF_WHERE__ = where;
+    window.__STAFF_GET_DOCS__ = getDocs;
+    window.__FIREBASE_STAFF_READY__ = true;
+    window.dispatchEvent(new Event('firebase-staff-ready'));
+  }
+</script>
+
+<script>
+(function(){
+"use strict";
+
+// ============================================================
+// CONSTANTES
+// ============================================================
+var STAFF_CODE  = window.__STAFF_CODE__;
+var ADMIN_CODE  = window.__ADMIN_CODE__;
+var MEMBRES     = window.__STAFF_MEMBRES__ || [];
+
+var JOURS_FR    = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+var JOURS_LONG  = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+var MOIS_FR     = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+var DEPTS = [
+  {id:'Culte',              label:'Culte du dimanche',    cls:'culte'},
+  {id:'Louange',            label:'Louange',              cls:'louange'},
+  {id:'Sono / Vidéo',       label:'Sono / Vidéo',         cls:'sono'},
+  {id:'Écodim',             label:'Écodim',               cls:'ecodim'},
+  {id:'Jeunes',             label:'Jeunes',               cls:'jeunes'},
+  {id:'Prière lundi',       label:'Prière du lundi',      cls:'priere'},
+  {id:'Prière mercredi',    label:'Prière du mercredi',   cls:'priere'},
+  {id:'Accueil / Sécurité', label:'Accueil / Sécurité',   cls:'accueil'},
+  {id:'Streaming',          label:'Streaming',            cls:'streaming'},
+  {id:'Agapes',             label:'Agapes',               cls:'agapes'},
+  {id:'Aînés',              label:'Réunion aînés',        cls:'aines'},
+  {id:'Femmes',             label:'Réunion femmes',       cls:'femmes'},
+  {id:'Hommes',             label:'Réunion hommes',       cls:'hommes'},
+  {id:'Ménage',             label:'Tournus ménage',       cls:'menage'},
+  {id:'Autre',              label:'Autre',                cls:'autre'},
+];
+
+function deptById(id){
+  var list = getDepts();
+  for(var i=0;i<list.length;i++){ if(list[i].id===id) return list[i]; }
+  // Fallback : chercher aussi dans DEPTS statique (pour les events anciens avec ancien id)
+  for(var i=0;i<DEPTS.length;i++){ if(DEPTS[i].id===id) return DEPTS[i]; }
+  return {id:id,label:id,cls:'autre'};
+}
+
+// Rubriques partagées avec l'appli Planning des cultes
+var CULTE_SHARED_FIELDS = [
+  {key:'predicateur',     label:'Prédicateur'},
+  {key:'typeCulte',       label:'Type de culte'},
+  {key:'presidentCulte',  label:'Président'},
+  {key:'remarques',       label:'Remarques'},
+];
+
+// ============================================================
+// ÉTAT
+// ============================================================
+var state = {
+  // Auth
+  isStaff: false,
+  isAdmin: false,
+  currentUser: null,
+  staffCodeInput: '',
+  staffError: '',
+  showLoginStaff: false,
+  showLoginAdmin: false,
+  adminCodeInput: '',
+  adminError: '',
+  // Navigation
+  weekOffset: 0,        // 0 = semaine courante
+  // Données
+  events: {},           // id -> event
+  culteDataByYear: {},
+  culteFieldEdit: null,
+  planningIntervenantsOverrides: {},
+  // Depts et responsables dynamiques (base + overrides Firebase)
+  deptsOverrides: [],       // [{id,label,cls,_deleted}] depuis Firebase _config
+  responsablesOverrides: [],// [{nom,_deleted}] depuis Firebase _config
+  showManageConfig: false,  // Panneau gestion depts/responsables
+  configTab: 'depts',       // 'depts' | 'responsables'
+  // Formulaire gestion dept
+  manageDeptForm: null, manageDeptEditing: null,
+  manageRespForm: null, manageRespEditing: null,
+  loading: false,
+  configMissing: false,
+  // UI
+  toast: null,
+  _showStaffPwd: false,
+  _showAdminPwd: false,
+  // Modal suppression granulaire
+  showDeleteModal: null,    // id de l'event à supprimer
+  deleteChoice: null,       // 'one'|'following'|'all' — choix en cours
+  deleteConfirm: false,     // étape de confirmation
+  // Modal modification de série
+  showEditSerieModal: null, // id de l'event à modifier
+  editSerieChoice: null,    // 'one'|'following'|'all'
+  showEventForm: false,
+  editingEvent: null,   // null = nouvel event
+  eventFormDate: null,  // date ISO pré-remplie
+  showEventDetail: null, // id de l'event à afficher
+};
+
+// ============================================================
+// FIREBASE
+// ============================================================
+var db, fsDoc, fsCollection, fsOnSnapshot, fsSetDoc, fsDeleteDoc;
+
+function initFirebase(){
+  db          = window.__STAFF_DB__;
+  fsDoc       = window.__STAFF_DOC__;
+  fsCollection= window.__STAFF_COLLECTION__;
+  fsOnSnapshot= window.__STAFF_ON_SNAPSHOT__;
+  fsSetDoc    = window.__STAFF_SET_DOC__;
+  fsDeleteDoc = window.__STAFF_DELETE_DOC__;
+
+  // Écoute en temps réel de tous les événements
+  var colRef = fsCollection(db, 'calendrier_staff');
+  fsOnSnapshot(colRef, function(snap){
+    var evts = {};
+    snap.forEach(function(d){
+      if(d.id === '_config') return; // _config n'est pas un événement
+      evts[d.id] = Object.assign({id:d.id}, d.data());
+    });
+    state.events = evts;
+    state.loading = false;
+    render();
+  }, function(err){
+    console.error(err);
+    state.loading = false;
+    showToast("Erreur de connexion à la base de données.");
+    render();
+  });
+
+  // Écoute multi-années des données culte partagées
+  // Une collection par année : planning_culte_2026, planning_culte_2027, …
+  // Le calendrier staff écoute automatiquement toutes les années couvertes (2026-2035)
+  loadPlanningData(); // Générer d'abord les dates pour connaître les années
+  var CULTE_YEARS = [];
+  for(var cy = 2026; cy <= 2035; cy++) CULTE_YEARS.push(cy);
+
+  CULTE_YEARS.forEach(function(yr){
+    var ref = fsDoc(db, 'planning_culte_' + yr, 'overrides');
+    fsOnSnapshot(ref, function(snap){
+      if(snap.exists() && snap.data() && snap.data().value){
+        state.culteDataByYear[yr] = JSON.parse(snap.data().value);
+      } else {
+        state.culteDataByYear[yr] = {};
+      }
+      render();
+    }, function(){}); // silencieux si la collection n'existe pas encore
+  });
+
+  // Écoute des intervenants du Planning (2026 et 2027+)
+  // Les deux collections partagent la même liste d'intervenants.
+  // On écoute 2026 (source principale) et 2027 (qui peut avoir ses propres ajouts).
+  function listenIntervenants(collection){
+    var ref = fsDoc(db, collection, 'intervenants');
+    fsOnSnapshot(ref, function(snap){
+      if(snap.exists() && snap.data() && snap.data().value){
+        try {
+          var ov = JSON.parse(snap.data().value);
+          // Fusionner avec les overrides existants
+          Object.assign(state.planningIntervenantsOverrides, ov);
+        } catch(e){}
+      }
+      render();
+    }, function(){});
+  }
+  listenIntervenants('planning_culte_2026');
+  listenIntervenants('planning_culte_2027');
+
+  // Écoute de la config dynamique (depts + responsables) du Calendrier Staff
+  var cfgRef = fsDoc(db, 'calendrier_staff', '_config');
+  fsOnSnapshot(cfgRef, function(snap){
+    if(snap.exists() && snap.data()){
+      var d = snap.data();
+      try { state.deptsOverrides      = d.depts      ? JSON.parse(d.depts)      : []; } catch(e){ state.deptsOverrides=[]; }
+      try { state.responsablesOverrides = d.responsables ? JSON.parse(d.responsables) : []; } catch(e){ state.responsablesOverrides=[]; }
+    } else {
+      state.deptsOverrides = [];
+      state.responsablesOverrides = [];
+    }
+    render();
+  }, function(){});
+}
+
+// ============================================================
+// DEPTS & RESPONSABLES DYNAMIQUES
+// ============================================================
+var DEPTS_BASE = DEPTS.slice(); // copie de la liste de base
+
+// Table label → cls pour deviner la couleur d'un nouveau dept par son nom
+var LABEL_TO_CLS = [
+  [/prière|adoration|intercession/i,'priere'],
+  [/louange/i,'louange'],
+  [/évang/i,'evangel'],
+  [/équiper|équip/i,'equiper'],
+  [/écodim|enfant/i,'ecodim'],
+  [/convivialité|agap|café|repas|pique.nique|apéro/i,'conviv'],
+  [/social|mission/i,'social'],
+  [/bâtiment|travaux|maintenance/i,'batiment'],
+  [/ca,|staff,|conseil d’/i,'admin'],
+  [/communication|médias|annonces/i,'comm'],
+  [/écoute|relation/i,'ecoute'],
+  [/intendance|ménage|entretien|espa/i,'intend'],
+  [/littérature|biblioth/i,'litt'],
+  [/ministère|pasteur|ancien/i,'minist'],
+  [/jeune/i,'jeunes'],
+  [/femme/i,'femmes'],
+  [/homme/i,'hommes'],
+  [/sonó|vidéo|projection/i,'sono'],
+  [/accueil|sécurité/i,'accueil'],
+  [/ainé|senior/i,'aines'],
+  [/décoration|deco/i,'deco'],
+];
+function labelToCls(label){
+  for(var i=0;i<LABEL_TO_CLS.length;i++){
+    if(LABEL_TO_CLS[i][0].test(label||'')) return LABEL_TO_CLS[i][1];
+  }
+  return null;
+}
+var AUTO_CLS = ['auto0','auto1','auto2','auto3','auto4','auto5','auto6','auto7'];
+
+function getDepts(){
+  // Fusionne la liste de base avec les overrides (ajouts/modifications/suppressions admin)
+  var base = DEPTS_BASE.map(function(d){ return Object.assign({},d); });
+  var byId = {};
+  base.forEach(function(d){ byId[d.id] = d; });
+  var autoIdx = 0;
+  (state.deptsOverrides||[]).forEach(function(d){
+    if(d._deleted){ delete byId[d.id]; }
+    else if(byId[d.id]){ byId[d.id].label = d.label; }
+    else {
+      // Nouveau dept : deviner la cls depuis le label, ou auto-assigner
+      var cls = (d.cls && d.cls !== 'autre') ? d.cls
+              : (labelToCls(d.label) || AUTO_CLS[autoIdx % AUTO_CLS.length]);
+      if(!d.cls || d.cls === 'autre') autoIdx++;
+      byId[d.id] = {id:d.id, label:d.label, cls:cls};
+    }
+  });
+  return Object.values(byId).sort(function(a,b){
+    if(a.id==='Autre') return 1; if(b.id==='Autre') return -1;
+    return a.label.localeCompare(b.label,'fr',{sensitivity:'base'});
+  });
+}
+
+var RESPONSABLES_BASE = ["Bernard VERDIERE","Bogdan ZAJAC","Erdan BEKIROVIC","Fabrice FLORINS","Firmin BIKOUTA","Fred GASPARD","Geoffrey Dardenne","Jean BARTHABURU","Joëlle PAKULA","Josué PACHECO","Marie-Christine GASPARD","Mateusz JAWDYK","Paulina JAWDYK","Philippe PEM","Silvain LUBAN","Stéphane DHERINNES","Stéphanie FLORINS","Tadeusz POREBA","Thomas PETIAUX","Xavier POREBA"];
+
+function getResponsables(){
+  // Fusionne la liste de base avec les overrides
+  var set = {};
+  RESPONSABLES_BASE.forEach(function(n){ set[n] = true; });
+  (state.responsablesOverrides||[]).forEach(function(r){
+    if(r._deleted) delete set[r.nom];
+    else set[r.nom] = true;
+  });
+  return Object.keys(set).sort(function(a,b){ return a.localeCompare(b,'fr',{sensitivity:'base'}); });
+}
+
+// Données statiques du planning culte (dates + types)
+var PLANNING_CULTE_DATES = {};
+
+// ============================================================
+// GÉNÉRATEUR AUTOMATIQUE DES DIMANCHES
+// Couvre 2026 → 2035 sans aucune maintenance annuelle.
+// Règle Sainte-Cène : 1er dimanche du mois (sauf si décalé
+// manuellement via Firebase — les overrides priment toujours).
+// Les prédicateurs et présidents sont saisis dans Firebase
+// par les admins ; ici on génère uniquement la structure.
+// ============================================================
+var PLANNING_CULTE_BASE = {"2026-01-04": {"id": "row2", "predicateur": "Tadeusz POREBA", "presidentCulte": "Tadeusz POREBA", "typeCulte": "Sainte-Cène", "hasSainteCene": true, "remarques": null}, "2026-01-11": {"id": "row4", "predicateur": "Xavier POREBA", "presidentCulte": "Mateusz JAWDYK", "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-01-18": {"id": "row5", "predicateur": "Fabrice FLORINS", "presidentCulte": "Sylvain LUBAN", "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-01-25": {"id": "row6", "predicateur": "Ronnie KOLODZIEJSKI", "presidentCulte": "Tadeusz POREBA", "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-02-01": {"id": "row7", "predicateur": "Silvain LUBAN", "presidentCulte": "Tadeusz POREBA", "typeCulte": "Sainte-Cène", "hasSainteCene": true, "remarques": null}, "2026-02-08": {"id": "row8", "predicateur": "Philippe PEM", "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-02-15": {"id": "row9", "predicateur": "Bogdan ZAJAC", "presidentCulte": "Xavier POREBA", "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-02-22": {"id": "row10", "predicateur": "Témoignages : PATON et F. BIKOUTA", "presidentCulte": "Tadeusz POREBA", "typeCulte": "Petit-déjeuner", "hasSainteCene": false, "remarques": null}, "2026-03-01": {"id": "row11", "predicateur": "J-P et Dolorès KASEMIERCZACK", "presidentCulte": "Philippe PEM", "typeCulte": "Sainte-Cène", "hasSainteCene": true, "remarques": null}, "2026-03-08": {"id": "row12", "predicateur": "Mateusz JAWDYK", "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-03-15": {"id": "row13", "predicateur": "Invité de Pologne", "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-03-22": {"id": "row14", "predicateur": "Josué et Kely PACHECO", "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-03-29": {"id": "row15", "predicateur": "Jean BARTHABURU", "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-04-05": {"id": "row16", "predicateur": "Xavier POREBA", "presidentCulte": null, "typeCulte": "Sainte-Cène", "hasSainteCene": true, "remarques": null}, "2026-04-12": {"id": "row17", "predicateur": "Culte par les jeunes", "presidentCulte": "Jeunes", "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-04-19": {"id": "row18", "predicateur": "Tadeusz POREBA", "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": "PhPEM à VIE NOUVELLE"}, "2026-04-26": {"id": "row19", "predicateur": "Erdan BEKIROVIC", "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-05-03": {"id": "row20", "predicateur": "Silvain LUBAN", "presidentCulte": "Fabrice FLORINS", "typeCulte": "Sainte-Cène", "hasSainteCene": true, "remarques": null}, "2026-05-10": {"id": "row21", "predicateur": "Bogdan ZAJAC", "presidentCulte": "Philippe PEM", "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-05-17": {"id": "row22", "predicateur": "Fabrice FLORINS", "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-05-24": {"id": "row23", "predicateur": "Bernard VERDIERE", "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": "PhPEM à VIE NOUVELLE"}, "2026-05-31": {"id": "row24", "predicateur": "Mateusz JAWDYK", "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-06-07": {"id": "row25", "predicateur": "Fête de l'Écodim", "presidentCulte": "Tadeusz POREBA", "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-06-14": {"id": "row26", "predicateur": "Tadeusz POREBA", "presidentCulte": "Xavier POREBA", "typeCulte": "Sainte-Cène", "hasSainteCene": true, "remarques": null}, "2026-06-21": {"id": "row27", "predicateur": "Philippe PEM (Pacours de vie)", "presidentCulte": null, "typeCulte": "Petit-déjeuner", "hasSainteCene": false, "remarques": null}, "2026-06-28": {"id": "row28", "predicateur": "Xavier POREBA", "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-07-05": {"id": "row29", "predicateur": "Erdan BEKIROVIC", "presidentCulte": null, "typeCulte": "Sainte-Cène", "hasSainteCene": true, "remarques": null}, "2026-07-12": {"id": "row30", "predicateur": "Bernard VERDIERE", "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": "PhPEM à VIE NOUVELLE"}, "2026-07-19": {"id": "row31", "predicateur": "Bogdan ZAJAC", "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-07-26": {"id": "row32", "predicateur": "Philippe PEM", "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-08-02": {"id": "row33", "predicateur": "Philippe PEM", "presidentCulte": null, "typeCulte": "Sainte-Cène", "hasSainteCene": true, "remarques": null}, "2026-08-09": {"id": "row34", "predicateur": "Mateusz JAWDYK", "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-08-16": {"id": "row35", "predicateur": "Silvain LUBAN", "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-08-23": {"id": "row36", "predicateur": "Invité : Viclaire", "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": "invité"}, "2026-08-30": {"id": "row37", "predicateur": "Fabrice FLORINS", "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-09-06": {"id": "row38", "predicateur": "Tadeusz POREBA", "presidentCulte": null, "typeCulte": "Sainte-Cène", "hasSainteCene": true, "remarques": null}, "2026-09-13": {"id": "row39", "predicateur": "Xavier POREBA", "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-09-20": {"id": "row40", "predicateur": "Invité : Frédéric Manceau", "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": "invité"}, "2026-09-27": {"id": "row41", "predicateur": null, "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-10-04": {"id": "row42", "predicateur": null, "presidentCulte": null, "typeCulte": "Sainte-Cène", "hasSainteCene": true, "remarques": null}, "2026-10-11": {"id": "row43", "predicateur": null, "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-10-18": {"id": "row44", "predicateur": null, "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-10-25": {"id": "row45", "predicateur": null, "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-11-01": {"id": "row46", "predicateur": null, "presidentCulte": null, "typeCulte": "Sainte-Cène", "hasSainteCene": true, "remarques": null}, "2026-11-08": {"id": "row47", "predicateur": null, "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-11-15": {"id": "row48", "predicateur": null, "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-11-22": {"id": "row49", "predicateur": null, "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-11-29": {"id": "row50", "predicateur": null, "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-12-06": {"id": "row51", "predicateur": null, "presidentCulte": null, "typeCulte": "Sainte-Cène", "hasSainteCene": true, "remarques": null}, "2026-12-13": {"id": "row52", "predicateur": null, "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-12-20": {"id": "row53", "predicateur": null, "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2026-12-27": {"id": "row54", "predicateur": null, "presidentCulte": null, "typeCulte": null, "hasSainteCene": false, "remarques": null}, "2027-01-03": {"id": "y27_row1", "date": "2027-01-03", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-01-10": {"id": "y27_row2", "date": "2027-01-10", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-01-17": {"id": "y27_row3", "date": "2027-01-17", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-01-24": {"id": "y27_row4", "date": "2027-01-24", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-01-31": {"id": "y27_row5", "date": "2027-01-31", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-02-07": {"id": "y27_row6", "date": "2027-02-07", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-02-14": {"id": "y27_row7", "date": "2027-02-14", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-02-21": {"id": "y27_row8", "date": "2027-02-21", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-02-28": {"id": "y27_row9", "date": "2027-02-28", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-03-07": {"id": "y27_row10", "date": "2027-03-07", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-03-14": {"id": "y27_row11", "date": "2027-03-14", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-03-21": {"id": "y27_row12", "date": "2027-03-21", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-03-28": {"id": "y27_row13", "date": "2027-03-28", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-04-04": {"id": "y27_row14", "date": "2027-04-04", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-04-11": {"id": "y27_row15", "date": "2027-04-11", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-04-18": {"id": "y27_row16", "date": "2027-04-18", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-04-25": {"id": "y27_row17", "date": "2027-04-25", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-05-02": {"id": "y27_row18", "date": "2027-05-02", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-05-09": {"id": "y27_row19", "date": "2027-05-09", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-05-16": {"id": "y27_row20", "date": "2027-05-16", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-05-23": {"id": "y27_row21", "date": "2027-05-23", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-05-30": {"id": "y27_row22", "date": "2027-05-30", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-06-06": {"id": "y27_row23", "date": "2027-06-06", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-06-13": {"id": "y27_row24", "date": "2027-06-13", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-06-20": {"id": "y27_row25", "date": "2027-06-20", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-06-27": {"id": "y27_row26", "date": "2027-06-27", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-07-04": {"id": "y27_row27", "date": "2027-07-04", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-07-11": {"id": "y27_row28", "date": "2027-07-11", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-07-18": {"id": "y27_row29", "date": "2027-07-18", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-07-25": {"id": "y27_row30", "date": "2027-07-25", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-08-01": {"id": "y27_row31", "date": "2027-08-01", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-08-08": {"id": "y27_row32", "date": "2027-08-08", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-08-15": {"id": "y27_row33", "date": "2027-08-15", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-08-22": {"id": "y27_row34", "date": "2027-08-22", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-08-29": {"id": "y27_row35", "date": "2027-08-29", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-09-05": {"id": "y27_row36", "date": "2027-09-05", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-09-12": {"id": "y27_row37", "date": "2027-09-12", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-09-19": {"id": "y27_row38", "date": "2027-09-19", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-09-26": {"id": "y27_row39", "date": "2027-09-26", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-10-03": {"id": "y27_row40", "date": "2027-10-03", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-10-10": {"id": "y27_row41", "date": "2027-10-10", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-10-17": {"id": "y27_row42", "date": "2027-10-17", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-10-24": {"id": "y27_row43", "date": "2027-10-24", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-10-31": {"id": "y27_row44", "date": "2027-10-31", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-11-07": {"id": "y27_row45", "date": "2027-11-07", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-11-14": {"id": "y27_row46", "date": "2027-11-14", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-11-21": {"id": "y27_row47", "date": "2027-11-21", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-11-28": {"id": "y27_row48", "date": "2027-11-28", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-12-05": {"id": "y27_row49", "date": "2027-12-05", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-12-12": {"id": "y27_row50", "date": "2027-12-12", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-12-19": {"id": "y27_row51", "date": "2027-12-19", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2027-12-26": {"id": "y27_row52", "date": "2027-12-26", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-01-02": {"id": "y28_row1", "date": "2028-01-02", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-01-09": {"id": "y28_row2", "date": "2028-01-09", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-01-16": {"id": "y28_row3", "date": "2028-01-16", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-01-23": {"id": "y28_row4", "date": "2028-01-23", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-01-30": {"id": "y28_row5", "date": "2028-01-30", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-02-06": {"id": "y28_row6", "date": "2028-02-06", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-02-13": {"id": "y28_row7", "date": "2028-02-13", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-02-20": {"id": "y28_row8", "date": "2028-02-20", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-02-27": {"id": "y28_row9", "date": "2028-02-27", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-03-05": {"id": "y28_row10", "date": "2028-03-05", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-03-12": {"id": "y28_row11", "date": "2028-03-12", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-03-19": {"id": "y28_row12", "date": "2028-03-19", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-03-26": {"id": "y28_row13", "date": "2028-03-26", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-04-02": {"id": "y28_row14", "date": "2028-04-02", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-04-09": {"id": "y28_row15", "date": "2028-04-09", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-04-16": {"id": "y28_row16", "date": "2028-04-16", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-04-23": {"id": "y28_row17", "date": "2028-04-23", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-04-30": {"id": "y28_row18", "date": "2028-04-30", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-05-07": {"id": "y28_row19", "date": "2028-05-07", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-05-14": {"id": "y28_row20", "date": "2028-05-14", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-05-21": {"id": "y28_row21", "date": "2028-05-21", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-05-28": {"id": "y28_row22", "date": "2028-05-28", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-06-04": {"id": "y28_row23", "date": "2028-06-04", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-06-11": {"id": "y28_row24", "date": "2028-06-11", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-06-18": {"id": "y28_row25", "date": "2028-06-18", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-06-25": {"id": "y28_row26", "date": "2028-06-25", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-07-02": {"id": "y28_row27", "date": "2028-07-02", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-07-09": {"id": "y28_row28", "date": "2028-07-09", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-07-16": {"id": "y28_row29", "date": "2028-07-16", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-07-23": {"id": "y28_row30", "date": "2028-07-23", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-07-30": {"id": "y28_row31", "date": "2028-07-30", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-08-06": {"id": "y28_row32", "date": "2028-08-06", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-08-13": {"id": "y28_row33", "date": "2028-08-13", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-08-20": {"id": "y28_row34", "date": "2028-08-20", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-08-27": {"id": "y28_row35", "date": "2028-08-27", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-09-03": {"id": "y28_row36", "date": "2028-09-03", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-09-10": {"id": "y28_row37", "date": "2028-09-10", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-09-17": {"id": "y28_row38", "date": "2028-09-17", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-09-24": {"id": "y28_row39", "date": "2028-09-24", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-10-01": {"id": "y28_row40", "date": "2028-10-01", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-10-08": {"id": "y28_row41", "date": "2028-10-08", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-10-15": {"id": "y28_row42", "date": "2028-10-15", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-10-22": {"id": "y28_row43", "date": "2028-10-22", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-10-29": {"id": "y28_row44", "date": "2028-10-29", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-11-05": {"id": "y28_row45", "date": "2028-11-05", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-11-12": {"id": "y28_row46", "date": "2028-11-12", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-11-19": {"id": "y28_row47", "date": "2028-11-19", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-11-26": {"id": "y28_row48", "date": "2028-11-26", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-12-03": {"id": "y28_row49", "date": "2028-12-03", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-12-10": {"id": "y28_row50", "date": "2028-12-10", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-12-17": {"id": "y28_row51", "date": "2028-12-17", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-12-24": {"id": "y28_row52", "date": "2028-12-24", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2028-12-31": {"id": "y28_row53", "date": "2028-12-31", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-01-07": {"id": "y29_row1", "date": "2029-01-07", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-01-14": {"id": "y29_row2", "date": "2029-01-14", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-01-21": {"id": "y29_row3", "date": "2029-01-21", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-01-28": {"id": "y29_row4", "date": "2029-01-28", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-02-04": {"id": "y29_row5", "date": "2029-02-04", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-02-11": {"id": "y29_row6", "date": "2029-02-11", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-02-18": {"id": "y29_row7", "date": "2029-02-18", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-02-25": {"id": "y29_row8", "date": "2029-02-25", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-03-04": {"id": "y29_row9", "date": "2029-03-04", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-03-11": {"id": "y29_row10", "date": "2029-03-11", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-03-18": {"id": "y29_row11", "date": "2029-03-18", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-03-25": {"id": "y29_row12", "date": "2029-03-25", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-04-01": {"id": "y29_row13", "date": "2029-04-01", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-04-08": {"id": "y29_row14", "date": "2029-04-08", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-04-15": {"id": "y29_row15", "date": "2029-04-15", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-04-22": {"id": "y29_row16", "date": "2029-04-22", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-04-29": {"id": "y29_row17", "date": "2029-04-29", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-05-06": {"id": "y29_row18", "date": "2029-05-06", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-05-13": {"id": "y29_row19", "date": "2029-05-13", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-05-20": {"id": "y29_row20", "date": "2029-05-20", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-05-27": {"id": "y29_row21", "date": "2029-05-27", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-06-03": {"id": "y29_row22", "date": "2029-06-03", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-06-10": {"id": "y29_row23", "date": "2029-06-10", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-06-17": {"id": "y29_row24", "date": "2029-06-17", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-06-24": {"id": "y29_row25", "date": "2029-06-24", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-07-01": {"id": "y29_row26", "date": "2029-07-01", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-07-08": {"id": "y29_row27", "date": "2029-07-08", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-07-15": {"id": "y29_row28", "date": "2029-07-15", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-07-22": {"id": "y29_row29", "date": "2029-07-22", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-07-29": {"id": "y29_row30", "date": "2029-07-29", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-08-05": {"id": "y29_row31", "date": "2029-08-05", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-08-12": {"id": "y29_row32", "date": "2029-08-12", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-08-19": {"id": "y29_row33", "date": "2029-08-19", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-08-26": {"id": "y29_row34", "date": "2029-08-26", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-09-02": {"id": "y29_row35", "date": "2029-09-02", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-09-09": {"id": "y29_row36", "date": "2029-09-09", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-09-16": {"id": "y29_row37", "date": "2029-09-16", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-09-23": {"id": "y29_row38", "date": "2029-09-23", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-09-30": {"id": "y29_row39", "date": "2029-09-30", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-10-07": {"id": "y29_row40", "date": "2029-10-07", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-10-14": {"id": "y29_row41", "date": "2029-10-14", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-10-21": {"id": "y29_row42", "date": "2029-10-21", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-10-28": {"id": "y29_row43", "date": "2029-10-28", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-11-04": {"id": "y29_row44", "date": "2029-11-04", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-11-11": {"id": "y29_row45", "date": "2029-11-11", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-11-18": {"id": "y29_row46", "date": "2029-11-18", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-11-25": {"id": "y29_row47", "date": "2029-11-25", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-12-02": {"id": "y29_row48", "date": "2029-12-02", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-12-09": {"id": "y29_row49", "date": "2029-12-09", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-12-16": {"id": "y29_row50", "date": "2029-12-16", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-12-23": {"id": "y29_row51", "date": "2029-12-23", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2029-12-30": {"id": "y29_row52", "date": "2029-12-30", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-01-06": {"id": "y30_row1", "date": "2030-01-06", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-01-13": {"id": "y30_row2", "date": "2030-01-13", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-01-20": {"id": "y30_row3", "date": "2030-01-20", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-01-27": {"id": "y30_row4", "date": "2030-01-27", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-02-03": {"id": "y30_row5", "date": "2030-02-03", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-02-10": {"id": "y30_row6", "date": "2030-02-10", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-02-17": {"id": "y30_row7", "date": "2030-02-17", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-02-24": {"id": "y30_row8", "date": "2030-02-24", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-03-03": {"id": "y30_row9", "date": "2030-03-03", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-03-10": {"id": "y30_row10", "date": "2030-03-10", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-03-17": {"id": "y30_row11", "date": "2030-03-17", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-03-24": {"id": "y30_row12", "date": "2030-03-24", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-03-31": {"id": "y30_row13", "date": "2030-03-31", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-04-07": {"id": "y30_row14", "date": "2030-04-07", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-04-14": {"id": "y30_row15", "date": "2030-04-14", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-04-21": {"id": "y30_row16", "date": "2030-04-21", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-04-28": {"id": "y30_row17", "date": "2030-04-28", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-05-05": {"id": "y30_row18", "date": "2030-05-05", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-05-12": {"id": "y30_row19", "date": "2030-05-12", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-05-19": {"id": "y30_row20", "date": "2030-05-19", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-05-26": {"id": "y30_row21", "date": "2030-05-26", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-06-02": {"id": "y30_row22", "date": "2030-06-02", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-06-09": {"id": "y30_row23", "date": "2030-06-09", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-06-16": {"id": "y30_row24", "date": "2030-06-16", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-06-23": {"id": "y30_row25", "date": "2030-06-23", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-06-30": {"id": "y30_row26", "date": "2030-06-30", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-07-07": {"id": "y30_row27", "date": "2030-07-07", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-07-14": {"id": "y30_row28", "date": "2030-07-14", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-07-21": {"id": "y30_row29", "date": "2030-07-21", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-07-28": {"id": "y30_row30", "date": "2030-07-28", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-08-04": {"id": "y30_row31", "date": "2030-08-04", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-08-11": {"id": "y30_row32", "date": "2030-08-11", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-08-18": {"id": "y30_row33", "date": "2030-08-18", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-08-25": {"id": "y30_row34", "date": "2030-08-25", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-09-01": {"id": "y30_row35", "date": "2030-09-01", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-09-08": {"id": "y30_row36", "date": "2030-09-08", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-09-15": {"id": "y30_row37", "date": "2030-09-15", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-09-22": {"id": "y30_row38", "date": "2030-09-22", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-09-29": {"id": "y30_row39", "date": "2030-09-29", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-10-06": {"id": "y30_row40", "date": "2030-10-06", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-10-13": {"id": "y30_row41", "date": "2030-10-13", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-10-20": {"id": "y30_row42", "date": "2030-10-20", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-10-27": {"id": "y30_row43", "date": "2030-10-27", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-11-03": {"id": "y30_row44", "date": "2030-11-03", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-11-10": {"id": "y30_row45", "date": "2030-11-10", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-11-17": {"id": "y30_row46", "date": "2030-11-17", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-11-24": {"id": "y30_row47", "date": "2030-11-24", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-12-01": {"id": "y30_row48", "date": "2030-12-01", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-12-08": {"id": "y30_row49", "date": "2030-12-08", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-12-15": {"id": "y30_row50", "date": "2030-12-15", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-12-22": {"id": "y30_row51", "date": "2030-12-22", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2030-12-29": {"id": "y30_row52", "date": "2030-12-29", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-01-05": {"id": "y31_row1", "date": "2031-01-05", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-01-12": {"id": "y31_row2", "date": "2031-01-12", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-01-19": {"id": "y31_row3", "date": "2031-01-19", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-01-26": {"id": "y31_row4", "date": "2031-01-26", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-02-02": {"id": "y31_row5", "date": "2031-02-02", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-02-09": {"id": "y31_row6", "date": "2031-02-09", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-02-16": {"id": "y31_row7", "date": "2031-02-16", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-02-23": {"id": "y31_row8", "date": "2031-02-23", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-03-02": {"id": "y31_row9", "date": "2031-03-02", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-03-09": {"id": "y31_row10", "date": "2031-03-09", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-03-16": {"id": "y31_row11", "date": "2031-03-16", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-03-23": {"id": "y31_row12", "date": "2031-03-23", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-03-30": {"id": "y31_row13", "date": "2031-03-30", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-04-06": {"id": "y31_row14", "date": "2031-04-06", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-04-13": {"id": "y31_row15", "date": "2031-04-13", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-04-20": {"id": "y31_row16", "date": "2031-04-20", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-04-27": {"id": "y31_row17", "date": "2031-04-27", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-05-04": {"id": "y31_row18", "date": "2031-05-04", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-05-11": {"id": "y31_row19", "date": "2031-05-11", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-05-18": {"id": "y31_row20", "date": "2031-05-18", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-05-25": {"id": "y31_row21", "date": "2031-05-25", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-06-01": {"id": "y31_row22", "date": "2031-06-01", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-06-08": {"id": "y31_row23", "date": "2031-06-08", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-06-15": {"id": "y31_row24", "date": "2031-06-15", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-06-22": {"id": "y31_row25", "date": "2031-06-22", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-06-29": {"id": "y31_row26", "date": "2031-06-29", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-07-06": {"id": "y31_row27", "date": "2031-07-06", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-07-13": {"id": "y31_row28", "date": "2031-07-13", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-07-20": {"id": "y31_row29", "date": "2031-07-20", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-07-27": {"id": "y31_row30", "date": "2031-07-27", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-08-03": {"id": "y31_row31", "date": "2031-08-03", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-08-10": {"id": "y31_row32", "date": "2031-08-10", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-08-17": {"id": "y31_row33", "date": "2031-08-17", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-08-24": {"id": "y31_row34", "date": "2031-08-24", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-08-31": {"id": "y31_row35", "date": "2031-08-31", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-09-07": {"id": "y31_row36", "date": "2031-09-07", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-09-14": {"id": "y31_row37", "date": "2031-09-14", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-09-21": {"id": "y31_row38", "date": "2031-09-21", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-09-28": {"id": "y31_row39", "date": "2031-09-28", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-10-05": {"id": "y31_row40", "date": "2031-10-05", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-10-12": {"id": "y31_row41", "date": "2031-10-12", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-10-19": {"id": "y31_row42", "date": "2031-10-19", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-10-26": {"id": "y31_row43", "date": "2031-10-26", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-11-02": {"id": "y31_row44", "date": "2031-11-02", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-11-09": {"id": "y31_row45", "date": "2031-11-09", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-11-16": {"id": "y31_row46", "date": "2031-11-16", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-11-23": {"id": "y31_row47", "date": "2031-11-23", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-11-30": {"id": "y31_row48", "date": "2031-11-30", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-12-07": {"id": "y31_row49", "date": "2031-12-07", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-12-14": {"id": "y31_row50", "date": "2031-12-14", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-12-21": {"id": "y31_row51", "date": "2031-12-21", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2031-12-28": {"id": "y31_row52", "date": "2031-12-28", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-01-04": {"id": "y32_row1", "date": "2032-01-04", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-01-11": {"id": "y32_row2", "date": "2032-01-11", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-01-18": {"id": "y32_row3", "date": "2032-01-18", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-01-25": {"id": "y32_row4", "date": "2032-01-25", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-02-01": {"id": "y32_row5", "date": "2032-02-01", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-02-08": {"id": "y32_row6", "date": "2032-02-08", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-02-15": {"id": "y32_row7", "date": "2032-02-15", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-02-22": {"id": "y32_row8", "date": "2032-02-22", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-02-29": {"id": "y32_row9", "date": "2032-02-29", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-03-07": {"id": "y32_row10", "date": "2032-03-07", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-03-14": {"id": "y32_row11", "date": "2032-03-14", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-03-21": {"id": "y32_row12", "date": "2032-03-21", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-03-28": {"id": "y32_row13", "date": "2032-03-28", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-04-04": {"id": "y32_row14", "date": "2032-04-04", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-04-11": {"id": "y32_row15", "date": "2032-04-11", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-04-18": {"id": "y32_row16", "date": "2032-04-18", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-04-25": {"id": "y32_row17", "date": "2032-04-25", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-05-02": {"id": "y32_row18", "date": "2032-05-02", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-05-09": {"id": "y32_row19", "date": "2032-05-09", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-05-16": {"id": "y32_row20", "date": "2032-05-16", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-05-23": {"id": "y32_row21", "date": "2032-05-23", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-05-30": {"id": "y32_row22", "date": "2032-05-30", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-06-06": {"id": "y32_row23", "date": "2032-06-06", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-06-13": {"id": "y32_row24", "date": "2032-06-13", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-06-20": {"id": "y32_row25", "date": "2032-06-20", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-06-27": {"id": "y32_row26", "date": "2032-06-27", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-07-04": {"id": "y32_row27", "date": "2032-07-04", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-07-11": {"id": "y32_row28", "date": "2032-07-11", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-07-18": {"id": "y32_row29", "date": "2032-07-18", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-07-25": {"id": "y32_row30", "date": "2032-07-25", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-08-01": {"id": "y32_row31", "date": "2032-08-01", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-08-08": {"id": "y32_row32", "date": "2032-08-08", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-08-15": {"id": "y32_row33", "date": "2032-08-15", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-08-22": {"id": "y32_row34", "date": "2032-08-22", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-08-29": {"id": "y32_row35", "date": "2032-08-29", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-09-05": {"id": "y32_row36", "date": "2032-09-05", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-09-12": {"id": "y32_row37", "date": "2032-09-12", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-09-19": {"id": "y32_row38", "date": "2032-09-19", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-09-26": {"id": "y32_row39", "date": "2032-09-26", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-10-03": {"id": "y32_row40", "date": "2032-10-03", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-10-10": {"id": "y32_row41", "date": "2032-10-10", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-10-17": {"id": "y32_row42", "date": "2032-10-17", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-10-24": {"id": "y32_row43", "date": "2032-10-24", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-10-31": {"id": "y32_row44", "date": "2032-10-31", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-11-07": {"id": "y32_row45", "date": "2032-11-07", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-11-14": {"id": "y32_row46", "date": "2032-11-14", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-11-21": {"id": "y32_row47", "date": "2032-11-21", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-11-28": {"id": "y32_row48", "date": "2032-11-28", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-12-05": {"id": "y32_row49", "date": "2032-12-05", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-12-12": {"id": "y32_row50", "date": "2032-12-12", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-12-19": {"id": "y32_row51", "date": "2032-12-19", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2032-12-26": {"id": "y32_row52", "date": "2032-12-26", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-01-02": {"id": "y33_row1", "date": "2033-01-02", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-01-09": {"id": "y33_row2", "date": "2033-01-09", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-01-16": {"id": "y33_row3", "date": "2033-01-16", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-01-23": {"id": "y33_row4", "date": "2033-01-23", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-01-30": {"id": "y33_row5", "date": "2033-01-30", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-02-06": {"id": "y33_row6", "date": "2033-02-06", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-02-13": {"id": "y33_row7", "date": "2033-02-13", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-02-20": {"id": "y33_row8", "date": "2033-02-20", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-02-27": {"id": "y33_row9", "date": "2033-02-27", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-03-06": {"id": "y33_row10", "date": "2033-03-06", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-03-13": {"id": "y33_row11", "date": "2033-03-13", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-03-20": {"id": "y33_row12", "date": "2033-03-20", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-03-27": {"id": "y33_row13", "date": "2033-03-27", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-04-03": {"id": "y33_row14", "date": "2033-04-03", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-04-10": {"id": "y33_row15", "date": "2033-04-10", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-04-17": {"id": "y33_row16", "date": "2033-04-17", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-04-24": {"id": "y33_row17", "date": "2033-04-24", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-05-01": {"id": "y33_row18", "date": "2033-05-01", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-05-08": {"id": "y33_row19", "date": "2033-05-08", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-05-15": {"id": "y33_row20", "date": "2033-05-15", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-05-22": {"id": "y33_row21", "date": "2033-05-22", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-05-29": {"id": "y33_row22", "date": "2033-05-29", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-06-05": {"id": "y33_row23", "date": "2033-06-05", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-06-12": {"id": "y33_row24", "date": "2033-06-12", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-06-19": {"id": "y33_row25", "date": "2033-06-19", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-06-26": {"id": "y33_row26", "date": "2033-06-26", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-07-03": {"id": "y33_row27", "date": "2033-07-03", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-07-10": {"id": "y33_row28", "date": "2033-07-10", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-07-17": {"id": "y33_row29", "date": "2033-07-17", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-07-24": {"id": "y33_row30", "date": "2033-07-24", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-07-31": {"id": "y33_row31", "date": "2033-07-31", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-08-07": {"id": "y33_row32", "date": "2033-08-07", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-08-14": {"id": "y33_row33", "date": "2033-08-14", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-08-21": {"id": "y33_row34", "date": "2033-08-21", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-08-28": {"id": "y33_row35", "date": "2033-08-28", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-09-04": {"id": "y33_row36", "date": "2033-09-04", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-09-11": {"id": "y33_row37", "date": "2033-09-11", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-09-18": {"id": "y33_row38", "date": "2033-09-18", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-09-25": {"id": "y33_row39", "date": "2033-09-25", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-10-02": {"id": "y33_row40", "date": "2033-10-02", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-10-09": {"id": "y33_row41", "date": "2033-10-09", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-10-16": {"id": "y33_row42", "date": "2033-10-16", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-10-23": {"id": "y33_row43", "date": "2033-10-23", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-10-30": {"id": "y33_row44", "date": "2033-10-30", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-11-06": {"id": "y33_row45", "date": "2033-11-06", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-11-13": {"id": "y33_row46", "date": "2033-11-13", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-11-20": {"id": "y33_row47", "date": "2033-11-20", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-11-27": {"id": "y33_row48", "date": "2033-11-27", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-12-04": {"id": "y33_row49", "date": "2033-12-04", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-12-11": {"id": "y33_row50", "date": "2033-12-11", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-12-18": {"id": "y33_row51", "date": "2033-12-18", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2033-12-25": {"id": "y33_row52", "date": "2033-12-25", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-01-01": {"id": "y34_row1", "date": "2034-01-01", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-01-08": {"id": "y34_row2", "date": "2034-01-08", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-01-15": {"id": "y34_row3", "date": "2034-01-15", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-01-22": {"id": "y34_row4", "date": "2034-01-22", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-01-29": {"id": "y34_row5", "date": "2034-01-29", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-02-05": {"id": "y34_row6", "date": "2034-02-05", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-02-12": {"id": "y34_row7", "date": "2034-02-12", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-02-19": {"id": "y34_row8", "date": "2034-02-19", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-02-26": {"id": "y34_row9", "date": "2034-02-26", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-03-05": {"id": "y34_row10", "date": "2034-03-05", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-03-12": {"id": "y34_row11", "date": "2034-03-12", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-03-19": {"id": "y34_row12", "date": "2034-03-19", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-03-26": {"id": "y34_row13", "date": "2034-03-26", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-04-02": {"id": "y34_row14", "date": "2034-04-02", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-04-09": {"id": "y34_row15", "date": "2034-04-09", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-04-16": {"id": "y34_row16", "date": "2034-04-16", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-04-23": {"id": "y34_row17", "date": "2034-04-23", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-04-30": {"id": "y34_row18", "date": "2034-04-30", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-05-07": {"id": "y34_row19", "date": "2034-05-07", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-05-14": {"id": "y34_row20", "date": "2034-05-14", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-05-21": {"id": "y34_row21", "date": "2034-05-21", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-05-28": {"id": "y34_row22", "date": "2034-05-28", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-06-04": {"id": "y34_row23", "date": "2034-06-04", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-06-11": {"id": "y34_row24", "date": "2034-06-11", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-06-18": {"id": "y34_row25", "date": "2034-06-18", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-06-25": {"id": "y34_row26", "date": "2034-06-25", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-07-02": {"id": "y34_row27", "date": "2034-07-02", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-07-09": {"id": "y34_row28", "date": "2034-07-09", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-07-16": {"id": "y34_row29", "date": "2034-07-16", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-07-23": {"id": "y34_row30", "date": "2034-07-23", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-07-30": {"id": "y34_row31", "date": "2034-07-30", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-08-06": {"id": "y34_row32", "date": "2034-08-06", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-08-13": {"id": "y34_row33", "date": "2034-08-13", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-08-20": {"id": "y34_row34", "date": "2034-08-20", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-08-27": {"id": "y34_row35", "date": "2034-08-27", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-09-03": {"id": "y34_row36", "date": "2034-09-03", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-09-10": {"id": "y34_row37", "date": "2034-09-10", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-09-17": {"id": "y34_row38", "date": "2034-09-17", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-09-24": {"id": "y34_row39", "date": "2034-09-24", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-10-01": {"id": "y34_row40", "date": "2034-10-01", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-10-08": {"id": "y34_row41", "date": "2034-10-08", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-10-15": {"id": "y34_row42", "date": "2034-10-15", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-10-22": {"id": "y34_row43", "date": "2034-10-22", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-10-29": {"id": "y34_row44", "date": "2034-10-29", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-11-05": {"id": "y34_row45", "date": "2034-11-05", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-11-12": {"id": "y34_row46", "date": "2034-11-12", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-11-19": {"id": "y34_row47", "date": "2034-11-19", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-11-26": {"id": "y34_row48", "date": "2034-11-26", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-12-03": {"id": "y34_row49", "date": "2034-12-03", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-12-10": {"id": "y34_row50", "date": "2034-12-10", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-12-17": {"id": "y34_row51", "date": "2034-12-17", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-12-24": {"id": "y34_row52", "date": "2034-12-24", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2034-12-31": {"id": "y34_row53", "date": "2034-12-31", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-01-07": {"id": "y35_row1", "date": "2035-01-07", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-01-14": {"id": "y35_row2", "date": "2035-01-14", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-01-21": {"id": "y35_row3", "date": "2035-01-21", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-01-28": {"id": "y35_row4", "date": "2035-01-28", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-02-04": {"id": "y35_row5", "date": "2035-02-04", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-02-11": {"id": "y35_row6", "date": "2035-02-11", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-02-18": {"id": "y35_row7", "date": "2035-02-18", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-02-25": {"id": "y35_row8", "date": "2035-02-25", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-03-04": {"id": "y35_row9", "date": "2035-03-04", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-03-11": {"id": "y35_row10", "date": "2035-03-11", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-03-18": {"id": "y35_row11", "date": "2035-03-18", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-03-25": {"id": "y35_row12", "date": "2035-03-25", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-04-01": {"id": "y35_row13", "date": "2035-04-01", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-04-08": {"id": "y35_row14", "date": "2035-04-08", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-04-15": {"id": "y35_row15", "date": "2035-04-15", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-04-22": {"id": "y35_row16", "date": "2035-04-22", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-04-29": {"id": "y35_row17", "date": "2035-04-29", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-05-06": {"id": "y35_row18", "date": "2035-05-06", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-05-13": {"id": "y35_row19", "date": "2035-05-13", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-05-20": {"id": "y35_row20", "date": "2035-05-20", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-05-27": {"id": "y35_row21", "date": "2035-05-27", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-06-03": {"id": "y35_row22", "date": "2035-06-03", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-06-10": {"id": "y35_row23", "date": "2035-06-10", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-06-17": {"id": "y35_row24", "date": "2035-06-17", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-06-24": {"id": "y35_row25", "date": "2035-06-24", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-07-01": {"id": "y35_row26", "date": "2035-07-01", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-07-08": {"id": "y35_row27", "date": "2035-07-08", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-07-15": {"id": "y35_row28", "date": "2035-07-15", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-07-22": {"id": "y35_row29", "date": "2035-07-22", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-07-29": {"id": "y35_row30", "date": "2035-07-29", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-08-05": {"id": "y35_row31", "date": "2035-08-05", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-08-12": {"id": "y35_row32", "date": "2035-08-12", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-08-19": {"id": "y35_row33", "date": "2035-08-19", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-08-26": {"id": "y35_row34", "date": "2035-08-26", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-09-02": {"id": "y35_row35", "date": "2035-09-02", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-09-09": {"id": "y35_row36", "date": "2035-09-09", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-09-16": {"id": "y35_row37", "date": "2035-09-16", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-09-23": {"id": "y35_row38", "date": "2035-09-23", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-09-30": {"id": "y35_row39", "date": "2035-09-30", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-10-07": {"id": "y35_row40", "date": "2035-10-07", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-10-14": {"id": "y35_row41", "date": "2035-10-14", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-10-21": {"id": "y35_row42", "date": "2035-10-21", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-10-28": {"id": "y35_row43", "date": "2035-10-28", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-11-04": {"id": "y35_row44", "date": "2035-11-04", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-11-11": {"id": "y35_row45", "date": "2035-11-11", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-11-18": {"id": "y35_row46", "date": "2035-11-18", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-11-25": {"id": "y35_row47", "date": "2035-11-25", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-12-02": {"id": "y35_row48", "date": "2035-12-02", "hasSainteCene": true, "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-12-09": {"id": "y35_row49", "date": "2035-12-09", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-12-16": {"id": "y35_row50", "date": "2035-12-16", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-12-23": {"id": "y35_row51", "date": "2035-12-23", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}, "2035-12-30": {"id": "y35_row52", "date": "2035-12-30", "hasSainteCene": false, "typeCulte": "Culte", "predicateur": null, "presidentCulte": null, "remarques": null}};
+
+function loadPlanningData(){
+  var START_YEAR = 2026;
+  var END_YEAR   = 2035;
+  var rowIndex   = 1;
+
+  for(var year = START_YEAR; year <= END_YEAR; year++){
+    for(var month = 0; month < 12; month++){
+      // Trouver tous les dimanches du mois
+      var d = new Date(year, month, 1);
+      // Avancer jusqu'au premier dimanche
+      while(d.getDay() !== 0) d.setDate(d.getDate() + 1);
+      var firstSundayOfMonth = true;
+      while(d.getMonth() === month){
+        var iso = toISO(d);
+        var hasSC = firstSundayOfMonth; // Sainte-Cène le 1er dimanche
+        // Pour 2026, utiliser les vrais IDs du Planning (table de correspondance).
+        // Pour les autres années, générer un ID séquentiel.
+        var base2026 = PLANNING_CULTE_BASE[iso] || null;
+        var realId = base2026 ? base2026.id : ('row' + rowIndex);
+        var baseData = base2026 || {};
+        PLANNING_CULTE_DATES[iso] = {
+          id:             realId,
+          date:           iso,
+          hasSainteCene:  hasSC,
+          typeCulte:      baseData.typeCulte || (hasSC ? 'Sainte-Cène' : null),
+          predicateur:    baseData.predicateur    || null,
+          presidentCulte: baseData.presidentCulte || null,
+          remarques:      baseData.remarques      || null,
+        };
+        rowIndex++;
+        firstSundayOfMonth = false;
+        d.setDate(d.getDate() + 7);
+      }
+    }
+  }
+}
+
+// ============================================================
+// PERSISTANCE
+// ============================================================
+function genId(){
+  return 'ev_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
+}
+
+async function saveEvent(evtData){
+  try{
+    // Résoudre le responsable libre
+    if(evtData.responsable === '__libre__' && evtData._respLibre){
+      evtData.responsable = evtData._respLibre.trim() || null;
+    } else if(evtData.responsable === '__libre__'){
+      evtData.responsable = null;
+    }
+    delete evtData._respLibre;
+    var id = evtData.id || genId();
+    evtData.id = id;
+    await fsSetDoc(fsDoc(db, 'calendrier_staff', id), evtData);
+    showToast(evtData._new ? "Événement ajouté." : "Événement mis à jour.");
+  }catch(e){
+    console.error(e);
+    showToast("Erreur — veuillez réessayer.");
+  }
+}
+
+async function deleteEvent(id){
+  try{
+    await fsDeleteDoc(fsDoc(db, 'calendrier_staff', id));
+    showToast("Événement supprimé.");
+  }catch(e){
+    console.error(e);
+    showToast("Erreur — veuillez réessayer.");
+  }
+}
+
+// Sauvegarder une rubrique culte partagée
+async function saveStaffConfig(){
+  try{
+    await fsSetDoc(fsDoc(db,'calendrier_staff','_config'),{
+      depts: JSON.stringify(state.deptsOverrides),
+      responsables: JSON.stringify(state.responsablesOverrides)
+    });
+  }catch(e){ showToast('Erreur sauvegarde config.'); }
+}
+
+// Écrit dans la collection de l'année concernée (planning_culte_YYYY/overrides)
+async function saveCulteField(dateISO, fieldKey, value){
+  try{
+    var year = dateISO.slice(0, 4);
+    var collectionName = 'planning_culte_' + year;
+    var existing = state.culteDataByYear[year] || {};
+    var rowId = PLANNING_CULTE_DATES[dateISO] ? PLANNING_CULTE_DATES[dateISO].id : null;
+    if(!rowId){ showToast("Date introuvable dans le planning culte."); return; }
+    if(!existing[rowId]) existing[rowId] = {};
+    existing[rowId][fieldKey] = value || null;
+    existing[rowId]['_date'] = dateISO;
+    await fsSetDoc(fsDoc(db, collectionName, 'overrides'), { value: JSON.stringify(existing) });
+    state.culteDataByYear[year] = existing;
+    showToast("Rubrique culte mise à jour.");
+  }catch(e){
+    console.error(e);
+    showToast("Erreur — veuillez réessayer.");
+  }
+}
+
+// ============================================================
+// UTILITAIRES DATE
+// ============================================================
+function mondayOf(d){
+  var day = d.getDay(); // 0=dim
+  var diff = (day === 0) ? -6 : 1 - day;
+  var m = new Date(d); m.setDate(d.getDate() + diff); m.setHours(0,0,0,0);
+  return m;
+}
+
+// Semaine de référence = lundi de la semaine courante au chargement
+// weekOffset 0 = semaine actuelle, négatif = passé, positif = futur
+var START_WEEK = (function(){
+  var today = new Date(); today.setHours(0,0,0,0);
+  var day = today.getDay(); // 0=dim
+  var diff = (day === 0) ? -6 : 1 - day;
+  today.setDate(today.getDate() + diff);
+  return today;
+})();
+
+function getWeekDates(){
+  var base = new Date(START_WEEK);
+  base.setDate(base.getDate() + state.weekOffset * 7);
+  var days = [];
+  for(var i=0;i<7;i++){
+    var d = new Date(base); d.setDate(base.getDate() + i); d.setHours(0,0,0,0);
+    days.push(d);
+  }
+  return days;
+}
+
+function toISO(d){
+  var y = d.getFullYear();
+  var m = String(d.getMonth()+1).padStart(2,'0');
+  var dd = String(d.getDate()).padStart(2,'0');
+  return y+'-'+m+'-'+dd;
+}
+
+function isToday(d){
+  var t = new Date(); t.setHours(0,0,0,0);
+  return d.getTime() === t.getTime();
+}
+
+function weekLabel(days){
+  var a = days[0], b = days[6];
+  if(a.getMonth()===b.getMonth()){
+    return a.getDate() + ' – ' + b.getDate() + ' ' + MOIS_FR[a.getMonth()] + ' ' + a.getFullYear();
+  }
+  return a.getDate()+' '+MOIS_FR[a.getMonth()]+' – '+b.getDate()+' '+MOIS_FR[b.getMonth()]+' '+b.getFullYear();
+}
+
+function getCulteOverrideForDate(dateISO){
+  var baseRow = PLANNING_CULTE_DATES[dateISO];
+  if(!baseRow) return null;
+  var year = dateISO.slice(0, 4);
+  var yearData = state.culteDataByYear[year] || {};
+  var ov = yearData[baseRow.id] || {};
+  // __remarque est la clé utilisée par Planning des cultes
+  var remarque = ov.__remarque !== undefined ? ov.__remarque
+               : ov.remarques  !== undefined ? ov.remarques
+               : baseRow.remarques;
+  return {
+    predicateur:    ov.predicateur    !== undefined ? ov.predicateur    : baseRow.predicateur,
+    typeCulte:      ov.typeCulte      !== undefined ? ov.typeCulte      : baseRow.typeCulte,
+    presidentCulte: ov.presidentCulte !== undefined ? ov.presidentCulte : baseRow.presidentCulte,
+    remarques:      remarque,
+    hasSainteCene:  baseRow.hasSainteCene,
+    _rowId:         baseRow.id,
+  };
+}
+
+// ============================================================
+// HELPERS DOM
+// ============================================================
+function el(tag, attrs, children){
+  var node = document.createElement(tag);
+  attrs = attrs || {};
+  Object.keys(attrs).forEach(function(k){
+    var v = attrs[k];
+    if(k==='class') node.className = v;
+    else if(k==='html') node.innerHTML = v;
+    else if(k.indexOf('on')===0 && typeof v==='function') node.addEventListener(k.slice(2),v);
+    else if(k==='disabled'){ if(v) node.setAttribute('disabled','disabled'); }
+    else if(k==='checked'){ node.checked=!!v; if(v) node.setAttribute('checked','checked'); }
+    else if(k==='selected'){ if(v) node.setAttribute('selected','selected'); }
+    else if(k==='style') node.setAttribute('style',v);
+    else if(v==null){}
+    else node.setAttribute(k,v);
+  });
+  (children||[]).forEach(function(c){
+    if(c==null) return;
+    if(typeof c==='string') node.appendChild(document.createTextNode(c));
+    else node.appendChild(c);
+  });
+  return node;
+}
+
+function showToast(msg){
+  state.toast = msg; render();
+  setTimeout(function(){ state.toast=null; render(); }, 2600);
+}
+
+// ============================================================
+// AUTH
+// ============================================================
+function tryStaffLogin(){
+  var code = state.staffCodeInput.trim().toUpperCase();
+  if(code === ADMIN_CODE){ state.isStaff=true; state.isAdmin=true; state.showLoginStaff=false; state.staffError=''; render(); return; }
+  if(code === STAFF_CODE){ state.isStaff=true; state.isAdmin=false; state.showLoginStaff=false; state.staffError=''; render(); return; }
+  state.staffError = "Code incorrect. Contactez un administrateur."; render();
+}
+
+function tryAdminLogin(){
+  var code = state.adminCodeInput.trim().toUpperCase();
+  if(code === ADMIN_CODE){ state.isAdmin=true; state.showLoginAdmin=false; state.adminError=''; render(); return; }
+  state.adminError = "Code administrateur incorrect."; render();
+}
+
+// ============================================================
+// FORMULAIRE ÉVÉNEMENT
+// ============================================================
+var formDraft = {};
+
+function openNewEvent(dateISO){
+  if(!state.isStaff){ state.showLoginStaff=true; state.staffError=''; render(); return; }
+  formDraft = {
+    date: dateISO || '',
+    heureDebut: '',
+    heureFin: '',
+    departement: '',
+    titre: '',
+    conducteur: '',
+    responsable: state.currentUser || '',
+    notes: '',
+    modeMultiJour: false,  // true = plage de jours (camp/retraite) → récurrence désactivée
+    dateFinJour: '',       // date de fin si modeMultiJour=true
+    recurrence: 'none',
+    recurrenceFin: 'never',
+    recurrenceJusquau: '',
+    recurrenceCount: 52,
+    nthWeek: 1,
+    nthDay: null,
+    joursActifs: [],
+    _serieId: null
+  };
+  state.editingEvent = null;
+  state.showEventForm = true;
+  render();
+}
+
+function openEditEvent(evt){
+  if(!state.isStaff){ state.showLoginStaff=true; state.staffError=''; render(); return; }
+  // Détecter si le responsable est hors-liste pour pré-remplir le champ libre
+  var allRespsForEdit = getResponsables();
+  var isRespHorsListe = evt.responsable && allRespsForEdit.indexOf(evt.responsable) < 0;
+  var meta = evt.serieMeta || {};
+  // Si modification d'une occurrence seule : traiter comme event simple (pas de récurrence)
+  var isOneOnly = state.editSerieChoice === 'one';
+  formDraft = {
+    id: evt.id,
+    date: evt.date || '',
+    heureDebut: evt.heureDebut || '',
+    heureFin: evt.heureFin || '',
+    departement: evt.departement || '',
+    titre: evt.titre || '',
+    conducteur: evt.conducteur || '',
+    responsable: isRespHorsListe ? '__libre__' : (evt.responsable || ''),
+    _respLibre: isRespHorsListe ? evt.responsable : '',
+    notes: evt.notes || '',
+    recurrence: (isOneOnly || !!(evt.dateFinJour && evt.dateFinJour > (evt.date||''))) ? 'none' : (meta.freq || 'none'),
+    recurrenceFin: (isOneOnly || !!(evt.dateFinJour && evt.dateFinJour > (evt.date||''))) ? 'never' : (meta.finMode || (meta.fin ? 'date' : 'never')),
+    recurrenceJusquau: isOneOnly ? '' : (meta.fin || ''),
+    recurrenceCount: meta.count || 52,
+    nthWeek: meta.nthWeek || 1,
+    nthDay: meta.nthDay !== undefined ? meta.nthDay : null,
+    modeMultiJour: !!(evt.dateFinJour && evt.dateFinJour > (evt.date||'')),
+    dateFinJour: evt.dateFinJour || '',
+    joursActifs: isOneOnly ? [] : (meta.joursActifs || []),
+    _serieId: isOneOnly ? null : (evt.serieId || null),
+  };
+  state.editingEvent = evt.id;
+  state.showEventForm = true;
+  render();
+}
+
+function closeEventForm(){
+  state.showEventForm = false;
+  state.editingEvent = null;
+  render();
+}
+
+async function submitEventForm(){
+  if(!formDraft.date){ showToast("Veuillez choisir une date."); return; }
+  if(!formDraft.departement){ showToast("Veuillez choisir un département."); return; }
+  if(!formDraft.titre.trim()){ showToast("Veuillez saisir un titre."); return; }
+  var _respCheck = formDraft.responsable === '__libre__' ? (formDraft._respLibre||'').trim() : formDraft.responsable;
+  if(!_respCheck){ showToast('Veuillez indiquer un responsable.'); return; }
+  // Jours-semaine : bloquer si aucun jour sélectionné
+  if(formDraft.recurrence==='jours-semaine' && (!formDraft.joursActifs || formDraft.joursActifs.length===0)){
+    showToast('Sélectionnez au moins un jour de la semaine.'); return;
+  }
+
+  // Vérifier que l'utilisateur peut modifier (le sien ou admin)
+  if(!state.isAdmin && state.editingEvent){
+    var existing = state.events[state.editingEvent];
+    if(existing && existing.responsable !== state.currentUser){
+      showToast("Vous ne pouvez modifier que vos propres événements.");
+      return;
+    }
+  }
+
+  // Résoudre responsable libre avant validation
+  var responsableFinal = formDraft.responsable;
+  if(formDraft.responsable === '__libre__'){
+    responsableFinal = (formDraft._respLibre || '').trim() || null;
+    if(!responsableFinal){ showToast('Veuillez saisir le nom du responsable.'); return; }
+  }
+
+  var evtData = {
+    date: formDraft.date,
+    heureDebut: formDraft.heureDebut,
+    heureFin: formDraft.heureFin,
+    departement: formDraft.departement,
+    titre: formDraft.titre.trim(),
+    conducteur: formDraft.conducteur.trim() || null,
+    responsable: responsableFinal,
+    notes: formDraft.notes.trim(),
+    createdBy: state.currentUser || 'Staff',
+    updatedAt: new Date().toISOString(),
+  };
+  if(!state.editingEvent) evtData._new = true;
+  if(state.editingEvent) evtData.id = state.editingEvent;
+  // Plage multi-jours : stocker dateFinJour si modeMultiJour activé
+  if(formDraft.modeMultiJour && formDraft.dateFinJour && formDraft.dateFinJour > formDraft.date){
+    evtData.dateFinJour = formDraft.dateFinJour;
+    // Si plage de jours → pas de récurrence (mutuellement exclusif)
+    formDraft.recurrence = 'none';
+  } else {
+    evtData.dateFinJour = null;
+  }
+
+  closeEventForm();
+
+  // Récurrence : générer plusieurs événements
+  if(formDraft.recurrence !== 'none'){
+    // Construire serieMeta pour lier les occurrences et permettre modif future
+    var sid = formDraft._serieId || genId();
+    var serieMeta = {
+      freq: formDraft.recurrence,
+      finMode: formDraft.recurrenceFin || 'never',
+      fin: formDraft.recurrenceFin==='date' ? formDraft.recurrenceJusquau : null,
+      count: formDraft.recurrenceFin==='count' ? (parseInt(formDraft.recurrenceCount,10)||52) : null,
+      nthWeek: formDraft.nthWeek,
+      nthDay: formDraft.nthDay,
+      joursActifs: formDraft.recurrence==='jours-semaine' ? formDraft.joursActifs : [],
+      heureDebut: formDraft.heureDebut,
+      heureFin: formDraft.heureFin,
+    };
+    var endDate = formDraft.recurrenceFin==='date' ? formDraft.recurrenceJusquau : null;
+    var dates = buildRecurrenceDates(formDraft.date, formDraft.recurrence, endDate, formDraft.nthWeek, formDraft.nthDay, formDraft.recurrenceFin, parseInt(formDraft.recurrenceCount,10)||52, formDraft.joursActifs);
+
+    // Si modification d'une série existante : supprimer les anciennes occurrences selon le choix
+    if(state.editingEvent && formDraft._serieId){
+      var choice = state.editSerieChoice || 'all';
+      var evtDate = evtData.date;
+      var toDelete = Object.values(state.events).filter(function(ev){
+        if(ev.serieId !== formDraft._serieId) return false;
+        if(choice==='one') return ev.id===state.editingEvent;
+        if(choice==='following') return ev.date >= evtDate;
+        return true; // 'all'
+      });
+      for(var j=0;j<toDelete.length;j++){
+        try{ await fsDeleteDoc(fsDoc(db,'calendrier_staff',toDelete[j].id)); }catch(e){}
+      }
+    }
+
+    for(var i=0;i<dates.length;i++){
+      var copy = Object.assign({}, evtData);
+      copy.date = dates[i];
+      copy.id = genId();
+      copy.serieId = sid;
+      copy.serieMeta = serieMeta;
+      // Plage multi-jours récurrente : propager dateFinJour si renseigné
+      if(formDraft.dateFinJour && formDraft.dateFinJour > formDraft.date){
+        var startD = new Date(formDraft.date+'T00:00:00');
+        var endD = new Date(formDraft.dateFinJour+'T00:00:00');
+        var offset = Math.round((endD-startD)/(86400000));
+        var occStart = new Date(dates[i]+'T00:00:00');
+        occStart.setDate(occStart.getDate()+offset);
+        copy.dateFinJour = toISO(occStart);
+      } else {
+        copy.dateFinJour = null;
+      }
+      delete copy._new;
+      await saveEvent(copy);
+    }
+    showToast(dates.length + ' occurrences créées.');
+    state.editSerieChoice = null;
+  } else {
+    // Ajouter ou modifier sans récurrence
+    if(evtData.id && state.events[evtData.id] && state.events[evtData.id].serieId){
+      // On modifie une occurrence d'une série : retirer le lien de série
+      evtData.serieId = null;
+      evtData.serieMeta = null;
+    }
+    await saveEvent(evtData);
+  }
+}
+
+// Retourne la date du Nième [dayOfWeek] du mois d'une date donnée
+// nth=1..4 ou 5 (= dernier), dayOfWeek=0(dim)..6(sam)
+function getNthDayOfMonth(year, month, nth, dayOfWeek){
+  if(nth === 5){
+    // Dernier : partir du dernier jour du mois et reculer
+    var last = new Date(year, month+1, 0);
+    var diff = (last.getDay() - dayOfWeek + 7) % 7;
+    last.setDate(last.getDate() - diff);
+    return last;
+  }
+  // Trouver le 1er occurrence du jour dans le mois
+  var first = new Date(year, month, 1);
+  var diff = (dayOfWeek - first.getDay() + 7) % 7;
+  first.setDate(1 + diff + (nth-1)*7);
+  // Vérifier que c'est encore dans le bon mois
+  if(first.getMonth() !== month) return null;
+  return first;
+}
+
+function buildRecurrenceDates(startISO, freq, endISO, nthWeek, nthDay, finMode, count, joursActifs){
+  var dates = [];
+  var start = new Date(startISO + 'T00:00:00');
+  // Calculer la date de fin selon finMode
+  var end;
+  if(finMode === 'never' || !finMode && !endISO){
+    // "Jamais" : générer sur 2 ans à partir du début (plafond de sécurité)
+    end = new Date(start);
+    end.setFullYear(end.getFullYear() + 2);
+  } else if(finMode === 'count' && count > 0){
+    // "Après N occurrences" : on générera au fur et à mesure et on s'arrête à count
+    end = new Date(start);
+    end.setFullYear(end.getFullYear() + 10); // plafond large, stoppé par count
+  } else {
+    // "Le [date]" : comportement original
+    end = new Date((endISO || startISO) + 'T00:00:00');
+  }
+
+  if(freq === 'jours-semaine'){
+    // Répète certains jours de la semaine (ex: L+J+D)
+    var actifs = joursActifs && joursActifs.length > 0 ? joursActifs : [start.getDay()];
+    var cur = new Date(start);
+    while(cur <= end){
+      if(actifs.indexOf(cur.getDay()) >= 0 && cur >= start){
+        dates.push(toISO(cur));
+        if(finMode==='count' && count>0 && dates.length>=count) break;
+      }
+      cur.setDate(cur.getDate() + 1);
+    }
+  } else if(freq === 'mensuel-sem'){
+    // Nième [jour de la semaine] du mois
+    var nth = nthWeek || 1;
+    var dow = (nthDay !== undefined && nthDay !== null) ? nthDay : start.getDay();
+    var cur = new Date(start.getFullYear(), start.getMonth(), 1);
+    while(cur <= end){
+      var d = getNthDayOfMonth(cur.getFullYear(), cur.getMonth(), nth, dow);
+      if(d && d >= start && d <= end){
+        dates.push(toISO(d));
+        if(finMode==='count' && count>0 && dates.length>=count) break;
+      }
+      cur.setMonth(cur.getMonth() + 1);
+    }
+  } else if(freq === 'mensuel'){
+    var cur = new Date(start);
+    while(cur <= end){
+      dates.push(toISO(cur));
+      if(finMode==='count' && count>0 && dates.length>=count) break;
+      var day = cur.getDate();
+      cur.setMonth(cur.getMonth() + 1);
+      if(cur.getDate() !== day) cur.setDate(0);
+    }
+  } else {
+    var step = {hebdomadaire:7, bimensuel:14}[freq] || 7;
+    var cur = new Date(start);
+    while(cur <= end){
+      dates.push(toISO(cur));
+      if(finMode==='count' && count>0 && dates.length>=count) break;
+      cur.setDate(cur.getDate() + step);
+    }
+  }
+  return dates;
+}
+
+// ============================================================
+// RENDER — TOPBAR
+// ============================================================
+function renderTopbar(){
+  var actions = [];
+  if(state.isAdmin){
+    actions.push(el('button',{class:'pill-btn ghost small',style:'margin-right:4px;',onclick:function(){ state.showManageConfig=true; state.configTab='depts'; render(); }},['Gérer']));
+    actions.push(el('button',{class:'pill-btn small',onclick:function(){ state.showLoginAdmin=false; state.isAdmin=false; render(); }},['Quitter admin']));
+  } else if(state.isStaff && !state.isAdmin){
+    actions.push(el('button',{class:'pill-btn ghost small',onclick:function(){ state.showLoginAdmin=true; state.adminError=''; render(); }},['Admin']));
+  }
+  if(state.isStaff){
+    actions.push(el('button',{class:'pill-btn admin small',onclick:function(){ openNewEvent(null); }},['＋ Événement']));
+    actions.push(el('button',{class:'pill-btn ghost small',onclick:function(){ state.isStaff=false; state.isAdmin=false; state.currentUser=null; render(); }},['Déconnexion']));
+  } else {
+    actions.push(el('button',{class:'pill-btn admin small',onclick:function(){ state.showLoginStaff=true; state.staffError=''; render(); }},['Accès Staff']));
+  }
+
+  return el('div',{class:'topbar'},[
+    el('div',{class:'brand'},[
+      el('div',{class:'mark'},['S']),
+      el('div',{class:'brand-text'},[
+        el('span',{class:'t1'},['Calendrier Staff']),
+        el('span',{class:'t2'},['Église de l\'Union & Baptiste — Roubaix'])
+      ])
+    ]),
+    el('div',{class:'topbar-actions'},actions)
+  ]);
+}
+
+// ============================================================
+// RENDER — IDENTITY BAR
+// ============================================================
+function renderIdBar(){
+  if(!state.isStaff) return null;
+  var children = [];
+
+  if(state.isAdmin){
+    return el('div',{class:'admin-banner'},[
+      el('span',{},[el('b',{},['Mode administrateur']),' — modification de tous les événements autorisée.']),
+    ]);
+  }
+
+  // Utilise getResponsables() pour être synchronisé avec la gestion admin
+  var nomsSorted = getResponsables();
+  var selOpts = [el('option',{value:''},['— Choisissez votre nom —'])].concat(
+    nomsSorted.map(function(n){
+      return el('option',{value:n, selected:state.currentUser===n},[n]);
+    })
+  );
+  var sel = el('select',{
+    class:'id-select',
+    onchange:function(e){ state.currentUser=e.target.value||null; render(); }
+  },selOpts);
+
+  children.push(el('label',{class:'id-label'},['Vous êtes :']), sel);
+  return el('div',{class:'id-bar'},children);
+}
+
+// ============================================================
+// RENDER — NAVIGATION SEMAINE
+// ============================================================
+
+function renderMonthNav(){
+  var MOIS = ['Janvier','Février','Mars','Avril','Mai','Juin',
+              'Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  var now = new Date();
+  var currentYear = now.getFullYear();
+  // Calculer le mois affiché actuellement
+  var days = getWeekDates();
+  var currentMonth = days[0].getMonth();
+
+  var btns = MOIS.map(function(m, idx){
+    var isActive = idx === currentMonth;
+    return el('button',{
+      class:'month-btn-staff'+(isActive?' active':''),
+      onclick:function(){
+        // Aller à la première semaine du mois idx de l'année courante
+        var target = new Date(currentYear, idx, 1);
+        // Trouver le lundi de cette semaine
+        var day = target.getDay();
+        var diff = (day === 0) ? -6 : 1 - day;
+        target.setDate(target.getDate() + diff);
+        // Calculer weekOffset depuis START_WEEK
+        var diffMs = target - START_WEEK;
+        state.weekOffset = Math.round(diffMs / (7*24*3600*1000));
+        render();
+      }
+    },[m]);
+  });
+  return el('div',{class:'month-nav-staff'},btns);
+}
+
+function renderWeekNav(){
+  var days = getWeekDates();
+  return el('div',{class:'week-nav'},[
+    el('button',{class:'btn-nav',onclick:function(){ state.weekOffset--; render(); }},['‹']),
+    el('button',{class:'btn-today',onclick:function(){ state.weekOffset=0; render(); }},['Cette semaine']),
+    el('div',{class:'week-label'},[
+      weekLabel(days),
+      el('small',{},['Semaine '+ getWeekNumber(days[0])])
+    ]),
+    el('button',{class:'btn-nav',onclick:function(){ state.weekOffset++; render(); }},['›']),
+  ]);
+}
+
+function getWeekNumber(d){
+  var onejan = new Date(d.getFullYear(),0,1);
+  return Math.ceil((((d-onejan)/86400000)+onejan.getDay()+1)/7);
+}
+
+// ============================================================
+// RENDER — GRILLE SEMAINE
+// ============================================================
+function renderWeekGrid(){
+  var days = getWeekDates();
+  var cols = days.map(function(d){ return renderDayCol(d); });
+  return el('div',{class:'week-grid'},cols);
+}
+
+function renderDayCol(d){
+  var iso = toISO(d);
+  var evtsOfDay = Object.values(state.events).filter(function(e){
+    // Event du jour ou event multi-jours dont la plage couvre ce jour
+    if(e.date === iso) return true;
+    if(e.dateFinJour && e.dateFinJour > e.date && iso > e.date && iso <= e.dateFinJour) return true;
+    return false;
+  });
+  evtsOfDay.sort(function(a,b){ return (a.heureDebut||'').localeCompare(b.heureDebut||''); });
+
+  var isSunday = d.getDay() === 0;
+  var culteInfo = isSunday ? getCulteOverrideForDate(iso) : null;
+
+  var headerCls = 'day-header' + (isToday(d) ? ' today' : '');
+
+  var bodyChildren = [];
+
+  // Bloc culte du dimanche (données partagées)
+  if(isSunday && culteInfo){
+    var culteChildren = [
+      el('div',{class:'cs-title'},['📖 Culte du dimanche'])
+    ];
+    var fields = [
+      {key:'predicateur',label:'Prédicateur'},
+      {key:'presidentCulte',label:'Président'},
+      {key:'typeCulte',label:'Type'},
+      {key:'remarques',label:'Remarques'},
+    ];
+    fields.forEach(function(f){
+      var val = culteInfo[f.key];
+      if(!val && !state.isAdmin) return;
+      if(!val && state.isAdmin && f.key === 'typeCulte') return;
+      var valNode = val
+        ? el('span',{class:'cr-value'},[val])
+        : el('span',{class:'cr-empty'},['—']);
+
+      // Admin peut éditer
+      if(state.isAdmin){
+        valNode = el('span',{
+          class:'cr-value',
+          style:'cursor:pointer;text-decoration:underline dotted;color:'+(val?'inherit':'#aaa'),
+          onclick:function(){ promptEditCulteField(iso, f.key, val, culteInfo._rowId); }
+        },[val || '(vide) ✏']);
+      }
+
+      culteChildren.push(el('div',{class:'culte-row'},[
+        el('span',{class:'cr-label'},[f.label]),
+        valNode
+      ]));
+    });
+    if(culteInfo.hasSainteCene){
+      culteChildren.push(el('div',{class:'cr-label',style:'margin-top:4px;font-size:9.5px;color:#2E4D5E;font-weight:700;'},['🍷 Sainte-Cène']));
+    }
+    bodyChildren.push(el('div',{class:'culte-section'},culteChildren));
+  }
+
+  // Événements (passer la date courante pour adapter l'affichage multi-jours)
+  evtsOfDay.forEach(function(evt){
+    bodyChildren.push(renderEventChip(evt, iso));
+  });
+
+  // Bouton ajouter
+  if(state.isStaff){
+    bodyChildren.push(el('button',{class:'add-chip',onclick:function(){ openNewEvent(iso); }},['＋']));
+  }
+
+  return el('div',{class:'day-col'},[
+    el('div',{class:headerCls,onclick:function(){ openNewEvent(iso); }},[
+      el('div',{class:'dh-day'},[JOURS_FR[d.getDay()]]),
+      el('div',{class:'dh-date'},[String(d.getDate())])
+    ]),
+    el('div',{class:'day-body'},bodyChildren)
+  ]);
+}
+
+function renderEventChip(evt, currentDateISO){
+  var dept = deptById(evt.departement||'Autre');
+  var isMultiDay = !!(evt.dateFinJour && evt.dateFinJour > evt.date);
+  var curISO = currentDateISO || evt.date;
+  var isFirstDay = curISO === evt.date;
+  var isLastDay  = isMultiDay && curISO === evt.dateFinJour;
+  var isContinuation = isMultiDay && curISO > evt.date;
+
+  // Affichage de la ligne temporelle
+  var timeLabel;
+  if(isMultiDay){
+    if(isFirstDay){
+      // 1er jour : afficher la plage complète
+      timeLabel = new Date(evt.date+'T00:00:00').toLocaleDateString('fr-FR',{day:'numeric',month:'short'})
+                  + ' → '
+                  + new Date(evt.dateFinJour+'T00:00:00').toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
+    } else {
+      // Jours suivants : afficher "← suite" ou la date de fin
+      timeLabel = isLastDay ? 'Dernier jour' : '← suite';
+    }
+  } else {
+    timeLabel = evt.heureDebut ? evt.heureDebut + (evt.heureFin ? '–'+evt.heureFin : '') : '';
+  }
+
+  var chipClass = 'event-chip chip-'+dept.cls
+    + (isMultiDay ? ' chip-multiday' : '')
+    + (isContinuation ? ' chip-continuation' : '');
+
+  return el('button',{
+    class:chipClass,
+    onclick:function(e){ e.stopPropagation(); state.showEventDetail=evt.id; render(); }
+  },[
+    timeLabel ? el('div',{class:'ec-time'},[timeLabel]) : null,
+    // Jours de continuation : titre abrégé
+    el('div',{class:'ec-title'},[
+      evt.titre + (evt.conducteur && isFirstDay ? ' ('+evt.conducteur+')' : '')
+    ]),
+    // Responsable uniquement sur le 1er jour (pas de doublon)
+    !isContinuation ? el('div',{class:'ec-who'},[evt.responsable||'']) : null,
+  ]);
+}
+
+// ============================================================
+// RENDER — LÉGENDE
+// ============================================================
+function renderLegend(){
+  var items = getDepts().map(function(d){
+    // Bande de couleur cohérente avec le chip
+    var bar = el('div',{class:'legend-bar',style:'background:var(--col-'+d.cls+',var(--col-autre))'},[]);
+    return el('div',{class:'legend-item'},[bar, d.label]);
+  });
+  return el('div',{class:'legend'},items);
+}
+
+// ============================================================
+// RENDER — MODAL LOGIN STAFF
+// ============================================================
+function renderLoginStaff(){
+  if(!state.showLoginStaff) return null;
+  var input;
+  var overlay = el('div',{class:'overlay',onclick:function(e){ if(e.target===overlay){ state.showLoginStaff=false; render(); } }},[
+    el('div',{class:'modal'},[
+      el('h2',{},['Accès Staff']),
+      el('p',{},['Saisissez le code d\'accès Staff pour consulter et saisir des événements. Le code vous a été communiqué par les responsables.']),
+      el('label',{class:'field-label'},['Votre nom']),
+      (function(){
+        var nomsSorted = MEMBRES.map(function(m){return m.nom;}).sort(function(a,b){return a.localeCompare(b,'fr',{sensitivity:'base'});});
+        var s = el('select',{onchange:function(e){ state.currentUser=e.target.value||null; }},
+          [el('option',{value:''},['— Choisissez votre nom —'])].concat(
+            nomsSorted.map(function(n){ return el('option',{value:n},[n]); })
+          )
+        );
+        return s;
+      })(),
+      el('label',{class:'field-label'},['Code d\'accès']),
+      el('div',{style:'position:relative;display:block;'},[
+        (input = el('input',{type:state._showStaffPwd?'text':'password',placeholder:'Code Staff',value:state.staffCodeInput,style:'padding-right:42px;width:100%;',
+          oninput:function(e){ state.staffCodeInput=e.target.value; }})),
+        el('button',{type:'button',style:'position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px;padding:0;line-height:1;',
+          onclick:function(){ state._showStaffPwd=!state._showStaffPwd; render(); }},[state._showStaffPwd?'🙈':'👁️'])
+      ]),
+      state.staffError ? el('div',{class:'err-msg'},[state.staffError]) : null,
+      el('div',{class:'modal-actions'},[
+        el('button',{class:'pill-btn ghost',onclick:function(){ state.showLoginStaff=false; render(); }},['Annuler']),
+        el('button',{class:'pill-btn admin',onclick:tryStaffLogin},['Entrer'])
+      ])
+    ])
+  ]);
+  setTimeout(function(){ input.addEventListener('keydown',function(e){ if(e.key==='Enter') tryStaffLogin(); }); input.focus(); },0);
+  return overlay;
+}
+
+function renderLoginAdmin(){
+  if(!state.showLoginAdmin) return null;
+  var input;
+  var overlay = el('div',{class:'overlay',onclick:function(e){ if(e.target===overlay){ state.showLoginAdmin=false; render(); } }},[
+    el('div',{class:'modal'},[
+      el('h2',{},['Accès administrateur']),
+      el('p',{},['Code administrateur requis pour modifier tous les événements.']),
+      el('div',{style:'position:relative;display:block;'},[
+        (input = el('input',{type:state._showAdminPwd?'text':'password',placeholder:'Code administrateur',value:state.adminCodeInput,style:'padding-right:42px;width:100%;',
+          oninput:function(e){ state.adminCodeInput=e.target.value; }})),
+        el('button',{type:'button',style:'position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:18px;padding:0;line-height:1;',
+          onclick:function(){ state._showAdminPwd=!state._showAdminPwd; render(); }},[state._showAdminPwd?'🙈':'👁️'])
+      ]),
+      state.adminError ? el('div',{class:'err-msg'},[state.adminError]) : null,
+      el('div',{class:'modal-actions'},[
+        el('button',{class:'pill-btn ghost',onclick:function(){ state.showLoginAdmin=false; render(); }},['Annuler']),
+        el('button',{class:'pill-btn admin',onclick:tryAdminLogin},['Entrer'])
+      ])
+    ])
+  ]);
+  setTimeout(function(){ input.addEventListener('keydown',function(e){ if(e.key==='Enter') tryAdminLogin(); }); input.focus(); },0);
+  return overlay;
+}
+
+// ============================================================
+// RENDER — FORMULAIRE ÉVÉNEMENT
+// ============================================================
+function renderEventForm(){
+  if(!state.showEventForm) return null;
+  var isEdit = !!state.editingEvent;
+
+  var activeDepts = getDepts();
+  // Si le département de l'event édité a été supprimé entre-temps, on l'affiche quand même
+  var deptExists = !formDraft.departement || activeDepts.some(function(d){ return d.id===formDraft.departement; });
+  var deptOpts = [el('option',{value:''},['— Département —'])].concat(
+    activeDepts.map(function(d){ return el('option',{value:d.id,selected:formDraft.departement===d.id},[d.label]); })
+  );
+  if(!deptExists && formDraft.departement){
+    // Ajouter l'option (supprimée) en tête pour ne pas perdre la valeur
+    deptOpts.splice(1, 0, el('option',{value:formDraft.departement,selected:true},[formDraft.departement+' (supprimé)']));
+  }
+
+  // Responsables : liste triée, saisie libre possible
+  var allResps = getResponsables();
+  var isRespFree = formDraft.responsable && allResps.indexOf(formDraft.responsable)<0;
+  var respOpts = [el('option',{value:''},['— Responsable —'])].concat(
+    allResps.map(function(n){ return el('option',{value:n,selected:formDraft.responsable===n},[n]); })
+  ).concat([el('option',{value:'__libre__',selected:isRespFree},['Autre / saisie libre…'])]);
+
+  var recurrenceOpts = ['none','hebdomadaire','jours-semaine','bimensuel','mensuel','mensuel-sem'];
+  var recurrenceLabels = {
+    none:'Pas de récurrence',
+    hebdomadaire:'Toutes les semaines',
+    'jours-semaine':'Jours choisis / semaine',
+    bimensuel:'Toutes les 2 semaines',
+    mensuel:'Même date chaque mois',
+    'mensuel-sem':'Le Nième jour du mois',
+  };
+
+  // Boutons jours de la semaine (L M M J V S D)
+  var JOURS_COURT = ['D','L','M','M','J','V','S'];
+  var JOURS_LONG  = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+  var joursBlock = formDraft.recurrence==='jours-semaine' ? el('div',{class:'jours-semaine-block'},[
+    el('div',{class:'field-label',style:'margin-bottom:6px;'},['Répéter le :']),
+    el('div',{class:'jours-semaine-btns'},
+      [0,1,2,3,4,5,6].map(function(j){
+        var actif = (formDraft.joursActifs||[]).indexOf(j)>=0;
+        return el('button',{
+          type:'button',
+          title:JOURS_LONG[j],
+          class:'jour-btn'+(actif?' actif':''),
+          onclick:function(){
+            var ja = (formDraft.joursActifs||[]).slice();
+            var idx = ja.indexOf(j);
+            if(idx>=0) ja.splice(idx,1); else ja.push(j);
+            formDraft.joursActifs = ja;
+            render();
+          }
+        },[JOURS_COURT[j]]);
+      })
+    ),
+    (formDraft.joursActifs||[]).length===0 ? el('div',{class:'jours-warning'},['⚠ Sélectionnez au moins un jour']) : null,
+  ]) : null;
+  var recurBtns = recurrenceOpts.map(function(r){
+    return el('button',{
+      class:'recur-opt'+(formDraft.recurrence===r?' active':''),
+      onclick:function(){ formDraft.recurrence=r; render(); }
+    },[recurrenceLabels[r]]);
+  });
+
+  // Sélecteurs pour récurrence "Nième jour du mois"
+  var JOURS_SEMAINE = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+  var ORDINALS = [{v:1,l:'1er'},{v:2,l:'2ème'},{v:3,l:'3ème'},{v:4,l:'4ème'},{v:5,l:'Dernier'}];
+  // Pré-remplir nthDay depuis la date saisie si pas encore défini
+  if(formDraft.recurrence==='mensuel-sem' && formDraft.nthDay===null && formDraft.date){
+    var dTmp = new Date(formDraft.date+'T00:00:00');
+    formDraft.nthDay = dTmp.getDay();
+  }
+  var nthBlock = formDraft.recurrence==='mensuel-sem' ? el('div',{class:'nth-block'},[
+    el('div',{class:'nth-row'},[
+      el('span',{class:'nth-label'},['Le']),
+      el('select',{class:'nth-select',onchange:function(e){ formDraft.nthWeek=parseInt(e.target.value,10); }},
+        ORDINALS.map(function(o){ return el('option',{value:o.v,selected:formDraft.nthWeek===o.v},[o.l]); })
+      ),
+      el('select',{class:'nth-select',onchange:function(e){ formDraft.nthDay=parseInt(e.target.value,10); }},
+        JOURS_SEMAINE.map(function(j,i){ return el('option',{value:i,selected:formDraft.nthDay===i},[j]); })
+      ),
+      el('span',{class:'nth-label'},['du mois']),
+    ]),
+  ]) : null;
+
+  var overlay = el('div',{class:'overlay',onclick:function(e){ if(e.target===overlay) closeEventForm(); }},[
+    el('div',{class:'modal modal-wide'},[
+      el('h2',{},[isEdit ? 'Modifier l\'événement' : 'Nouvel événement']),
+
+      el('label',{class:'field-label'},['Date']),
+      el('input',{type:'date',value:formDraft.date,oninput:function(e){ formDraft.date=e.target.value; }}),
+
+      el('div',{style:'display:flex;gap:8px;margin-top:12px;'},[
+        el('div',{style:'flex:1;'},[
+          el('label',{class:'field-label'},['Heure début']),
+          el('input',{type:'time',value:formDraft.heureDebut,oninput:function(e){ formDraft.heureDebut=e.target.value; }})
+        ]),
+        el('div',{style:'flex:1;'},[
+          el('label',{class:'field-label'},['Heure fin']),
+          el('input',{type:'time',value:formDraft.heureFin,oninput:function(e){ formDraft.heureFin=e.target.value; }})
+        ]),
+      ]),
+
+      el('label',{class:'field-label'},['Département']),
+      el('select',{onchange:function(e){ formDraft.departement=e.target.value; render(); }},deptOpts),
+
+      el('label',{class:'field-label'},['Titre / description courte']),
+      el('input',{type:'text',placeholder:'Ex. Répétition groupe louange, Réunion de prière…',value:formDraft.titre,oninput:function(e){ formDraft.titre=e.target.value; }}),
+      el('label',{class:'field-label'},['Conducteur / animateur (optionnel)']),
+      el('input',{type:'text',placeholder:'Ex. Paulina, Timothé… (affiché entre parenthèses)',
+        value:formDraft.conducteur||'',oninput:function(e){ formDraft.conducteur=e.target.value; }}),
+
+      el('label',{class:'field-label'},['Responsable']),
+      el('select',{onchange:function(e){
+        if(e.target.value === '__libre__'){ formDraft.responsable='__libre__'; }
+        else { formDraft.responsable=e.target.value; }
+        render();
+      }},respOpts),
+      formDraft.responsable === '__libre__' ? el('input',{
+        type:'text', placeholder:'Prénom Nom du responsable',
+        value: isRespFree ? formDraft._respLibre||'' : '',
+        style:'margin-top:6px;',
+        oninput:function(e){ formDraft._respLibre=e.target.value; }
+      }) : null,
+
+      el('label',{class:'field-label'},['Notes (facultatif)']),
+      el('textarea',{placeholder:'Lieu, infos pratiques, lien Zoom…',oninput:function(e){ formDraft.notes=e.target.value; }},[formDraft.notes]),
+
+      !isEdit ? el('div',{},[
+        // ── Durée : 1 jour OU plage multi-jours (mutuellement exclusif avec récurrence) ──
+        el('div',{class:'duree-section'},[
+          el('label',{class:'recur-fin-row',style:'cursor:pointer;font-size:13px;'},[
+            el('input',{type:'checkbox',
+              checked:formDraft.modeMultiJour,
+              onchange:function(e){
+                formDraft.modeMultiJour=e.target.checked;
+                if(!e.target.checked){ formDraft.dateFinJour=''; }
+                else { formDraft.recurrence='none'; }
+                render();
+              }}),
+            el('span',{style:'margin-left:6px;font-weight:500;'},['Événement sur plusieurs jours (camp, retraite…)']),
+          ]),
+          formDraft.modeMultiJour ? el('div',{class:'multijour-row',style:'margin-top:8px;'},[
+            el('div',{style:'flex:1;'},[
+              el('label',{class:'field-label',style:'margin-bottom:4px;'},['Date de fin']),
+              el('input',{type:'date',value:formDraft.dateFinJour,
+                min:formDraft.date||'',
+                style:'width:100%;',
+                oninput:function(e){ formDraft.dateFinJour=e.target.value; render(); }}),
+            ]),
+          ]) : null,
+          formDraft.modeMultiJour && formDraft.dateFinJour && formDraft.dateFinJour > (formDraft.date||'') ?
+            el('div',{class:'multijour-preview'},[
+              '📅 ',
+              el('strong',{},[formDraft.date ? new Date(formDraft.date+'T00:00:00').toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}) : '?']),
+              ' → ',
+              el('strong',{},[new Date(formDraft.dateFinJour+'T00:00:00').toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})]),
+              el('span',{style:'color:var(--ink-soft);font-size:11px;'},
+                [' (' + (Math.round((new Date(formDraft.dateFinJour+'T00:00:00')-new Date(formDraft.date+'T00:00:00'))/(86400000))+1) + ' jours)']),
+            ]) : null,
+        ]),
+
+        // ── Récurrence (masquée si modeMultiJour) ──
+        !formDraft.modeMultiJour ? el('label',{class:'field-label'},['Récurrence']) : null,
+        !formDraft.modeMultiJour ? el('div',{class:'recur-opts'},recurBtns) : null,
+        !formDraft.modeMultiJour ? joursBlock : null,
+        nthBlock,
+        !formDraft.modeMultiJour && formDraft.recurrence !== 'none' ? el('div',{class:'recur-details'},[
+          el('div',{class:'recur-fin-section'},[
+            el('label',{class:'field-label'},['Se termine']),
+            el('div',{class:'recur-fin-options'},[
+              // Option 1 : Jamais
+              el('label',{class:'recur-fin-row'},[
+                el('input',{type:'radio',name:'recur_fin',value:'never',
+                  checked:formDraft.recurrenceFin==='never',
+                  onchange:function(){ formDraft.recurrenceFin='never'; render(); }}),
+                el('span',{},[' Jamais']),
+              ]),
+              // Option 2 : Le [date]
+              el('label',{class:'recur-fin-row'},[
+                el('input',{type:'radio',name:'recur_fin',value:'date',
+                  checked:formDraft.recurrenceFin==='date',
+                  onchange:function(){ formDraft.recurrenceFin='date'; render(); }}),
+                el('span',{},[' Le ']),
+                el('input',{type:'date',
+                  class:'recur-fin-date',
+                  value:formDraft.recurrenceJusquau,
+                  style:formDraft.recurrenceFin!=='date'?'opacity:0.4;':'',
+                  oninput:function(e){
+                    formDraft.recurrenceJusquau=e.target.value;
+                    if(formDraft.recurrenceFin!=='date'){
+                      formDraft.recurrenceFin='date';
+                      // Cocher le radio correspondant sans render()
+                      var radios=document.querySelectorAll('input[name="recur_fin"]');
+                      radios.forEach(function(r){r.checked=(r.value==='date');});
+                    }
+                  },
+                  onfocus:function(){
+                    if(formDraft.recurrenceFin!=='date'){
+                      formDraft.recurrenceFin='date';
+                      render();
+                    }
+                  }}),
+              ]),
+              // Option 3 : Après N occurrences
+              el('label',{class:'recur-fin-row'},[
+                el('input',{type:'radio',name:'recur_fin',value:'count',
+                  checked:formDraft.recurrenceFin==='count',
+                  onchange:function(){ formDraft.recurrenceFin='count'; render(); }}),
+                el('span',{},[' Après ']),
+                el('input',{type:'number',min:'1',max:'365',
+                  class:'recur-fin-count',
+                  value:formDraft.recurrenceCount||52,
+                  style:formDraft.recurrenceFin!=='count'?'opacity:0.4;':'',
+                  oninput:function(e){
+                    formDraft.recurrenceCount=parseInt(e.target.value,10)||1;
+                  },
+                  onfocus:function(){
+                    if(formDraft.recurrenceFin!=='count'){
+                      formDraft.recurrenceFin='count';
+                      render();
+                    }
+                  }}),
+                el('span',{},[' occurrence(s)']),
+              ]),
+            ]),
+          ]),
+          // Badge série existante
+          formDraft._serieId ? el('div',{class:'serie-badge'},[
+            '↻ Modification d\'une série existante — choix appliqué : ',
+            el('strong',{},[{one:'occurrence seule',following:'à partir d\'ici',all:'toute la série'}[state.editSerieChoice]||'?']),
+          ]) : null,
+        ]) : null
+      ]) : null,
+
+      el('div',{class:'modal-actions'},[
+        el('button',{class:'pill-btn ghost',onclick:closeEventForm},['Annuler']),
+        el('button',{class:'pill-btn admin',onclick:submitEventForm},[isEdit ? 'Enregistrer' : 'Ajouter'])
+      ])
+    ])
+  ]);
+  return overlay;
+}
+
+// ============================================================
+// RENDER — DÉTAIL ÉVÉNEMENT
+// ============================================================
+function renderEventDetail(){
+  var id = state.showEventDetail;
+  if(!id) return null;
+  var evt = state.events[id];
+  if(!evt){ state.showEventDetail=null; render(); return null; }
+
+  var dept = deptById(evt.departement||'Autre');
+  var canEdit = state.isAdmin || (state.isStaff && evt.responsable===state.currentUser);
+  var canDelete = canEdit;
+
+  var overlay = el('div',{class:'overlay',onclick:function(e){ if(e.target===overlay){ state.showEventDetail=null; render(); } }},[
+    el('div',{class:'modal'},[
+      el('span',{class:'detail-dept-badge chip-'+dept.cls},[dept.label]),
+      el('h2',{},[evt.titre+(evt.conducteur?' ('+evt.conducteur+')':'')]),
+
+      el('div',{class:'detail-row'},[
+        el('span',{class:'dr-label'},['Date']),
+        el('span',{},[
+          evt.dateFinJour && evt.dateFinJour > evt.date
+            ? (formatDateFR(evt.date)+' → '+formatDateFR(evt.dateFinJour)
+               +(evt.heureDebut?' · '+evt.heureDebut+(evt.heureFin?'–'+evt.heureFin:''):''))
+            : (formatDateFR(evt.date)+(evt.heureDebut?' · '+evt.heureDebut+(evt.heureFin?'–'+evt.heureFin:''):''))
+        ])
+      ]),
+      el('div',{class:'detail-row'},[
+        el('span',{class:'dr-label'},['Responsable']),
+        el('span',{},[evt.responsable||'—'])
+      ]),
+      evt.notes ? el('div',{class:'detail-row'},[
+        el('span',{class:'dr-label'},['Notes']),
+        el('span',{style:'white-space:pre-wrap;'},[evt.notes])
+      ]) : null,
+
+      el('div',{class:'modal-actions'},[
+        canDelete ? el('button',{class:'pill-btn danger small',onclick:function(){ state.showEventDetail=null;
+          state.showDeleteModal=id;
+          state.deleteChoice=evt.serieId?null:'one';
+          state.deleteConfirm=false;
+          render();
+        }},['Supprimer']) : null,
+        canEdit ? el('button',{class:'pill-btn small',onclick:function(){
+          state.showEventDetail=null;
+          if(evt.serieId){
+            state.showEditSerieModal=id;
+            state.editSerieChoice=null;
+          } else {
+            openEditEvent(evt);
+          }
+          render();
+        }},['Modifier']) : null,
+        el('button',{class:'pill-btn admin',onclick:function(){ state.showEventDetail=null; render(); }},['Fermer'])
+      ])
+    ])
+  ]);
+  return overlay;
+}
+
+function formatDateFR(iso){
+  if(!iso) return '';
+  var d = new Date(iso+'T00:00:00');
+  return JOURS_LONG[d.getDay()] + ' ' + d.getDate() + ' ' + MOIS_FR[d.getMonth()] + ' ' + d.getFullYear();
+}
+
+// ============================================================
+// RENDER — ÉDITION RUBRIQUE CULTE
+// ============================================================
+function promptEditCulteField(dateISO, fieldKey, currentVal, rowId){
+  var label = {predicateur:'Prédicateur',typeCulte:'Type de culte',presidentCulte:'Président du culte',remarques:'Remarques'}[fieldKey] || fieldKey;
+  var key = fieldKey === 'remarques' ? '__remarque' : fieldKey;
+
+  // Remarques et type : saisie texte libre (prompt simple)
+  if(fieldKey === 'remarques' || fieldKey === 'typeCulte'){
+    var val = prompt('Modifier « ' + label + ' » pour le ' + formatDateFR(dateISO) + ' :', currentVal || '');
+    if(val === null) return;
+    saveCulteField(dateISO, key, val.trim() || null);
+    return;
+  }
+
+  // Prédicateur / Président : ouvrir la modal de sélection
+  state.culteFieldEdit = { dateISO: dateISO, fieldKey: key, label: label, currentVal: currentVal || '' };
+  render();
+}
+
+// Liste des noms d'intervenants à jour : base + modifications admin du Planning
+// (lues en temps réel depuis planning_culte_2026/intervenants)
+function getIntervenantsNoms(){
+  var base = (window.__INTERVENANTS_NOMS_BASE__ || []).slice();
+  var byNom = {};
+  base.forEach(function(n){ byNom[n] = true; });
+  var ov = state.planningIntervenantsOverrides || {};
+  Object.keys(ov).forEach(function(nom){
+    if(nom.indexOf('__deleted__') === 0){
+      var orig = nom.slice('__deleted__'.length);
+      delete byNom[orig];
+    } else if(ov[nom] && (ov[nom].__deleted || ov[nom]._deleted)){
+      delete byNom[nom];
+    } else if(ov[nom] && ov[nom].nom){
+      byNom[ov[nom].nom] = true;
+    }
+  });
+  return Object.keys(byNom).sort(function(a,b){
+    return a.localeCompare(b, 'fr', {sensitivity:'base'});
+  });
+}
+
+function renderCulteFieldModal(){
+  if(!state.culteFieldEdit) return null;
+  var e = state.culteFieldEdit;
+  var noms = getIntervenantsNoms();
+  var isGuest = e.currentVal && noms.indexOf(e.currentVal) < 0;
+  var selectValue = isGuest ? '__autre__' : e.currentVal;
+
+  var guestInput;
+  var sel = el('select',{class:'admin-select',style:'width:100%;margin-bottom:10px;',onchange:function(ev){
+    e.selected = ev.target.value;
+    // Afficher/masquer le champ invité
+    if(guestInput){ guestInput.style.display = (ev.target.value === '__autre__') ? 'block' : 'none'; }
+  }},
+    [el('option',{value:''},['— Vider —'])]
+    .concat(noms.map(function(n){
+      var opt = el('option',{value:n},[n]);
+      if(n === e.currentVal) opt.setAttribute('selected','selected');
+      return opt;
+    }))
+    .concat([el('option',{value:'__autre__',selected:isGuest},['Autre / invité…'])])
+  );
+  e.selected = selectValue;
+
+  guestInput = el('input',{type:'text',placeholder:'Nom de l\'invité',value:isGuest?e.currentVal:'',
+    style:'width:100%;margin-bottom:10px;display:'+(isGuest?'block':'none')+';',
+    oninput:function(ev){ e.guestName = ev.target.value; }});
+  if(isGuest) e.guestName = e.currentVal;
+
+  var overlay = el('div',{class:'overlay',onclick:function(ev){ if(ev.target===overlay){ state.culteFieldEdit=null; render(); } }},[
+    el('div',{class:'modal'},[
+      el('h2',{},[e.label]),
+      el('p',{},['Choisissez un intervenant dans la liste, ou « Autre / invité » pour un nom libre.']),
+      sel,
+      guestInput,
+      el('div',{class:'modal-actions'},[
+        el('button',{class:'pill-btn ghost',onclick:function(){ state.culteFieldEdit=null; render(); }},['Annuler']),
+        el('button',{class:'pill-btn admin',onclick:function(){
+          var v = e.selected;
+          if(v === '__autre__'){ v = (e.guestName||'').trim(); }
+          saveCulteField(e.dateISO, e.fieldKey, v || null);
+          state.culteFieldEdit = null;
+          render();
+        }},['Enregistrer'])
+      ])
+    ])
+  ]);
+  return overlay;
+}
+
+// ============================================================
+// RENDER — ÉCRAN D'ACCUEIL (non connecté)
+// ============================================================
+
+// ============================================================
+// GESTION ADMIN : DEPTS + RESPONSABLES
+// ============================================================
+
+// ============================================================
+// MODAL SUPPRESSION GRANULAIRE
+// ============================================================
+
+// ============================================================
+// MODAL CHOIX PÉRIMÈTRE MODIFICATION SÉRIE
+// ============================================================
+function renderEditSerieModal(){
+  if(!state.showEditSerieModal) return null;
+  var id = state.showEditSerieModal;
+  var evt = state.events[id];
+  if(!evt){ state.showEditSerieModal=null; return null; }
+
+  var choices = [
+    {v:'one',      l:'Cette occurrence seulement',       sub:'Modifier uniquement le '+formatDateFR(evt.date)},
+    {v:'following',l:'Cette occurrence et les suivantes', sub:'Recréer la série à partir du '+formatDateFR(evt.date)},
+    {v:'all',      l:'Toute la série',                   sub:'Modifier toutes les occurrences de "'+evt.titre+'"'},
+  ];
+
+  var overlay = el('div',{class:'overlay',onclick:function(e){
+    if(e.target===overlay){ state.showEditSerieModal=null; render(); }
+  }},[
+    el('div',{class:'modal modal-sm'},[
+      el('h2',{style:'margin-bottom:14px;'},['Modifier un événement récurrent']),
+      el('p',{style:'font-size:13px;color:var(--ink-soft);margin:0 0 14px;'},['Quelle étendue souhaitez-vous modifier ?']),
+      el('div',{class:'serie-choices'},
+        choices.map(function(c){
+          return el('button',{
+            class:'serie-choice'+(state.editSerieChoice===c.v?' selected':''),
+            onclick:function(){ state.editSerieChoice=c.v; render(); }
+          },[
+            el('div',{class:'sc-label'},[c.l]),
+            el('div',{class:'sc-sub'},[c.sub]),
+          ]);
+        })
+      ),
+      el('div',{class:'modal-actions',style:'margin-top:16px;'},[
+        el('button',{class:'pill-btn ghost',onclick:function(){
+          state.showEditSerieModal=null; state.editSerieChoice=null; render();
+        }},['Annuler']),
+        el('button',{
+          class:'pill-btn admin'+(state.editSerieChoice?'':' disabled'),
+          onclick:function(){
+            if(!state.editSerieChoice) return;
+            state.showEditSerieModal=null;
+            openEditEvent(evt);
+          }
+        },['Modifier →']),
+      ]),
+    ])
+  ]);
+  return overlay;
+}
+
+function renderDeleteModal(){
+  if(!state.showDeleteModal) return null;
+  var id = state.showDeleteModal;
+  var evt = state.events[id];
+  if(!evt){ state.showDeleteModal=null; return null; }
+  var hasSerie = !!evt.serieId;
+
+  // Étape 1 : choix du périmètre (si série)
+  // Étape 2 : confirmation
+  var content;
+  if(!hasSerie || state.deleteConfirm){
+    // Confirmation finale
+    var msg = hasSerie ? {
+      one: 'Supprimer uniquement cette occurrence du '+formatDateFR(evt.date)+' ?',
+      following: 'Supprimer cette occurrence et toutes les suivantes (à partir du '+formatDateFR(evt.date)+') ?',
+      all: 'Supprimer toutes les occurrences de la série "'+evt.titre+'" ?',
+    }[state.deleteChoice || 'one']
+    : 'Supprimer l\'événement "'+evt.titre+'" du '+formatDateFR(evt.date)+' ?';
+
+    content = el('div',{},[
+      el('p',{style:'font-size:14px;color:var(--ink);margin:0 0 18px;line-height:1.5;'},[msg]),
+      el('div',{class:'modal-actions'},[
+        el('button',{class:'pill-btn ghost',onclick:function(){
+          state.showDeleteModal=null; state.deleteChoice=null; state.deleteConfirm=false; render();
+        }},['Annuler']),
+        el('button',{class:'pill-btn danger',onclick:async function(){
+          var choice = hasSerie ? (state.deleteChoice||'one') : 'one';
+          var sid = evt.serieId;
+          var evtDate = evt.date;
+          if(choice==='one' || !hasSerie){
+            await deleteEvent(id);
+          } else if(choice==='following'){
+            var toDelete = Object.values(state.events).filter(function(ev){
+              return ev.serieId===sid && ev.date>=evtDate;
+            });
+            for(var i=0;i<toDelete.length;i++) try{await deleteEvent(toDelete[i].id);}catch(e){}
+            showToast(toDelete.length+' occurrence(s) supprimée(s).');
+          } else { // all
+            var toDelete = Object.values(state.events).filter(function(ev){
+              return ev.serieId===sid;
+            });
+            for(var i=0;i<toDelete.length;i++) try{await deleteEvent(toDelete[i].id);}catch(e){}
+            showToast(toDelete.length+' occurrence(s) supprimée(s).');
+          }
+          state.showDeleteModal=null; state.deleteChoice=null; state.deleteConfirm=false;
+          render();
+        }},['Confirmer la suppression']),
+      ]),
+    ]);
+  } else {
+    // Étape 1 : choix du périmètre
+    var choices = [
+      {v:'one',     l:'Cette occurrence seulement',      sub:'Uniquement le '+formatDateFR(evt.date)},
+      {v:'following',l:'Cette occurrence et les suivantes', sub:'À partir du '+formatDateFR(evt.date)},
+      {v:'all',     l:'Toute la série',                  sub:'Toutes les occurrences de "'+evt.titre+'"'},
+    ];
+    content = el('div',{},[
+      el('p',{style:'font-size:13px;color:var(--ink-soft);margin:0 0 14px;'},['Quelle étendue souhaitez-vous supprimer ?']),
+      el('div',{class:'serie-choices'},
+        choices.map(function(c){
+          return el('button',{
+            class:'serie-choice'+(state.deleteChoice===c.v?' selected':''),
+            onclick:function(){ state.deleteChoice=c.v; render(); }
+          },[
+            el('div',{class:'sc-label'},[c.l]),
+            el('div',{class:'sc-sub'},[c.sub]),
+          ]);
+        })
+      ),
+      el('div',{class:'modal-actions',style:'margin-top:16px;'},[
+        el('button',{class:'pill-btn ghost',onclick:function(){
+          state.showDeleteModal=null; state.deleteChoice=null; render();
+        }},['Annuler']),
+        el('button',{
+          class:'pill-btn danger'+(state.deleteChoice?'':' disabled'),
+          onclick:function(){
+            if(!state.deleteChoice) return;
+            state.deleteConfirm=true; render();
+          }
+        },['Suivant →']),
+      ]),
+    ]);
+  }
+
+  var overlay = el('div',{class:'overlay',onclick:function(e){
+    if(e.target===overlay){ state.showDeleteModal=null; state.deleteChoice=null; state.deleteConfirm=false; render(); }
+  }},[
+    el('div',{class:'modal modal-sm'},[
+      el('h2',{style:'color:#c0623e;margin-bottom:14px;'},['🗑 Supprimer un événement']),
+      content,
+    ])
+  ]);
+  return overlay;
+}
+
+function renderManageConfigModal(){
+  if(!state.showManageConfig) return null;
+  var tab = state.configTab;
+
+  // ── Onglets ──
+  var tabs = el('div',{style:'display:flex;gap:8px;margin-bottom:18px;'},[
+    el('button',{class:'pill-btn'+(tab==='depts'?' admin':' ghost'),onclick:function(){state.configTab='depts';render();}},['Départements']),
+    el('button',{class:'pill-btn'+(tab==='responsables'?' admin':' ghost'),onclick:function(){state.configTab='responsables';render();}},['Responsables']),
+  ]);
+
+  var content;
+
+  if(tab === 'depts'){
+    var list = getDepts();
+    var rows = list.map(function(d){
+      return el('div',{class:'manage-row'},[
+        el('span',{class:'manage-nom'},[d.label]),
+        el('div',{class:'manage-actions'},[
+          el('button',{class:'pill-btn ghost sm',onclick:function(){
+            state.manageDeptEditing = d.id;
+            state.manageDeptForm = {label:d.label};
+            render();
+          }},['Modifier']),
+          el('button',{class:'pill-btn danger sm',onclick:function(){
+            // Pas de confirm() (bloqué iOS Safari) — suppression directe avec possibilité de restaurer
+            // Marquer comme supprimé dans overrides
+            var ov = state.deptsOverrides.filter(function(x){ return x.id!==d.id; });
+            ov.push({id:d.id, label:d.label, _deleted:true});
+            state.deptsOverrides = ov;
+            saveStaffConfig();
+            render();
+          }},['Supprimer']),
+        ])
+      ]);
+    });
+
+    // Depts supprimés (restaurables)
+    var deleted = (state.deptsOverrides||[]).filter(function(d){ return d._deleted; });
+    var deletedRows = deleted.length > 0 ? [
+      el('div',{style:'margin-top:16px;font-size:12px;color:#888;font-weight:600;'},['Départements supprimés']),
+    ].concat(deleted.map(function(d){
+      return el('div',{class:'manage-row deleted'},[
+        el('span',{class:'manage-nom',style:'text-decoration:line-through;color:#aaa;'},[d.label]),
+        el('button',{class:'pill-btn ghost sm',onclick:function(){
+          state.deptsOverrides = state.deptsOverrides.filter(function(x){ return x.id!==d.id; });
+          saveStaffConfig(); render();
+        }},['Restaurer']),
+      ]);
+    })) : [];
+
+    // Formulaire ajout/modif dept
+    var deptForm = null;
+    if(state.manageDeptEditing !== null){
+      var f = state.manageDeptForm;
+      var isNewDept = state.manageDeptEditing === '__new__';
+      deptForm = el('div',{class:'manage-form'},[
+        el('div',{style:'font-size:13px;font-weight:600;margin-bottom:10px;'},[isNewDept?'Nouveau département':'Modifier le département']),
+        el('input',{type:'text',placeholder:'Nom du département',value:f.label,
+          oninput:function(e){ f.label=e.target.value; }}),
+        el('div',{class:'modal-actions',style:'margin-top:10px;'},[
+          el('button',{class:'pill-btn ghost',onclick:function(){ state.manageDeptEditing=null; render(); }},['Annuler']),
+          el('button',{class:'pill-btn admin',onclick:function(){
+            var label = (f.label||'').trim();
+            if(!label){ showToast('Entrez un nom.'); return; }
+            var id = isNewDept ? label.toLowerCase().replace(/[^a-z0-9]/g,'_') : state.manageDeptEditing;
+            var ov = state.deptsOverrides.filter(function(x){ return x.id!==id; });
+            ov.push({id:id, label:label, cls:'autre'});
+            state.deptsOverrides = ov;
+            saveStaffConfig();
+            state.manageDeptEditing = null;
+            render();
+          }},['Enregistrer']),
+        ])
+      ]);
+    }
+
+    content = el('div',{},[
+      el('button',{class:'pill-btn admin',style:'margin-bottom:14px;',onclick:function(){
+        state.manageDeptEditing='__new__'; state.manageDeptForm={label:''}; render();
+      }},['+ Nouveau département']),
+      deptForm,
+      el('div',{class:'manage-list'},rows.concat(deletedRows)),
+    ]);
+  }
+
+  else { // responsables
+    var respList = getResponsables();
+    var respRows = respList.map(function(nom){
+      return el('div',{class:'manage-row'},[
+        el('span',{class:'manage-nom'},[nom]),
+        el('div',{class:'manage-actions'},[
+          el('button',{class:'pill-btn ghost sm',onclick:function(){
+            state.manageRespEditing = nom;
+            state.manageRespForm = {nom:nom};
+            render();
+          }},['Modifier']),
+          el('button',{class:'pill-btn danger sm',onclick:function(){
+            // Suppression directe — restaurable via liste des supprimés
+            var ov = state.responsablesOverrides.filter(function(x){ return x.nom!==nom; });
+            ov.push({nom:nom, _deleted:true});
+            state.responsablesOverrides = ov;
+            saveStaffConfig(); render();
+          }},['Supprimer']),
+        ])
+      ]);
+    });
+
+    var delResp = (state.responsablesOverrides||[]).filter(function(r){ return r._deleted; });
+    var delRespRows = delResp.length > 0 ? [
+      el('div',{style:'margin-top:16px;font-size:12px;color:#888;font-weight:600;'},['Responsables supprimés']),
+    ].concat(delResp.map(function(r){
+      return el('div',{class:'manage-row deleted'},[
+        el('span',{class:'manage-nom',style:'text-decoration:line-through;color:#aaa;'},[r.nom]),
+        el('button',{class:'pill-btn ghost sm',onclick:function(){
+          state.responsablesOverrides = state.responsablesOverrides.filter(function(x){ return x.nom!==r.nom; });
+          saveStaffConfig(); render();
+        }},['Restaurer']),
+      ]);
+    })) : [];
+
+    var respForm = null;
+    if(state.manageRespEditing !== null){
+      var rf = state.manageRespForm;
+      var isNewResp = state.manageRespEditing === '__new__';
+      respForm = el('div',{class:'manage-form'},[
+        el('div',{style:'font-size:13px;font-weight:600;margin-bottom:10px;'},[isNewResp?'Nouveau responsable':'Modifier']),
+        el('input',{type:'text',placeholder:'Prénom Nom',value:rf.nom,
+          oninput:function(e){ rf.nom=e.target.value; }}),
+        el('div',{class:'modal-actions',style:'margin-top:10px;'},[
+          el('button',{class:'pill-btn ghost',onclick:function(){ state.manageRespEditing=null; render(); }},['Annuler']),
+          el('button',{class:'pill-btn admin',onclick:function(){
+            var nom = (rf.nom||'').trim();
+            if(!nom){ showToast('Entrez un nom.'); return; }
+            var oldNom = isNewResp ? null : state.manageRespEditing;
+            var ov = state.responsablesOverrides.slice();
+            if(!isNewResp){
+              // Supprimer l'ancien, ajouter le nouveau
+              ov = ov.filter(function(x){ return x.nom!==oldNom; });
+              ov.push({nom:oldNom, _deleted:true});
+            }
+            // Ajouter le nouveau nom (retirer _deleted si existant)
+            ov = ov.filter(function(x){ return x.nom!==nom; });
+            ov.push({nom:nom});
+            state.responsablesOverrides = ov;
+            saveStaffConfig();
+            state.manageRespEditing = null;
+            render();
+          }},['Enregistrer']),
+        ])
+      ]);
+    }
+
+    content = el('div',{},[
+      el('button',{class:'pill-btn admin',style:'margin-bottom:14px;',onclick:function(){
+        state.manageRespEditing='__new__'; state.manageRespForm={nom:''}; render();
+      }},['+ Nouveau responsable']),
+      respForm,
+      el('div',{class:'manage-list'},respRows.concat(delRespRows)),
+    ]);
+  }
+
+  var overlay = el('div',{class:'overlay',onclick:function(ev){ if(ev.target===overlay){ state.showManageConfig=false; state.manageDeptEditing=null; state.manageRespEditing=null; render(); } }},[
+    el('div',{class:'modal',style:'max-height:80vh;overflow-y:auto;'},[
+      el('h2',{},['Gérer les listes']),
+      tabs,
+      content,
+      el('button',{class:'pill-btn ghost',style:'margin-top:18px;',onclick:function(){ state.showManageConfig=false; state.manageDeptEditing=null; state.manageRespEditing=null; render(); }},['Fermer']),
+    ])
+  ]);
+  return overlay;
+}
+
+function renderWelcome(){
+  return el('div',{style:'max-width:480px;margin:60px auto;padding:0 20px;text-align:center;'},[
+    el('div',{style:'font-size:48px;margin-bottom:16px;'},['📅']),
+    el('div',{style:'font-family:Fraunces,serif;font-size:24px;font-weight:600;color:var(--ink);margin-bottom:10px;'},['Calendrier Staff']),
+    el('p',{style:'color:var(--ink-soft);font-size:14px;line-height:1.6;margin-bottom:24px;'},
+      ['Cet outil est réservé aux responsables de l\'Église. Connectez-vous avec le code Staff pour accéder au calendrier et saisir vos événements de département.']),
+    el('button',{class:'pill-btn admin',style:'font-size:15px;padding:12px 24px;',onclick:function(){ state.showLoginStaff=true; state.staffError=''; render(); }},['Accès Staff'])
+  ]);
+}
+
+// ============================================================
+// RENDER PRINCIPAL
+// ============================================================
+function render(){
+  // Sauvegarder la position de scroll de la modal avant re-render
+  var _modalScroll = 0;
+  var _prevModal = document.querySelector('.modal');
+  if(_prevModal) _modalScroll = _prevModal.scrollTop;
+
+  var root = document.getElementById('root');
+  root.innerHTML = '';
+
+  root.appendChild(renderTopbar());
+
+  if(state.configMissing){
+    root.appendChild(el('div',{style:'text-align:center;padding:60px 20px;'},['Connexion Firebase impossible.']));
+    return;
+  }
+
+  if(!state.isStaff){
+    root.appendChild(renderWelcome());
+    var loginS = renderLoginStaff();
+    if(loginS) root.appendChild(loginS);
+    return;
+  }
+
+  var idBar = renderIdBar();
+  if(idBar) root.appendChild(idBar);
+
+  root.appendChild(renderMonthNav());
+  root.appendChild(renderWeekNav());
+
+  if(state.loading){
+    root.appendChild(el('div',{style:'text-align:center;padding:40px;color:var(--ink-soft);'},['Chargement…']));
+  } else {
+    root.appendChild(renderWeekGrid());
+    root.appendChild(renderLegend());
+  }
+
+  root.appendChild(el('div',{class:'footer-note'},['Calendrier réservé au Staff — Église de l\'Union & Baptiste de Roubaix · Données synchronisées en temps réel']));
+
+  var ls = renderLoginStaff(); if(ls) root.appendChild(ls);
+  var la = renderLoginAdmin(); if(la) root.appendChild(la);
+  var ef = renderEventForm();  if(ef) root.appendChild(ef);
+  var ed = renderEventDetail();if(ed) root.appendChild(ed);
+  var cfm = renderCulteFieldModal(); if(cfm) root.appendChild(cfm);
+  var mcm = renderManageConfigModal(); if(mcm) root.appendChild(mcm);
+  var rdm = renderDeleteModal(); if(rdm) root.appendChild(rdm);
+  var rem = renderEditSerieModal(); if(rem) root.appendChild(rem);
+  if(state.toast) root.appendChild(el('div',{class:'toast'},[state.toast]));
+
+  // Restaurer le scroll de la modal après re-render
+  if(_modalScroll > 0){
+    var _newModal = document.querySelector('.modal');
+    if(_newModal) _newModal.scrollTop = _modalScroll;
+  }
+}
+
+// ============================================================
+// BOOTSTRAP
+// ============================================================
+
+
+function bootstrapApp(){
+  if(window.__FIREBASE_CONFIG_MISSING__){
+    state.loading=false; state.configMissing=true; render(); return;
+  }
+  loadPlanningData();
+  initFirebase();
+  render();
+
+}
+
+var bootstrapped = false;
+function bootstrapOnce(){
+  if(bootstrapped) return;
+  bootstrapped = true;
+  bootstrapApp();
+}
+
+if(window.__FIREBASE_STAFF_READY__ || window.__FIREBASE_CONFIG_MISSING__){
+  bootstrapOnce();
+} else {
+  window.addEventListener('firebase-staff-ready', bootstrapOnce, {once:true});
+  setTimeout(function(){
+    if(!bootstrapped){ window.__FIREBASE_CONFIG_MISSING__=true; bootstrapOnce(); }
+  }, 5000);
+}
+
+})();
+</script>
+
+
+</body>
+</html>
