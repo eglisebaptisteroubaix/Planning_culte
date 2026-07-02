@@ -2303,7 +2303,9 @@ async function toggleAccueilMembre(rowId, dateISO, nom, action){
 // EMAILJS — Rappels d'inscription
 // ============================================================
 var EMAILJS_SERVICE_ID  = 'service_kpo2kbv';
-var EMAILJS_TEMPLATE_ID = 'template_vyat5ej';
+var EMAILJS_TEMPLATE_ID         = 'template_vyat5ej';  // Rappels non-inscrits
+var EMAILJS_TEMPLATE_ID_CONFIRM = 'template_confirm';   // Confirmations inscrits (à créer)
+var EMAILJS_TEMPLATE_ID_PRED    = 'template_pred';      // Rappel prédicateur/président (à créer)
 var EMAILJS_PUBLIC_KEY  = 'ghEB6k_4E3NYX8nJw';
 var emailjsReady = false;
 
@@ -2359,6 +2361,8 @@ async function envoyerRappelEmail(intervenant, dateDimanche, rowId, rubriques){
   if(!intervenant.email){ return false; }
   try {
     await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      to_email: intervenant.email,
+      to_name: intervenant.nom,
       prenom: intervenant.nom.split(' ')[0],
       date_dimanche: dateDimanche,
       rubriques_manquantes: rubriques.join(' | ')
@@ -2396,7 +2400,7 @@ async function lancerRappels(rowId){
   var inscrits = new Set(Object.values(ov).filter(function(v){ return v && typeof v === 'string'; }));
 
   var effRow2 = getRowEffective(row);
-  var dateStr = new Date(row.date + 'T00:00:00').toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+  var dateStr = new Date(row.date + 'T00:00:00').toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long', year:'numeric'}).replace(/^(.)/, function(c){ return c.toUpperCase(); });
   var envoyés = 0;
 
   var candidats = getEffectiveIntervenants().filter(function(p){
@@ -2482,17 +2486,128 @@ function renderRappelsModal(){
           ),
       el('div',{class:'modal-actions',style:'margin-top:16px;'},[
         el('button',{class:'pill-btn ghost',onclick:function(){ state.showRappels=false; render(); }},['Fermer']),
-        state.rappelRowId ? el('button',{
-          class:'pill-btn admin',
-          onclick:async function(){
-            await lancerRappels(state.rappelRowId);
-            state.showRappels=false; state.rappelRowId=null; render();
-          }
-        },['Envoyer les rappels →']) : null
+        state.rappelRowId ? el('div',{style:'display:flex;gap:8px;flex-wrap:wrap;'},[
+          el('button',{
+            class:'pill-btn admin',
+            title:'Vendredi matin — non inscrits habilités',
+            onclick:async function(){
+              await lancerRappels(state.rappelRowId);
+              state.showRappels=false; state.rappelRowId=null; render();
+            }
+          },['📨 Rappels non-inscrits']),
+          el('button',{
+            class:'pill-btn',
+            style:'background:#2D7A4F;',
+            title:'Vendredi matin — confirmation aux inscrits',
+            onclick:async function(){
+              await lancerConfirmations(state.rappelRowId);
+              state.showRappels=false; state.rappelRowId=null; render();
+            }
+          },['✅ Confirmations inscrits']),
+          el('button',{
+            class:'pill-btn',
+            style:'background:#7C3AED;',
+            title:'Lundi après-midi — prédicateur et président',
+            onclick:async function(){
+              await lancerRappelsPredicateurs(state.rappelRowId);
+              state.showRappels=false; state.rappelRowId=null; render();
+            }
+          },['🎤 Prédicateur / Président']),
+        ]) : null
       ])
     ])
   ]);
   return overlay;
+}
+
+
+// ============================================================
+// CONFIRMATIONS — inscrits vendredi matin
+// ============================================================
+async function lancerConfirmations(rowId){
+  var row = PLANNING_RAW.find(function(r){ return r.id === rowId; });
+  if(!row){ showToast('Dimanche introuvable.'); return; }
+
+  var ov = (state.overrides && state.overrides[rowId]) ? state.overrides[rowId] : {};
+  var effRow = getRowEffective(row);
+  var defs = getSlotDefs(effRow);
+  var dateStr = new Date(row.date+'T00:00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).replace(/^(.)/, function(c){ return c.toUpperCase(); });
+
+  // Construire la liste : intervenant → ses rubriques inscrites
+  var parIntervenant = {};
+  defs.forEach(function(def){
+    if(def.special === 'accueil') return;
+    var val = ov[def.key] !== undefined ? ov[def.key] : (effRow[def.key] || null);
+    if(!val || typeof val !== 'string') return;
+    if(!parIntervenant[val]) parIntervenant[val] = [];
+    parIntervenant[val].push(def.label);
+  });
+
+  var intervenants = getEffectiveIntervenants().filter(function(p){
+    return p.email && parIntervenant[p.nom] && parIntervenant[p.nom].length > 0;
+  });
+
+  if(intervenants.length === 0){
+    showToast('Aucun intervenant inscrit avec un email renseigné.');
+    return;
+  }
+
+  var envoyés = 0;
+  for(var i=0; i<intervenants.length; i++){
+    var p = intervenants[i];
+    var rubriques = parIntervenant[p.nom].join(' | ');
+    try {
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID_CONFIRM, {
+        to_email: p.email,
+        to_name: p.nom,
+        prenom: p.nom.split(' ')[0],
+        date_dimanche: dateStr,
+        rubriques_inscrites: rubriques
+      });
+      envoyés++;
+    } catch(e){ console.error('Confirmation erreur:', e); }
+    await new Promise(function(r){ setTimeout(r, 300); });
+  }
+  showToast('✓ '+envoyés+' confirmation(s) envoyée(s).');
+}
+
+// ============================================================
+// RAPPELS PRÉDICATEUR / PRÉSIDENT — lundi après-midi
+// ============================================================
+async function lancerRappelsPredicateurs(rowId){
+  var row = PLANNING_RAW.find(function(r){ return r.id === rowId; });
+  if(!row){ showToast('Dimanche introuvable.'); return; }
+
+  var ov = (state.overrides && state.overrides[rowId]) ? state.overrides[rowId] : {};
+  var effRow = getRowEffective(row);
+  var dateStr = new Date(row.date+'T00:00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).replace(/^(.)/, function(c){ return c.toUpperCase(); });
+
+  var cibles = [];
+  var valPred = ov['predicateur'] !== undefined ? ov['predicateur'] : (effRow['predicateur'] || null);
+  var valPres = ov['presidentCulte'] !== undefined ? ov['presidentCulte'] : (effRow['presidentCulte'] || null);
+  if(valPred) cibles.push({nom: valPred, role: 'Prédicateur'});
+  if(valPres && valPres !== valPred) cibles.push({nom: valPres, role: 'Président du culte'});
+
+  var intervenants = getEffectiveIntervenants();
+  var envoyés = 0;
+  for(var i=0; i<cibles.length; i++){
+    var c = cibles[i];
+    var p = intervenants.find(function(x){ return x.nom === c.nom; });
+    if(!p || !p.email) continue;
+    try {
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID_PRED, {
+        to_email: p.email,
+        to_name: p.nom,
+        prenom: p.nom.split(' ')[0],
+        date_dimanche: dateStr,
+        role: c.role
+      });
+      envoyés++;
+    } catch(e){ console.error('Rappel prédicateur erreur:', e); }
+    await new Promise(function(r){ setTimeout(r, 300); });
+  }
+  if(envoyés === 0) showToast('Aucun prédicateur/président avec email renseigné.');
+  else showToast('✓ '+envoyés+' rappel(s) envoyé(s).');
 }
 
 

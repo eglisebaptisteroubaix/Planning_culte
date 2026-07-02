@@ -2157,6 +2157,21 @@ function renderEventDetail(){
           }
           render();
         }},['Modifier']) : null,
+        el('button',{class:'pill-btn small ghost',onclick:function(){
+          // Générer URL Google Calendar
+          function pad(n){return n<10?'0'+n:n;}
+          var d = evt.date ? new Date(evt.date+'T'+(evt.heureDebut||'10:00')+':00') : new Date();
+          var df = evt.dateFin ? new Date(evt.dateFin+'T'+(evt.heureFin||'11:00')+':00') : new Date(d.getTime()+3600000);
+          function toGCal(dt){return dt.getFullYear()+''+pad(dt.getMonth()+1)+''+pad(dt.getDate())+'T'+pad(dt.getHours())+''+pad(dt.getMinutes())+'00';}
+          var params = new URLSearchParams({
+            action:'TEMPLATE',
+            text: evt.titre || 'Événement',
+            dates: toGCal(d)+'/'+toGCal(df),
+            details: (evt.responsable ? 'Responsable : '+evt.responsable : '')+(evt.remarques ? ' — '+evt.remarques : ''),
+            location: 'Roubaix'
+          });
+          window.open('https://calendar.google.com/calendar/render?'+params.toString(),'_blank');
+        }},['📅 Google Calendar']),
         el('button',{class:'pill-btn admin',onclick:function(){ state.showEventDetail=null; render(); }},['Fermer'])
       ])
     ])
