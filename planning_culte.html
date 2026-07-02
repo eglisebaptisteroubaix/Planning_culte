@@ -1,0 +1,2924 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>Planning des cultes 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ── Palette Notion × Google Workspace ── */
+    --page-bg:#FAFAF8;
+    --white:#FFFFFF;
+    --hover-bg:#F2F2EF;
+    --ink:#111110;
+    --ink-soft:#4A4A42;
+    --ink-faint:#9B9B93;
+    --line:#D8D8D4;
+    --line-strong:#D1D1CE;
+    --action:#2383E2;
+    --action-pale:#EBF3FD;
+    --planning-accent:#8B4A8B;
+  --year-color-2026:#8B4A8B;
+  --year-color-2027:#0057A8;
+  --year-color-2028:#2D7A4F;  /* bleu ardoise — Planning */
+    --planning-pale:#F0E4F0;
+    --danger:#EB4A3F;
+    --warn-bg:#FFF8E7;
+    --radius:10px;
+    --radius-lg:14px;
+    --shadow:0 1px 3px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.06);
+    --shadow-lg:0 4px 24px rgba(0,0,0,.09);
+    /* Aliases compat */
+    --cream:var(--page-bg);
+    --cream-deep:#EFEFEB;
+    --denim:var(--planning-accent);
+    --denim-deep:#3A5A8A;
+    --denim-pale:var(--planning-pale);
+    --terracotta:var(--danger);
+    --terracotta-pale:#FDE8E7;
+    --sage:#5B8A6F;
+    --sage-pale:#EBF2EE;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--page-bg);color:var(--ink);}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Source Sans 3', system-ui, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100%;
+  }
+  #root{min-height:100vh;display:flex;flex-direction:column;}
+
+  h1,h2,h3,.display{
+    font-weight:700;
+    letter-spacing:-0.01em;
+    color:var(--ink);
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:30;
+    background:var(--white);
+    border-bottom:1px solid var(--line);
+    padding:10px 18px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .brand{display:flex; align-items:baseline; gap:10px; min-width:0;}
+  .brand .mark{
+    width:34px;height:34px;border-radius:9px;
+    background:var(--planning-accent);
+    display:flex;align-items:center;justify-content:center;
+    color:white;font-size:17px;font-weight:700;flex-shrink:0;
+    box-shadow:0 1px 3px rgba(74,111,165,.25);
+  }
+  .brand-text{display:flex;flex-direction:column;min-width:0;}
+  .brand-text .t1{font-weight:700;font-size:15px;line-height:1.15;color:var(--ink);}
+  .brand-text .t2{font-size:11px;color:var(--ink-soft);}
+  .topbar-actions{display:flex;align-items:center;gap:8px;flex:none;}
+
+  .pill-btn{
+    font-family:inherit; font-size:13px; font-weight:500;
+    padding:6px 14px; border-radius:8px; border:none; cursor:pointer;
+    background:var(--hover-bg); color:var(--ink);
+    transition:background .12s; white-space:nowrap;
+  }
+  .pill-btn:hover{box-shadow:var(--shadow); transform:translateY(-1px);}
+  .pill-btn:active{transform:translateY(0);}
+  .pill-btn.ghost{background:transparent;color:var(--ink-soft);border:1px solid var(--line);}
+  .pill-btn.admin{background:var(--planning-accent);color:white;}
+  .pill-btn.admin:hover{background:var(--denim-deep);}
+
+  /* ---------- Who-am-I bar ---------- */
+  .whoami{
+    position:sticky; top:64px; z-index:29;
+    padding:9px 18px; background:var(--page-bg);
+    border-bottom:1px solid var(--line);
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  }
+  .whoami .label{font-size:13px; color:var(--denim-deep); font-weight:600;}
+  select.name-select{
+    font-family:inherit; font-size:13px; font-weight:500;
+    padding:5px 10px; border-radius:8px; border:1.5px solid var(--planning-accent);
+    background:var(--white); color:var(--ink); cursor:pointer; min-width:200px;
+  }
+  .whoami .you-badge{
+    display:inline-flex; align-items:center; gap:8px; background:var(--white);
+    border:1px solid var(--line); border-radius:999px; padding:6px 12px 6px 6px;
+    font-size:13.5px; font-weight:600; color:var(--denim-deep);
+  }
+  .you-badge .avatar{
+    width:24px;height:24px;border-radius:50%;background:var(--denim);color:var(--cream);
+    display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;
+  }
+  .you-badge button{
+    border:none;background:transparent;color:var(--ink-soft);cursor:pointer;font-size:16px;line-height:1;padding:0 2px;
+  }
+
+  /* ---------- Main scroll area ---------- */
+  .main{flex:1; padding:18px 16px 90px; max-width:920px; margin:0 auto; width:100%;}
+
+  .legend-row{
+    display:flex; gap:14px; flex-wrap:wrap; margin-bottom:18px; padding:0 2px;
+  }
+  .legend-item{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink-soft);}
+  .dot{width:9px;height:9px;border-radius:50%;display:inline-block;}
+
+  .month-header{
+    font-size:22px; font-weight:700; color:var(--denim-deep);
+    margin:30px 0 12px; padding-top:6px; display:flex; align-items:baseline; gap:10px;
+  }
+  .month-header:first-child{margin-top:4px;}
+  .month-header .count{font-family:'Source Sans 3',sans-serif; font-size:12.5px; font-weight:600; color:var(--ink-soft); background:var(--cream-deep); padding:3px 9px; border-radius:999px;}
+
+  /* ---------- Sunday Card ---------- */
+  .card{
+    background:var(--white); border-radius:var(--radius-lg); border:1px solid var(--line);
+    margin-bottom:16px; overflow:hidden; box-shadow:var(--shadow);
+    transition:box-shadow .15s;
+  }
+  .card .stripe{width:4px; flex:none;}
+  .stripe.sc{background:var(--terracotta);}
+  .stripe.normal{background:var(--denim);}
+  .stripe.dej{background:var(--sage);}
+  .card-body{padding:0 14px 14px;}
+
+  .card-top{
+    display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+    padding:14px 16px 10px;
+  }
+  .date-block{display:flex; flex-direction:column;}
+  .date-main{font-size:17px;font-weight:700;color:var(--ink);line-height:1.1;}
+  .date-sub{font-size:11.5px;color:var(--ink-soft);margin-top:2px;}
+  .type-badge{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:3px 8px;border-radius:5px;}
+  .type-badge.sc{background:var(--terracotta-pale); color:#8C3F1F;}
+  .type-badge.dej{background:var(--sage-pale); color:#3E4F37;}
+  .type-badge.normal{background:var(--denim-pale); color:var(--denim-deep);}
+
+  .remark{
+    font-size:12px; color:var(--ink-soft); font-style:italic;
+    padding:6px 12px; margin:0 14px 10px;
+    background:var(--hover-bg); border-radius:6px;
+    border-left:2px solid var(--planning-accent);
+  }
+
+  .slots{display:flex; flex-direction:column; gap:7px;}
+  .slot-group-title{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-faint);padding:8px 0 4px;margin-top:4px;}
+  .slot-group-title:first-child{margin-top:0;}
+
+  .slot{
+    display:flex; align-items:center; gap:10px; padding:8px 10px;
+    border-radius:8px; background:var(--page-bg); border:1px solid transparent;
+    transition:background .1s,border-color .1s;
+  }
+  .slot .slot-label{flex:1;min-width:0;font-size:13px;color:var(--ink);font-weight:500;}
+  .slot .slot-value{font-size:13px;font-weight:600;color:var(--ink);}
+  .slot.empty .slot-value{color:#B7AE9C; font-weight:500; font-style:italic;}
+  .slot.locked{background:var(--cream-deep);}
+  .slot.mine{background:var(--denim-pale); border-color:var(--denim);}
+
+  .slot-action{flex:none;}
+  .btn-take{
+    font-family:inherit; font-size:12px; font-weight:600; border-radius:7px;
+    padding:5px 12px; border:1.5px solid var(--planning-accent);
+    background:var(--planning-pale); color:var(--planning-accent); cursor:pointer;
+    transition:background .1s,color .1s;
+  }
+  .btn-take:hover{background:var(--planning-accent);color:white;}
+  .btn-take:hover{background:var(--denim); color:var(--cream);}
+  .btn-take:disabled{opacity:.35; cursor:not-allowed; border-color:var(--line); color:var(--ink-soft);}
+  .btn-clear{
+    font-family:inherit; font-size:11.5px; font-weight:600; border-radius:7px;
+    padding:4px 10px; border:1.5px solid var(--danger);
+    background:transparent; color:var(--danger); cursor:pointer;
+    transition:background .1s,color .1s;
+  }
+  .btn-clear:hover{background:var(--danger);color:white;}
+  .btn-clear:hover{background:var(--terracotta); color:var(--white);}
+  .lock-icon{font-size:13px; color:var(--ink-soft); flex:none;}
+
+  .empty-state{
+    text-align:center; padding:60px 20px; color:var(--ink-soft);
+  }
+  .empty-state .display{font-size:20px; margin-bottom:6px;}
+
+  /* ---------- Admin modal ---------- */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(2px);}
+  .modal{
+    background:var(--white); border-radius:var(--radius-lg); max-width:440px; width:100%;
+    padding:24px; box-shadow:var(--shadow-lg);
+    max-height:90vh; overflow-y:auto;
+  }
+  .modal h2{font-size:20px; margin:0 0 6px;}
+  .modal p{font-size:13.5px; color:var(--ink-soft); margin:0 0 16px; line-height:1.5;}
+  .modal input{
+    width:100%; font-family:inherit; font-size:15px; padding:11px 13px; border-radius:10px;
+    border:1.5px solid var(--line); margin-bottom:12px; background:var(--cream);
+  }
+  .modal input:focus{outline:none; border-color:var(--denim);}
+  .modal-actions{display:flex; gap:8px; justify-content:flex-end; margin-top:6px;}
+  .err-msg{font-size:12.5px; color:var(--terracotta); margin:-6px 0 10px; font-weight:600;}
+
+  .modal-wide{max-width:520px;}
+  .modal-header-row{display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:6px;}
+  .modal-header-row h2{margin:0;}
+  .pill-btn.small{padding:6px 12px; font-size:12.5px;}
+
+  .field-label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);margin-bottom:5px;}
+  .field-label:first-of-type{margin-top:4px;}
+
+  .perm-list{display:flex; flex-direction:column; gap:8px; margin-bottom:6px;}
+  .perm-row{display:flex; align-items:center; gap:10px; font-size:14px; color:var(--ink); cursor:pointer; padding:4px 0;}
+  .perm-row input{width:auto; margin:0; accent-color:var(--denim); flex:none; width:17px; height:17px;}
+
+  .person-list{max-height:50vh; overflow-y:auto; display:flex; flex-direction:column; gap:6px; margin:4px 0 16px; padding-right:2px;}
+  .person-row{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:10px 12px; border-radius:10px; background:var(--cream); border:1px solid var(--line);
+  }
+  .person-name{font-weight:700; font-size:14px; color:var(--ink);}
+  .person-meta{font-size:11.5px; color:var(--ink-soft); margin-top:2px;}
+
+  /* admin panel content reuses slot but with select */
+  .admin-banner{
+    background:var(--planning-accent); color:white; padding:8px 18px;
+    font-size:13px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+  }
+  .admin-banner b{font-weight:700;}
+  select.admin-select{
+    font-family:inherit; font-size:13px; padding:5px 8px; border-radius:8px; border:1px solid var(--line);
+    background:var(--white); max-width:160px;
+  }
+
+  .toast{
+    position:fixed; bottom:22px; left:50%; transform:translateX(-50%);
+    background:var(--ink); color:var(--cream); padding:11px 20px; border-radius:999px;
+    font-size:13.5px; font-weight:600; z-index:80; box-shadow:0 10px 30px -8px rgba(0,0,0,.4);
+    animation:rise .25s ease;
+  }
+  @keyframes rise{from{opacity:0; transform:translate(-50%,8px);} to{opacity:1; transform:translate(-50%,0);}}
+
+  .footer-note{text-align:center;padding:16px;font-size:12px;color:var(--ink-faint);border-top:1px solid var(--line);background:var(--white);}
+
+  @media (max-width:480px){
+    .slot{flex-wrap:wrap;}
+    .slot .slot-label{width:100%;}
+    .brand-text .t2{display:none;}
+  }
+
+  /* ---- Barre navigation mois ---- */
+  .month-nav{
+    background:var(--white);border-bottom:1px solid var(--line);
+    padding:6px 16px;overflow-x:auto;white-space:nowrap;
+    display:flex;gap:4px;align-items:center;scrollbar-width:none;
+    position:sticky;top:110px;z-index:27;
+  }
+  .month-nav::-webkit-scrollbar{display:none;}
+  .month-nav-btn{
+    font-family:inherit;font-size:13px;font-weight:500;
+    padding:5px 12px;border-radius:6px;border:none;
+    background:transparent;color:var(--ink-soft);cursor:pointer;
+    transition:background .1s,color .1s;
+  }
+  .month-nav-btn:hover{background:var(--hover-bg);color:var(--ink);}
+  .month-nav-btn.active{background:var(--pill-active,#2F2F2C);color:white;font-weight:600;}
+  .month-nav-btn:hover{ background:var(--denim-pale); color:var(--denim-deep); border-color:var(--denim); }
+  .month-anchor{ display:block; height:0; overflow:hidden; }
+
+
+  .remark-admin{font-size:12px;color:var(--denim-deep);background:var(--denim-pale);border-radius:8px;padding:5px 10px;margin-bottom:9px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .rubrique-list{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;max-height:200px;overflow-y:auto;}
+  .rubrique-row{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 10px;border-radius:9px;background:var(--cream);border:1px solid var(--line);}
+  .rubrique-info{font-size:13px;font-weight:600;color:var(--ink);}
+  .rubrique-meta{font-size:11px;color:var(--ink-soft);}
+  .pill-btn.danger{background:#C0392B;border-color:#C0392B;color:#fff;}
+
+
+  /* ── Message smartphone paysage ── */
+  .landscape-hint{
+    display:none;
+    background:var(--warn-bg);border-bottom:1px solid #F5DEB3;
+    padding:8px 16px;font-size:12.5px;color:#92400E;
+    align-items:center;gap:8px;
+  }
+  .landscape-hint-close{
+    margin-left:auto;background:none;border:none;cursor:pointer;
+    font-size:16px;color:#92400E;padding:2px 6px;
+  }
+  @media(max-width:600px){ .landscape-hint{display:flex;} }
+
+  /* ── Slots locked/mine ── */
+  .slot.locked{background:var(--hover-bg);}
+  .slot.mine{background:var(--planning-pale);border-color:var(--planning-accent);}
+  .lock-icon{font-size:14px;flex-shrink:0;opacity:.5;}
+
+  /* ── SC badge ── */
+  .type-badge.sc{background:var(--planning-pale);color:var(--planning-accent);}
+  .type-badge.normal{background:var(--hover-bg);color:var(--ink-soft);}
+
+  /* ── Scrollbar mois ── */
+  .month-nav::-webkit-scrollbar{display:none;}
+
+
+  /* ── Accueil / Sécurité ── */
+  .slot-accueil{ padding:10px 12px; border-radius:8px; background:var(--hover-bg); overflow:hidden; }
+  .slot-accueil-header{
+    display:flex; align-items:center; gap:8px; margin-bottom:8px; flex-wrap:wrap;
+  }
+  .accueil-equipe-badge{
+    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.05em;
+    background:var(--planning-accent); color:white; padding:2px 8px; border-radius:5px;
+    white-space:nowrap; flex-shrink:0;
+  }
+  .accueil-membres{ display:flex; flex-wrap:wrap; gap:5px; margin-top:4px; }
+  .accueil-membre{
+    font-size:12px; padding:3px 8px; border-radius:5px;
+    background:var(--planning-pale); color:var(--planning-accent); font-weight:500;
+  }
+  .accueil-membre-resp{
+    font-size:12px; padding:3px 8px; border-radius:5px;
+    background:var(--planning-accent); color:white; font-weight:600;
+  }
+
+  .accueil-chip{ display:flex; align-items:center; gap:5px; }
+  .accueil-btn-absent{
+    font-family:inherit; font-size:10px; font-weight:600;
+    padding:2px 7px; border-radius:5px; border:1px solid var(--danger);
+    background:transparent; color:var(--danger); cursor:pointer;
+  }
+  .accueil-btn-absent:hover{ background:var(--danger); color:white; }
+  .accueil-remplacant{ background:#FFF3CD; color:#856404; }
+
+  .accueil-absent{ background:#FDE8E7; color:#C0392B; text-decoration:line-through; }
+  .accueil-btn-ok{
+    font-family:inherit; font-size:10px; font-weight:600;
+    padding:2px 7px; border-radius:5px; border:1.5px solid #2D7A4F;
+    background:transparent; color:#2D7A4F; cursor:pointer;
+  }
+  .accueil-btn-ok:hover{ background:#2D7A4F; color:white; }
+
+  .accueil-conge{
+    background:#FFF3CD; color:#856404;
+    text-decoration:line-through;
+    opacity:.8;
+  }
+
+  .slot-indispo-badge{
+    display:block; margin-top:4px;
+    font-size:11px; font-weight:600;
+    color:#C05621; background:#FFF3CD;
+    border-radius:5px; padding:2px 8px;
+  }
+</style>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTkyIj4KICA8cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgcng9IjQwIiBmaWxsPSIjOEI0QThCIi8+CiAgPCEtLSBUw6p0ZSAtLT4KICA8Y2lyY2xlIGN4PSI5NiIgY3k9IjU0IiByPSIyNiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIi8+CiAgPCEtLSBDb3JwcyAtLT4KICA8cGF0aCBkPSJNMzYgMTU4IFEzNiAxMTAgOTYgMTEwIFExNTYgMTEwIDE1NiAxNTgiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC45KSIvPgogIDwhLS0gQ29jaGUgdmVydGUgLS0+CiAgPGNpcmNsZSBjeD0iMTM4IiBjeT0iOTYiIHI9IjIyIiBmaWxsPSIjMzRDNzU5Ii8+CiAgPHBhdGggZD0iTTEyNyA5NiBMMTM0IDEwMyBMMTUwIDg1IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogIDwhLS0gVGV4dGUgZW4gYmFzIC0tPgogIDx0ZXh0IHg9Ijk2IiB5PSIxODAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJzeXN0ZW0tdWksc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjYwMCIgZm9udC1zaXplPSIxOCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkyKSI+SmUgbSdpbnNjcmlzPC90ZXh0Pgo8L3N2Zz4=">
+  <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOTIgMTkyIj4KICA8cmVjdCB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgcng9IjQwIiBmaWxsPSIjNEE2RkE1Ii8+CiAgPCEtLSBUw6p0ZSAtLT4KICA8Y2lyY2xlIGN4PSI5NiIgY3k9IjU0IiByPSIyNiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkpIi8+CiAgPCEtLSBDb3JwcyAtLT4KICA8cGF0aCBkPSJNMzYgMTU4IFEzNiAxMTAgOTYgMTEwIFExNTYgMTEwIDE1NiAxNTgiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC45KSIvPgogIDwhLS0gQ29jaGUgdmVydGUgLS0+CiAgPGNpcmNsZSBjeD0iMTM4IiBjeT0iOTYiIHI9IjIyIiBmaWxsPSIjMzRDNzU5Ii8+CiAgPHBhdGggZD0iTTEyNyA5NiBMMTM0IDEwMyBMMTUwIDg1IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZmlsbD0ibm9uZSIvPgogIDwhLS0gVGV4dGUgZW4gYmFzIC0tPgogIDx0ZXh0IHg9Ijk2IiB5PSIxODAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJzeXN0ZW0tdWksc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjYwMCIgZm9udC1zaXplPSIxOCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjkyKSI+SmUgbSdpbnNjcmlzPC90ZXh0Pgo8L3N2Zz4=">
+  <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiUGxhbm5pbmcgZGVzIGN1bHRlcyIsInNob3J0X25hbWUiOiJKZSBtJ2luc2NyaXMiLCJzdGFydF91cmwiOiIuL2luZGV4Lmh0bWwiLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjRkFGQUY4IiwidGhlbWVfY29sb3IiOiIjNEE2RkE1IiwiaWNvbnMiOlt7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjRiV3h1Y3owaWFIUjBjRG92TDNkM2R5NTNNeTV2Y21jdk1qQXdNQzl6ZG1jaUlIWnBaWGRDYjNnOUlqQWdNQ0F4T1RJZ01Ua3lJajRLSUNBOGNtVmpkQ0IzYVdSMGFEMGlNVGt5SWlCb1pXbG5hSFE5SWpFNU1pSWdjbmc5SWpRd0lpQm1hV3hzUFNJak5FRTJSa0UxSWk4K0NpQWdQQ0V0TFNCVXc2cDBaU0F0TFQ0S0lDQThZMmx5WTJ4bElHTjRQU0k1TmlJZ1kzazlJalUwSWlCeVBTSXlOaUlnWm1sc2JEMGljbWRpWVNneU5UVXNNalUxTERJMU5Td3dMamtwSWk4K0NpQWdQQ0V0TFNCRGIzSndjeUF0TFQ0S0lDQThjR0YwYUNCa1BTSk5NellnTVRVNElGRXpOaUF4TVRBZ09UWWdNVEV3SUZFeE5UWWdNVEV3SURFMU5pQXhOVGdpSUdacGJHdzlJbkpuWW1Fb01qVTFMREkxTlN3eU5UVXNNQzQ1S1NJdlBnb2dJRHdoTFMwZ1EyOWphR1VnZG1WeWRHVWdMUzArQ2lBZ1BHTnBjbU5zWlNCamVEMGlNVE00SWlCamVUMGlPVFlpSUhJOUlqSXlJaUJtYVd4c1BTSWpNelJETnpVNUlpOCtDaUFnUEhCaGRHZ2daRDBpVFRFeU55QTVOaUJNTVRNMElERXdNeUJNTVRVd0lEZzFJaUJ6ZEhKdmEyVTlJbmRvYVhSbElpQnpkSEp2YTJVdGQybGtkR2c5SWpRaUlITjBjbTlyWlMxc2FXNWxZMkZ3UFNKeWIzVnVaQ0lnYzNSeWIydGxMV3hwYm1WcWIybHVQU0p5YjNWdVpDSWdabWxzYkQwaWJtOXVaU0l2UGdvZ0lEd2hMUzBnVkdWNGRHVWdaVzRnWW1GeklDMHRQZ29nSUR4MFpYaDBJSGc5SWprMklpQjVQU0l4T0RBaUlIUmxlSFF0WVc1amFHOXlQU0p0YVdSa2JHVWlJR1p2Ym5RdFptRnRhV3g1UFNKemVYTjBaVzB0ZFdrc2MyRnVjeTF6WlhKcFppSWdabTl1ZEMxM1pXbG5hSFE5SWpZd01DSWdabTl1ZEMxemFYcGxQU0l4T0NJZ1ptbHNiRDBpY21kaVlTZ3lOVFVzTWpVMUxESTFOU3d3TGpreUtTSStTbVVnYlNkcGJuTmpjbWx6UEM5MFpYaDBQZ284TDNOMlp6ND0iLCJzaXplcyI6ImFueSIsInR5cGUiOiJpbWFnZS9zdmcreG1sIn1dfQ==">
+  <meta name="theme-color" content="#8B4A8B">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Je m'inscris">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script>
+window.__INTERVENANTS__ = [
+  {
+    "nom": "Adélaïde TABTI",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Bartek Iwan",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": false,
+    "collecteOffrandes": false,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Benjamin Florins",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": false,
+    "collecteOffrandes": false,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Benjamin Peixoto",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": false,
+    "collecteOffrandes": false,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Bernard VERDIERE",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": true,
+    "presidenceSainteCene": true,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Bogdan ZAJAC",
+    "groupe": "UNION",
+    "predication": true,
+    "presidenceCulte": true,
+    "presidenceSainteCene": true,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Bruno Mazure",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": false,
+    "collecteOffrandes": false,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Caleb AFFOLABI",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Carlos GAMEIRO",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Erdan BEKIROVIC",
+    "groupe": "BAPTISTE",
+    "predication": true,
+    "presidenceCulte": true,
+    "presidenceSainteCene": true,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Ewune MONONO",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Fabian Mayslin",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": false,
+    "collecteOffrandes": false,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Fabrice FLORINS",
+    "groupe": "BAPTISTE",
+    "predication": true,
+    "presidenceCulte": true,
+    "presidenceSainteCene": true,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Fancy BANGA",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Firmin BIKOUTA",
+    "groupe": "BAPTISTE",
+    "predication": true,
+    "presidenceCulte": true,
+    "presidenceSainteCene": true,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Fred GASPARD",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Gaël BERTHELEAU",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Geoffrey Dardenne",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": true,
+    "presidenceSainteCene": true,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Gisèle MAKOUANGOU",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Hélène Magalhes",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": false,
+    "collecteOffrandes": false,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Jacques Parent",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Jannine Viera",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": false,
+    "collecteOffrandes": false,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Jean BARTHABURU",
+    "groupe": "BAPTISTE",
+    "predication": true,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Jean Matthieu Roupain",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Jean-Gabriel WERBROUCK",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Jean-Paul Baley Shabany",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Joseph SOKPO",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": true
+  },
+  {
+    "nom": "Joshua Peronno",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": false,
+    "collecteOffrandes": false,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Josué PACHECO",
+    "groupe": "BAPTISTE",
+    "predication": true,
+    "presidenceCulte": true,
+    "presidenceSainteCene": true,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Joëlle PAKULA",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Judith PEM",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": false,
+    "collecteOffrandes": false,
+    "accueilSecurite": true
+  },
+  {
+    "nom": "Julie PILLET",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Julien Beaune",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Laurence Mazure",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": false,
+    "collecteOffrandes": false,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Lydie PASCAL",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Lysiane-Maguy BATHABURU",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Léa ELLANGOMO",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Madeleine PEM",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": false,
+    "collecteOffrandes": false,
+    "accueilSecurite": true
+  },
+  {
+    "nom": "Maryla Zajac",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": false,
+    "collecteOffrandes": false,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Mateusz JAWDYK",
+    "groupe": "UNION",
+    "predication": true,
+    "presidenceCulte": true,
+    "presidenceSainteCene": true,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Matheis Zajac",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Merzouk BOUTERFA",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Miguel RENDAS",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Moussa BENBAHLOULI",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Naomi",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": false,
+    "collecteOffrandes": false,
+    "accueilSecurite": true
+  },
+  {
+    "nom": "Noëlla DIMWANA",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Olivier Garbe",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": false,
+    "collecteOffrandes": false,
+    "accueilSecurite": true
+  },
+  {
+    "nom": "Ophélie WEISS",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Paulina Jawdyk",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": false,
+    "collecteOffrandes": false,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Philippe AFFOLABI",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Philippe PEM",
+    "groupe": "BAPTISTE",
+    "predication": true,
+    "presidenceCulte": true,
+    "presidenceSainteCene": true,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": true
+  },
+  {
+    "nom": "Prosper Momo",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": false,
+    "collecteOffrandes": false,
+    "accueilSecurite": true
+  },
+  {
+    "nom": "Rachid TABTI",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Robert BÉDART",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Roberto Peixoto",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": false,
+    "collecteOffrandes": false,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Ruth Peixoto",
+    "groupe": "UNION",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": false,
+    "collecteOffrandes": false,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Sabrina BOUTERFA",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Sarah BENZIANI ALLOUACHE",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Sarah RENDAS ALILI",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Silvain LUBAN",
+    "groupe": "UNION",
+    "predication": true,
+    "presidenceCulte": true,
+    "presidenceSainteCene": true,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Steeve TONDEREAU",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": true
+  },
+  {
+    "nom": "Stéphane DHERINNES",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Stéphanie FLORINS",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Sylvie DECOTTIGNIES",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Tadeusz POREBA",
+    "groupe": "UNION",
+    "predication": true,
+    "presidenceCulte": true,
+    "presidenceSainteCene": true,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Thomas PETIAUX",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Valérie HONORÉ",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Veneranda BIZIMUNGU",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Xavier POREBA",
+    "groupe": "UNION",
+    "predication": true,
+    "presidenceCulte": true,
+    "presidenceSainteCene": true,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Zohra ALLOUACHE",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Zuely GAMEIRO",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  },
+  {
+    "nom": "Émerick GROS-DESORMEAUX",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": true
+  },
+  {
+    "nom": "Éric ELLANGOMO",
+    "groupe": "BAPTISTE",
+    "predication": false,
+    "presidenceCulte": false,
+    "presidenceSainteCene": false,
+    "distributionSainteCene": true,
+    "collecteOffrandes": true,
+    "accueilSecurite": false
+  }
+];
+</script>
+<script id="planning-data" type="application/json">
+[{"id": "row2", "date": "2026-01-04", "mois": "Janvier", "typeCulte": "Sainte-Cène", "predicateur": "Tadeusz POREBA", "presidentCulte": "Tadeusz POREBA", "presidentSainteCene": "Tadeusz POREBA", "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": "Fabrice FLORINS", "baptisteDist2": "Erdan BEKIROVIC", "remarques": null}, {"id": "row3", "date": "2026-01-04", "mois": "Janvier", "typeCulte": "Sainte-Cène", "predicateur": "Philippe PEM", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row4", "date": "2026-01-11", "mois": "Janvier", "typeCulte": null, "predicateur": "Xavier POREBA", "presidentCulte": "Mateusz JAWDYK", "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Jean-Gabriel WERBROUCK", "baptisteCollecte2": "Alain VERSTRAETE"}, {"id": "row5", "date": "2026-01-18", "mois": "Janvier", "typeCulte": null, "predicateur": "Fabrice FLORINS", "presidentCulte": "Sylvain LUBAN", "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Stéphane DHERINNES", "baptisteCollecte2": "Caleb AFFOLABI"}, {"id": "row6", "date": "2026-01-25", "mois": "Janvier", "typeCulte": null, "predicateur": "Ronnie KOLODZIEJSKI", "presidentCulte": "Tadeusz POREBA", "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Émerick GROS-DESORMEAUX", "baptisteCollecte2": "Jofre JORGE"}, {"id": "row7", "date": "2026-02-01", "mois": "Février", "typeCulte": "Sainte-Cène", "predicateur": "Silvain LUBAN", "presidentCulte": "Tadeusz POREBA", "presidentSainteCene": "Tadeusz POREBA", "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": "Stéphane BELLAMIO", "baptisteDist2": "Corinne WERBROUCK", "remarques": null}, {"id": "row8", "date": "2026-02-08", "mois": "Février", "typeCulte": null, "predicateur": "Philippe PEM", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Émerick GROS-DESORMEAUX", "baptisteCollecte2": "Sifa"}, {"id": "row9", "date": "2026-02-15", "mois": "Février", "typeCulte": null, "predicateur": "Bogdan ZAJAC", "presidentCulte": "Xavier POREBA", "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Stéphanie FLORINS", "baptisteCollecte2": null}, {"id": "row10", "date": "2026-02-22", "mois": "Février", "typeCulte": "Petit-déjeuner", "predicateur": "Témoignages : PATON et F. BIKOUTA", "presidentCulte": "Tadeusz POREBA", "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Gaël BERTHELEAU", "baptisteCollecte2": "Dalia BERTHELEAU"}, {"id": "row11", "date": "2026-03-01", "mois": "Mars", "typeCulte": "Sainte-Cène", "predicateur": "J-P et Dolorès KASEMIERCZACK", "presidentCulte": "Philippe PEM", "presidentSainteCene": "Philippe PEM", "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": "Stéphane DHERINNES", "baptisteDist2": "Thomas PETIAUX", "remarques": null}, {"id": "row12", "date": "2026-03-08", "mois": "Mars", "typeCulte": null, "predicateur": "Mateusz JAWDYK", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Rachid TABTI", "baptisteCollecte2": "Adélaïde TABTI"}, {"id": "row13", "date": "2026-03-15", "mois": "Mars", "typeCulte": null, "predicateur": "Invité de Pologne", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Marie-Hélène WILLEM", "baptisteCollecte2": "Stéphane DHERINNES"}, {"id": "row14", "date": "2026-03-22", "mois": "Mars", "typeCulte": null, "predicateur": "Josué et Kely PACHECO", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "David PASCAL", "baptisteCollecte2": "Émerick GROS-DESORMEAUX"}, {"id": "row15", "date": "2026-03-29", "mois": "Mars", "typeCulte": null, "predicateur": "Jean BARTHABURU", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Fabrice FLORINS", "baptisteCollecte2": "Stéphanie FLORINS"}, {"id": "row16", "date": "2026-04-05", "mois": "Avril", "typeCulte": "Sainte-Cène", "predicateur": "Xavier POREBA", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": "Allain GUEGUEN", "baptisteDist2": "Robert BÉDART", "remarques": null}, {"id": "row17", "date": "2026-04-12", "mois": "Avril", "typeCulte": null, "predicateur": "Culte par les jeunes", "presidentCulte": "Jeunes", "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": "Jeunes", "unionCollecte2": "Jeunes", "baptisteCollecte1": "Jeunes", "baptisteCollecte2": "Jeunes"}, {"id": "row18", "date": "2026-04-19", "mois": "Avril", "typeCulte": null, "predicateur": "Tadeusz POREBA", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": "PhPEM à VIE NOUVELLE", "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Stéphane DHERINNES", "baptisteCollecte2": "Marie-Hélène WILLEM"}, {"id": "row19", "date": "2026-04-26", "mois": "Avril", "typeCulte": null, "predicateur": "Erdan BEKIROVIC", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Judith PEM", "baptisteCollecte2": "Émerick GROS-DESORMEAUX"}, {"id": "row20", "date": "2026-05-03", "mois": "Mai", "typeCulte": "Sainte-Cène", "predicateur": "Silvain LUBAN", "presidentCulte": "Fabrice FLORINS", "presidentSainteCene": "Fabrice FLORINS", "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": "Joëlle PAKULA", "baptisteDist2": "Stéphanie FLORINS", "remarques": null}, {"id": "row21", "date": "2026-05-10", "mois": "Mai", "typeCulte": null, "predicateur": "Bogdan ZAJAC", "presidentCulte": "Philippe PEM", "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Carlos GAMEIRO", "baptisteCollecte2": "Fred GASPARD"}, {"id": "row22", "date": "2026-05-17", "mois": "Mai", "typeCulte": null, "predicateur": "Fabrice FLORINS", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Steeve TONDEREAU", "baptisteCollecte2": "Valérie HONORÉ"}, {"id": "row23", "date": "2026-05-24", "mois": "Mai", "typeCulte": null, "predicateur": "Bernard VERDIERE", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": "PhPEM à VIE NOUVELLE", "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Zohra ALLOUACHE", "baptisteCollecte2": "Moussa BENBAHLOULI"}, {"id": "row24", "date": "2026-05-31", "mois": "Mai", "typeCulte": null, "predicateur": "Mateusz JAWDYK", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null, "unionCollecte1": null, "unionCollecte2": null, "baptisteCollecte1": "Erdan BEKIROVIC", "baptisteCollecte2": "Jean-Gabriel WERBROUCK"}, {"id": "row25", "date": "2026-06-07", "mois": "Juin", "typeCulte": null, "predicateur": "Fête de l'Écodim", "presidentCulte": "Tadeusz POREBA", "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row26", "date": "2026-06-14", "mois": "Juin", "typeCulte": "Sainte-Cène", "predicateur": "Tadeusz POREBA", "presidentCulte": "Xavier POREBA", "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": "Stéphanie FLORINS", "baptisteDist2": "Marie-Christine GASPARD", "remarques": null}, {"id": "row27", "date": "2026-06-21", "mois": "Juin", "typeCulte": "Petit-déjeuner", "predicateur": "Philippe PEM (Pacours de vie)", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row28", "date": "2026-06-28", "mois": "Juin", "typeCulte": null, "predicateur": "Xavier POREBA", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row29", "date": "2026-07-05", "mois": "Juillet", "typeCulte": "Sainte-Cène", "predicateur": "Erdan BEKIROVIC", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row30", "date": "2026-07-12", "mois": "Juillet", "typeCulte": null, "predicateur": "Bernard VERDIERE", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": "PhPEM à VIE NOUVELLE"}, {"id": "row31", "date": "2026-07-19", "mois": "Juillet", "typeCulte": null, "predicateur": "Bogdan ZAJAC", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row32", "date": "2026-07-26", "mois": "Juillet", "typeCulte": null, "predicateur": "Philippe PEM", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row33", "date": "2026-08-02", "mois": "Août", "typeCulte": "Sainte-Cène", "predicateur": "Philippe PEM", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row34", "date": "2026-08-09", "mois": "Août", "typeCulte": null, "predicateur": "Mateusz JAWDYK", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row35", "date": "2026-08-16", "mois": "Août", "typeCulte": null, "predicateur": "Silvain LUBAN", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row36", "date": "2026-08-23", "mois": "Août", "typeCulte": null, "predicateur": "Invité : Viclaire", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": "invité"}, {"id": "row37", "date": "2026-08-30", "mois": "Août", "typeCulte": null, "predicateur": "Fabrice FLORINS", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row38", "date": "2026-09-06", "mois": "Septembre", "typeCulte": "Sainte-Cène", "predicateur": "Tadeusz POREBA", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row39", "date": "2026-09-13", "mois": "Septembre", "typeCulte": null, "predicateur": "Xavier POREBA", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row40", "date": "2026-09-20", "mois": "Septembre", "typeCulte": null, "predicateur": "Invité : Frédéric Manceau", "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": "invité"}, {"id": "row41", "date": "2026-09-27", "mois": "Septembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row42", "date": "2026-10-04", "mois": "Octobre", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row43", "date": "2026-10-11", "mois": "Octobre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row44", "date": "2026-10-18", "mois": "Octobre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row45", "date": "2026-10-25", "mois": "Octobre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row46", "date": "2026-11-01", "mois": "Novembre", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row47", "date": "2026-11-08", "mois": "Novembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row48", "date": "2026-11-15", "mois": "Novembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row49", "date": "2026-11-22", "mois": "Novembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row50", "date": "2026-11-29", "mois": "Novembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row51", "date": "2026-12-06", "mois": "Décembre", "typeCulte": "Sainte-Cène", "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": true, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row52", "date": "2026-12-13", "mois": "Décembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row53", "date": "2026-12-20", "mois": "Décembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}, {"id": "row54", "date": "2026-12-27", "mois": "Décembre", "typeCulte": null, "predicateur": null, "presidentCulte": null, "presidentSainteCene": null, "hasSainteCene": false, "unionDist1": null, "unionDist2": null, "baptisteDist1": null, "baptisteDist2": null, "remarques": null}]
+</script>
+
+<script id="planning-data-2027" type="application/json">
+[{"id": "row1", "date": "2027-01-03", "mois": "Janvier", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row2", "date": "2027-01-10", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row3", "date": "2027-01-17", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row4", "date": "2027-01-24", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row5", "date": "2027-01-31", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row6", "date": "2027-02-07", "mois": "Février", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row7", "date": "2027-02-14", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row8", "date": "2027-02-21", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row9", "date": "2027-02-28", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row10", "date": "2027-03-07", "mois": "Mars", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row11", "date": "2027-03-14", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row12", "date": "2027-03-21", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row13", "date": "2027-03-28", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row14", "date": "2027-04-04", "mois": "Avril", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row15", "date": "2027-04-11", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row16", "date": "2027-04-18", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row17", "date": "2027-04-25", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row18", "date": "2027-05-02", "mois": "Mai", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row19", "date": "2027-05-09", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row20", "date": "2027-05-16", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row21", "date": "2027-05-23", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row22", "date": "2027-05-30", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row23", "date": "2027-06-06", "mois": "Juin", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row24", "date": "2027-06-13", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row25", "date": "2027-06-20", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row26", "date": "2027-06-27", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row27", "date": "2027-07-04", "mois": "Juillet", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row28", "date": "2027-07-11", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row29", "date": "2027-07-18", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row30", "date": "2027-07-25", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row31", "date": "2027-08-01", "mois": "Août", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row32", "date": "2027-08-08", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row33", "date": "2027-08-15", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row34", "date": "2027-08-22", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row35", "date": "2027-08-29", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row36", "date": "2027-09-05", "mois": "Septembre", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row37", "date": "2027-09-12", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row38", "date": "2027-09-19", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row39", "date": "2027-09-26", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row40", "date": "2027-10-03", "mois": "Octobre", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row41", "date": "2027-10-10", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row42", "date": "2027-10-17", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row43", "date": "2027-10-24", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row44", "date": "2027-10-31", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row45", "date": "2027-11-07", "mois": "Novembre", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row46", "date": "2027-11-14", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row47", "date": "2027-11-21", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row48", "date": "2027-11-28", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row49", "date": "2027-12-05", "mois": "Décembre", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row50", "date": "2027-12-12", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row51", "date": "2027-12-19", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row52", "date": "2027-12-26", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}]
+</script>
+
+<script id="planning-data-2028" type="application/json">
+[{"id": "row1", "date": "2028-01-02", "mois": "Janvier", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row2", "date": "2028-01-09", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row3", "date": "2028-01-16", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row4", "date": "2028-01-23", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row5", "date": "2028-01-30", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row6", "date": "2028-02-06", "mois": "Février", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row7", "date": "2028-02-13", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row8", "date": "2028-02-20", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row9", "date": "2028-02-27", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row10", "date": "2028-03-05", "mois": "Mars", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row11", "date": "2028-03-12", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row12", "date": "2028-03-19", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row13", "date": "2028-03-26", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row14", "date": "2028-04-02", "mois": "Avril", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row15", "date": "2028-04-09", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row16", "date": "2028-04-16", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row17", "date": "2028-04-23", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row18", "date": "2028-04-30", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row19", "date": "2028-05-07", "mois": "Mai", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row20", "date": "2028-05-14", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row21", "date": "2028-05-21", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row22", "date": "2028-05-28", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row23", "date": "2028-06-04", "mois": "Juin", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row24", "date": "2028-06-11", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row25", "date": "2028-06-18", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row26", "date": "2028-06-25", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row27", "date": "2028-07-02", "mois": "Juillet", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row28", "date": "2028-07-09", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row29", "date": "2028-07-16", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row30", "date": "2028-07-23", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row31", "date": "2028-07-30", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row32", "date": "2028-08-06", "mois": "Août", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row33", "date": "2028-08-13", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row34", "date": "2028-08-20", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row35", "date": "2028-08-27", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row36", "date": "2028-09-03", "mois": "Septembre", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row37", "date": "2028-09-10", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row38", "date": "2028-09-17", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row39", "date": "2028-09-24", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row40", "date": "2028-10-01", "mois": "Octobre", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row41", "date": "2028-10-08", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row42", "date": "2028-10-15", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row43", "date": "2028-10-22", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row44", "date": "2028-10-29", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row45", "date": "2028-11-05", "mois": "Novembre", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row46", "date": "2028-11-12", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row47", "date": "2028-11-19", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row48", "date": "2028-11-26", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row49", "date": "2028-12-03", "mois": "Décembre", "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": true, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row50", "date": "2028-12-10", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row51", "date": "2028-12-17", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row52", "date": "2028-12-24", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}, {"id": "row53", "date": "2028-12-31", "mois": null, "typeCulte": "Culte", "predicateur": "", "presidentCulte": "", "presidentSainteCene": "", "hasSainteCene": false, "unionDist1": "", "unionDist2": "", "baptisteDist1": "", "baptisteDist2": "", "remarques": ""}]
+</script>
+
+<script>
+window.__ADMIN_CODE__ = "DIMANCHE91";
+</script>
+
+<!--
+  ===========================================================================
+  CONFIGURATION FIREBASE — à compléter avant la mise en ligne.
+  Remplacez les valeurs ci-dessous par celles de VOTRE projet Firebase
+  (Paramètres du projet > Vos applis > configuration SDK).
+  Ces valeurs ne sont pas un secret : Firebase est conçu pour qu'elles
+  soient visibles dans le code envoyé au navigateur. La sécurité réelle
+  des données se fait via les règles Firestore (voir le guide fourni).
+  ===========================================================================
+-->
+<script>
+window.__FIREBASE_CONFIG__ = {
+  apiKey: "AIzaSyB9n6tiBbvv7A07h5uOg9HZYr5GHHZPF6w",
+  authDomain: "planning-culte-2026.firebaseapp.com",
+  projectId: "planning-culte-2026",
+  storageBucket: "planning-culte-2026.firebasestorage.app",
+  messagingSenderId: "237708325644",
+  appId: "1:237708325644:web:ee76d379d0530f4bcc8f29"
+};
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+  var cfg = window.__FIREBASE_CONFIG__;
+  if (!cfg || cfg.apiKey === "REMPLACER_PAR_VOTRE_API_KEY") {
+    window.__FIREBASE_CONFIG_MISSING__ = true;
+    window.dispatchEvent(new Event('firebase-ready'));
+  } else {
+    var app = initializeApp(cfg);
+    window.__FIRESTORE_DB__ = getFirestore(app);
+    window.__FIRESTORE_DOC__ = doc;
+    window.__FIRESTORE_ON_SNAPSHOT__ = onSnapshot;
+    window.__FIRESTORE_SET_DOC__ = setDoc;
+    window.__FIREBASE_READY__ = true;
+    window.dispatchEvent(new Event('firebase-ready'));
+  }
+</script>
+
+<script>
+(function(){
+  "use strict";
+
+  var PLANNING_RAW_2026 = JSON.parse(document.getElementById('planning-data').textContent);
+  var PLANNING_RAW_2027 = JSON.parse(document.getElementById('planning-data-2027').textContent);
+  var PLANNING_RAW_2028 = JSON.parse(document.getElementById('planning-data-2028').textContent);
+  var PLANNING_RAW = PLANNING_RAW_2026;
+  var INTERVENANTS_BASE = window.__INTERVENANTS__;
+  var ADMIN_CODE = window.__ADMIN_CODE__;
+
+  var PERM_FIELDS_BASE = ['predication','presidenceCulte','presidenceSainteCene','distributionSainteCene','collecteOffrandes','accueilSecurite'];
+  // PERM_FIELDS est dynamique — inclut les rubriques personnalisées
+  function rubriquePerm(r){
+    // Garantit un perm valide même pour les rubriques créées avant
+    if(r.perm && r.perm.trim()) return r.perm;
+    return (r.label||'').toLowerCase().replace(/[^a-z0-9]/g,'_').replace(/_+/g,'_');
+  }
+  function getPermFields(){
+    // Retourne la liste des clés d'habilitation (sans manipuler defByKey ni groups)
+    var fields = PERM_FIELDS_BASE.slice();
+    (state.customRubriques||[]).forEach(function(r){
+      var p = rubriquePerm(r);
+      if(p && fields.indexOf(p) < 0) fields.push(p);
+    });
+    return fields;
+  }
+  function getPermLabels(){
+    var labels = {
+      predication:'Prédicateur',
+      presidenceCulte:'Président du culte',
+      presidenceSainteCene:'Président Sainte-Cène',
+      distributionSainteCene:'Distribution Sainte-Cène',
+      collecteOffrandes:'Collecte offrandes',
+      accueilSecurite:'Accueil / Sécurité'
+    };
+    (state.customRubriques||[]).forEach(function(r){
+      labels[rubriquePerm(r)] = r.label;
+    });
+    return labels;
+  }
+  // Compat : PERM_FIELDS et PERM_LABELS pour le code existant
+  var PERM_FIELDS = PERM_FIELDS_BASE;
+
+  // intervenantsOverrides: nom -> objet intervenant complet (ajout ou remplacement d'une personne de la base)
+  function getEffectiveIntervenants(){
+    var byNomBase = {};
+    INTERVENANTS_BASE.forEach(function(p){ byNomBase[p.nom] = p; });
+    var overrides = state.intervenantsOverrides || {};
+    Object.keys(overrides).forEach(function(nom){
+      if(nom.indexOf('__deleted__') === 0){
+        var orig = nom.slice('__deleted__'.length);
+        delete byNomBase[orig];
+      } else if(overrides[nom] && overrides[nom].__deleted){
+        // ignorer — ne pas ajouter à la liste
+      } else if(overrides[nom] && overrides[nom].nom){
+        byNomBase[nom] = overrides[nom];
+      }
+    });
+    // Filtrer les entrées sans nom valide + dédupliquer (insensible casse)
+    var result = [];
+    var seen = {};
+    Object.keys(byNomBase).forEach(function(nom){
+      var p = byNomBase[nom];
+      if(!p || !p.nom || typeof p.nom !== 'string') return;
+      var key = p.nom.toLowerCase().replace(/\s+/g,' ').trim();
+      if(seen[key]) return; // doublon (ex: Joseph SOKPO vs Joseph SOKPO)
+      seen[key] = true;
+      result.push(p);
+    });
+    result.sort(function(a,b){ return a.nom.localeCompare(b.nom,'fr',{sensitivity:'base'}); });
+    return result;
+  }
+
+  function getNamesSorted(dateISO){
+    return getEffectiveIntervenants()
+      .filter(function(p){ return !dateISO || !isIndisponible(p, dateISO); })
+      .map(function(p){ return p.nom; })
+      .sort(function(a,b){ return a.localeCompare(b, 'fr', {sensitivity:'base'}); });
+  }
+
+  function byName(nom){
+    var list = getEffectiveIntervenants();
+    for(var i=0;i<list.length;i++){ if(list[i].nom===nom) return list[i]; }
+    return null;
+  }
+
+  function getRowEffective(row){
+    var hasSC=row.hasSainteCene;
+    if(Object.prototype.hasOwnProperty.call(state.scOverrides,row.id)) hasSC=!!state.scOverrides[row.id];
+    return Object.assign({},row,{hasSainteCene:hasSC,typeCulte:hasSC?'Sainte-Cène':row.typeCulte});
+  }
+  function getSlotDefs(row){
+    var defs=[
+      {key:'predicateur',label:'Prédicateur',perm:'predication',group:null},
+      {key:'presidentCulte',label:'Président du culte',perm:'presidenceCulte',group:null}
+    ];
+    if(row.hasSainteCene){
+      defs.push({key:'presidentSainteCene',label:'Président Sainte-Cène',perm:'presidenceSainteCene',group:null,scOnly:true});
+      ['unionDist1','unionDist2'].forEach(function(k,i){ defs.push({key:k,label:'Distributeur SC '+(i+1),perm:'distributionSainteCene',group:'UNION',scOnly:true}); });
+      ['baptisteDist1','baptisteDist2'].forEach(function(k,i){ defs.push({key:k,label:'Distributeur SC '+(i+1),perm:'distributionSainteCene',group:'BAPTISTE',scOnly:true}); });
+    }
+    ['unionCollecte1','unionCollecte2'].forEach(function(k,i){ defs.push({key:k,label:'Collecte offrandes '+(i+1),perm:'collecteOffrandes',group:'UNION'}); });
+    ['baptisteCollecte1','baptisteCollecte2'].forEach(function(k,i){ defs.push({key:k,label:'Collecte offrandes '+(i+1),perm:'collecteOffrandes',group:'BAPTISTE'}); });
+    (state.customRubriques||[]).forEach(function(r){
+      if(r.scOnly&&!row.hasSainteCene) return;
+      var n = r.nbPlaces || 2;
+      var rperm = rubriquePerm(r);
+      for(var i=1;i<=n;i++){
+        defs.push({key:r.key+'_'+i,label:r.label+' '+i,perm:rperm,group:r.group||null,scOnly:!!r.scOnly});
+      }
+    });
+    // Accueil / Sécurité — rubrique spéciale informatif
+    defs.push({key:'accueil_securite',label:'Accueil / Sécurité',
+      perm:'accueil_securite',group:'ACCUEIL',special:'accueil',scOnly:false});
+    return defs;
+  }
+    // ---- slot definitions: which fields exist on a row, their permission key, and grouping ----
+  var SLOT_DEFS = [
+    {key:'predicateur',        label:'Prédicateur',                 perm:'predication',            group:null},
+    {key:'presidentCulte',     label:'Président du culte',          perm:'presidenceCulte',         group:null},
+    {key:'presidentSainteCene',label:'Président Sainte-Cène',       perm:'presidenceSainteCene',    group:null, scOnly:true},
+    {key:'unionDist1',         label:'Distributeur SC 1',           perm:'distributionSainteCene',  group:'UNION', scOnly:true},
+    {key:'unionDist2',         label:'Distributeur SC 2',           perm:'distributionSainteCene',  group:'UNION', scOnly:true},
+    {key:'baptisteDist1',      label:'Distributeur SC 1',           perm:'distributionSainteCene',  group:'BAPTISTE', scOnly:true},
+    {key:'baptisteDist2',      label:'Distributeur SC 2',           perm:'distributionSainteCene',  group:'BAPTISTE', scOnly:true},
+    {key:'unionCollecte1',     label:'Collecte offrandes 1',        perm:'collecteOffrandes',       group:'UNION'},
+    {key:'unionCollecte2',     label:'Collecte offrandes 2',        perm:'collecteOffrandes',       group:'UNION'},
+    {key:'baptisteCollecte1',  label:'Collecte offrandes 1',        perm:'collecteOffrandes',       group:'BAPTISTE'},
+    {key:'baptisteCollecte2',  label:'Collecte offrandes 2',        perm:'collecteOffrandes',       group:'BAPTISTE'}
+  ];
+
+  function dateFR(iso){
+    var d = new Date(iso+"T00:00:00");
+    var days = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+    var months = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+    return {
+      dayLabel: days[d.getDay()],
+      full: d.getDate()+' '+months[d.getMonth()],
+      year: d.getFullYear()
+    };
+  }
+
+  function cardType(row){
+    if(row.typeCulte === 'Sainte-Cène') return {cls:'sc', label:'Sainte-Cène'};
+    if(row.typeCulte === 'Petit-déjeuner') return {cls:'dej', label:'Petit-déjeuner'};
+    return {cls:'normal', label:'Culte'};
+  }
+
+  // =========================================================
+  // STATE
+  // =========================================================
+  var state = {
+    currentYear: 2026,
+    overrides: {}, intervenantsOverrides: {},
+    customRubriques: [], scOverrides: {},
+    currentUser: null, isAdmin: false, loading: true, configMissing: false, toast: null,
+    showLoginAdmin: false, adminCodeInput: '', _showAdminCode: false, adminError: '',
+    showManageIntervenants: false, showRappels: false, rappelRowId: null, managePersonEditing: null, manageForm: null,
+    showManageRubriques: false, manageRubriqueEditing: null, manageRubriqueForm: null,
+    showGuestModal: false, guestTarget: null, guestName: '',
+    showRemarqueModal: false, remarqueTarget: null, remarqueText: '',
+    showHelp: false, helpTab: 'intervenants'
+  };
+
+  // =========================================================
+  // PERSISTENCE (Firebase Firestore)
+  // =========================================================
+  // Document unique pour les inscriptions, document unique pour les intervenants ajoutés/modifiés.
+  // Initialisés à l'intérieur de loadOverrides() pour garantir que le SDK Firebase
+  // (chargé en module, donc de façon asynchrone) est bien prêt avant utilisation.
+  var db, fsDoc, fsOnSnapshot, fsSetDoc, OVERRIDES_DOC, INTERVENANTS_DOC, CONFIG_DOC;
+
+  function loadOverrides(){
+    db = window.__FIRESTORE_DB__;
+    fsDoc = window.__FIRESTORE_DOC__;
+    fsOnSnapshot = window.__FIRESTORE_ON_SNAPSHOT__;
+    fsSetDoc = window.__FIRESTORE_SET_DOC__;
+    var col = 'planning_culte_' + (state.currentYear || 2026);
+    OVERRIDES_DOC = fsDoc(db, col, 'overrides');
+    INTERVENANTS_DOC = fsDoc(db, 'planning_culte_2026', 'intervenants'); // toujours 2026
+    CONFIG_DOC = fsDoc(db, col, 'config');
+
+    // Écoute en temps réel : toute modification faite par quelqu'un d'autre
+    // met à jour l'écran de tout le monde automatiquement, sans recharger la page.
+    fsOnSnapshot(OVERRIDES_DOC, function(snap){
+      state.overrides = (snap.exists() && snap.data() && snap.data().value) ? JSON.parse(snap.data().value) : {};
+      state.loading = false;
+      render();
+    }, function(err){
+      console.error(err);
+      state.loading = false;
+      showToast("Connexion à la base de données impossible.");
+      render();
+    });
+
+    fsOnSnapshot(INTERVENANTS_DOC, function(snap){
+      state.intervenantsOverrides = (snap.exists() && snap.data() && snap.data().value) ? JSON.parse(snap.data().value) : {};
+      render();
+    }, function(err){ console.error(err); });
+
+    fsOnSnapshot(CONFIG_DOC, function(snap){
+      var cfg = (snap.exists()&&snap.data()&&snap.data().value) ? JSON.parse(snap.data().value) : {};
+      state.customRubriques = cfg.rubriques || [];
+      state.scOverrides = cfg.scOverrides || {};
+      render();
+    }, function(){});
+  }
+
+  async function saveConfig(){
+    try{ await fsSetDoc(CONFIG_DOC,{value:JSON.stringify({rubriques:state.customRubriques,scOverrides:state.scOverrides})}); }
+    catch(e){ console.error(e); showToast('Connexion impossible.'); }
+  }
+
+  async function saveOverrides(){
+    try{
+      await fsSetDoc(OVERRIDES_DOC, { value: JSON.stringify(state.overrides) });
+    }catch(e){
+      console.error(e);
+      showToast("Connexion impossible, réessayez.");
+    }
+  }
+
+  async function saveIntervenantsOverrides(){
+    try{
+      await fsSetDoc(INTERVENANTS_DOC, { value: JSON.stringify(state.intervenantsOverrides) });
+    }catch(e){
+      console.error(e);
+      showToast("Connexion impossible, réessayez.");
+    }
+  }
+
+  function getEffectiveValue(row, fieldKey){
+    var ov = state.overrides[row.id];
+    if(ov && Object.prototype.hasOwnProperty.call(ov, fieldKey)){
+      return ov[fieldKey]; // could be null meaning cleared
+    }
+    return row[fieldKey];
+  }
+
+  // =========================================================
+  // ACTIONS
+  // =========================================================
+  function adminSetRemarque(rowId,texte){
+    if(!state.overrides[rowId]) state.overrides[rowId]={};
+    state.overrides[rowId].__remarque=texte||null;
+    saveOverrides(); showToast("Remarque enregistrée.");
+  }
+  function adminToggleSC(rowId,cur){
+    state.scOverrides[rowId]=!cur; saveConfig();
+    showToast(!cur?"Sainte-Cène activée.":"Sainte-Cène retirée."); render();
+  }
+  function deletePerson(nom){
+    var p=byName(nom)||{};
+    if(!state.intervenantsOverrides) state.intervenantsOverrides={};
+    state.intervenantsOverrides[nom]=Object.assign({},p,{nom:nom,_deleted:true});
+    saveIntervenantsOverrides(); showToast("Supprimé."); render();
+  }
+  function restorePerson(nom){
+    if(state.intervenantsOverrides&&state.intervenantsOverrides[nom]){
+      state.intervenantsOverrides[nom]._deleted=false;
+      saveIntervenantsOverrides(); showToast("Restauré."); render();
+    }
+  }
+  function openNewRubriqueForm(){ state.manageRubriqueEditing='__new__'; state.manageRubriqueForm={label:'',perm:'',group:null,scOnly:false,nbPlaces:2}; render(); }
+  function openEditRubriqueForm(idx){ state.manageRubriqueEditing=idx; state.manageRubriqueForm=Object.assign({},state.customRubriques[idx]); render(); }
+  function closeRubriqueForm(){ state.manageRubriqueEditing=null; state.manageRubriqueForm=null; render(); }
+  function saveRubriqueForm(){
+    var f=state.manageRubriqueForm; var label=(f.label||'').trim();
+    if(!label){ showToast("Donnez un nom."); return; }
+    var perm=label.toLowerCase().replace(/[^a-z0-9]/g,'_').replace(/_+/g,'_');
+    var rec={key:perm+'_custom',label:label,perm:perm,group:f.group||null,scOnly:!!f.scOnly,nbPlaces:f.nbPlaces||2};
+    if(state.manageRubriqueEditing==='__new__') state.customRubriques.push(rec);
+    else state.customRubriques[state.manageRubriqueEditing]=rec;
+    saveConfig(); showToast(state.manageRubriqueEditing==='__new__'?"Créée.":"Modifiée."); closeRubriqueForm();
+  }
+  function deleteRubrique(idx){ state.customRubriques.splice(idx,1); saveConfig(); showToast("Supprimée."); render(); }
+
+    function showToast(msg){
+    state.toast = msg;
+    render();
+    setTimeout(function(){ state.toast = null; render(); }, 2400);
+  }
+
+  function takeSlot(rowId, fieldKey, label){
+    if(!state.currentUser){
+      showToast("Choisissez d'abord votre nom en haut de page.");
+      return;
+    }
+    if(!state.overrides[rowId]) state.overrides[rowId] = {};
+    state.overrides[rowId][fieldKey] = state.currentUser;
+    saveOverrides();
+    showToast("Inscrit comme " + label + ".");
+    render();
+  }
+
+  function releaseSlot(rowId, fieldKey, currentValue){
+    // Une personne ne peut libérer que sa propre case (vérifié aussi côté affichage).
+    if(!state.currentUser || currentValue !== state.currentUser) return;
+    if(!state.overrides[rowId]) state.overrides[rowId] = {};
+    state.overrides[rowId][fieldKey] = null;
+    saveOverrides();
+    showToast("Votre inscription a été retirée.");
+    render();
+  }
+
+  async function adminSetSlot(rowId, fieldKey, value){
+    if(!state.overrides[rowId]) state.overrides[rowId] = {};
+    if(value === '' || value == null){
+      state.overrides[rowId][fieldKey] = null;
+    } else {
+      state.overrides[rowId][fieldKey] = value;
+    }
+    await saveOverrides();
+    showToast(value ? 'Inscription mise à jour.' : 'Case libérée.');
+    render();
+  }
+
+  function tryAdminLogin(){
+    if(state.adminCodeInput.trim() === ADMIN_CODE){
+      state.isAdmin = true;
+      state.showLoginAdmin = false;
+      state.adminCodeInput = '';
+      state.adminError = '';
+      render();
+    } else {
+      state.adminError = 'Code incorrect.';
+      render();
+    }
+  }
+
+  // =========================================================
+  // GESTION DES INTERVENANTS (admin)
+  // =========================================================
+  function openNewPersonForm(){
+    state.managePersonEditing = '__new__';
+    var form = { nom: '', groupe: 'UNION', email: '', indisponibleDu: '', indisponibleAu: '' };
+    getPermFields().forEach(function(field){ form[field] = false; });
+    state.manageForm = form;
+    render();
+  }
+
+  function openEditPersonForm(nom){
+    var p = byName(nom);
+    if(!p) return;
+    state.managePersonEditing = nom;
+    var form = { nom: p.nom, nomOriginal: p.nom, groupe: p.groupe, email: p.email || '', indisponibleDu: p.indisponibleDu || '', indisponibleAu: p.indisponibleAu || '' };
+    getPermFields().forEach(function(field){ form[field] = !!p[field]; });
+    state.manageForm = form;
+    render();
+  }
+
+  function closePersonForm(){
+    state.managePersonEditing = null;
+    state.manageForm = null;
+    render();
+  }
+
+  function savePersonForm(){
+    var f = state.manageForm;
+    var nom = (f.nom || '').trim();
+    if(!nom){ showToast("Merci de saisir un nom."); return; }
+    var isNew = state.managePersonEditing === '__new__';
+    if(isNew && byName(nom)){ showToast("Ce nom existe déjà dans la liste."); return; }
+
+    var nomOriginal = f.nomOriginal || nom;
+    var nomChange = !isNew && nom !== nomOriginal;
+    if(nomChange && byName(nom)){ showToast("Ce nom existe déjà — choisissez un nom différent."); return; }
+
+    var record = { nom: nom, groupe: f.groupe, email: (f.email||'').trim(), indisponibleDu: f.indisponibleDu||'', indisponibleAu: f.indisponibleAu||'' };
+    getPermFields().forEach(function(field){ record[field] = !!f[field]; });
+
+    if(!state.intervenantsOverrides) state.intervenantsOverrides = {};
+
+    var countMigrated = 0;
+    if(nomChange){
+      delete state.intervenantsOverrides[nomOriginal];
+      state.intervenantsOverrides['__deleted__' + nomOriginal] = { __deleted: true, nom: nomOriginal };
+      Object.keys(state.overrides).forEach(function(rowId){
+        var row = state.overrides[rowId]; if(!row) return;
+        Object.keys(row).forEach(function(k){
+          if(row[k] === nomOriginal){ row[k] = nom; countMigrated++; }
+        });
+      });
+      if(countMigrated > 0) saveOverrides();
+    }
+
+    state.intervenantsOverrides[nom] = record;
+    saveIntervenantsOverrides();
+
+    if(isNew) showToast("Intervenant ajouté.");
+    else if(nomChange) showToast("Nom corrigé" + (countMigrated > 0 ? " — " + countMigrated + " inscription(s) mise(s) à jour." : " — aucune inscription à migrer."));
+    else showToast("Habilitations mises à jour.");
+    // Vérifier conflits indisponibilité
+    if(f.indisponibleDu && f.indisponibleAu){
+      var conflits = getInscriptionsDurantIndispo(nom, f.indisponibleDu, f.indisponibleAu);
+      if(conflits.length > 0){
+        showToast("⚠ " + nom + " est inscrit(e) sur " + conflits.length + " dimanche(s) pendant son indisponibilité. Vérifiez les cases concernées.");
+      }
+    }
+    closePersonForm();
+  }
+
+  // =========================================================
+  // RENDER HELPERS
+  // =========================================================
+  function el(tag, attrs, children){
+    var node = document.createElement(tag);
+    attrs = attrs || {};
+    Object.keys(attrs).forEach(function(k){
+      var v = attrs[k];
+      if(k === 'class') node.className = v;
+      else if(k === 'html') node.innerHTML = v;
+      else if(k.indexOf('on') === 0 && typeof v === 'function') node.addEventListener(k.slice(2), v);
+      else if(k === 'disabled') { if(v) node.setAttribute('disabled','disabled'); }
+      else if(k === 'checked') { node.checked = !!v; if(v) node.setAttribute('checked','checked'); }
+      else if(k === 'selected') { if(v){ node.selected = true; node.setAttribute('selected','selected'); } }
+      else if(k === 'style') node.setAttribute('style', v);
+      else if(v == null) { /* skip null/undefined attrs */ }
+      else node.setAttribute(k, v);
+    });
+    function appendChildren(parent, children){
+      (children||[]).forEach(function(c){
+        if(c == null) return;
+        if(Array.isArray(c)) appendChildren(parent, c);
+        else if(typeof c === 'string') parent.appendChild(document.createTextNode(c));
+        else parent.appendChild(c);
+      });
+    }
+    appendChildren(node, children);
+    return node;
+  }
+
+
+  // ─── Barre navigation mois ──────────────────────────────────────────────
+  var MOIS_NAV = ['Janvier','Février','Mars','Avril','Mai','Juin',
+                  'Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+  function renderMonthNav(){
+    var btns = MOIS_NAV.map(function(m, idx){
+      return el('button', {class:'month-nav-btn', onclick:function(){
+        var anchor = document.getElementById('month-anchor-' + idx);
+        if(anchor){
+          var topbar  = document.querySelector('.topbar');
+          var whoami  = document.querySelector('.whoami, .admin-banner');
+          var mnav    = document.querySelector('.month-nav');
+          var offset  = (topbar  ? topbar.offsetHeight  : 52)
+                      + (whoami  ? whoami.offsetHeight   : 50)
+                      + (mnav    ? mnav.offsetHeight     : 36)
+                      + 8;
+          var top = anchor.getBoundingClientRect().top + window.pageYOffset - offset;
+          window.scrollTo({top: top, behavior: 'smooth'});
+        }
+      }}, [m]);
+    });
+    return el('div', {class:'month-nav'}, btns);
+  }
+
+  function renderTopbar(){
+    // Sélecteur d'année (couleurs distinctes par année)
+    var yearColors = {2026:'#8B4A8B', 2027:'#0057A8', 2028:'#2D7A4F'};
+    var yearSelector = el('div',{style:'display:flex;gap:4px;align-items:center;margin-right:8px;'},[
+      el('span',{style:'font-size:11px;color:var(--ink-soft);font-weight:600;margin-right:4px;'},['Année :']),
+      [2026,2027,2028].map(function(y){
+        var active = state.currentYear === y;
+        return el('button',{
+          style:'font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;border:none;cursor:pointer;'
+            +'background:'+(active?yearColors[y]:'rgba(0,0,0,.06)')+';'
+            +'color:'+(active?'white':'var(--ink-soft)')+';'
+            +'transition:all .15s;',
+          onclick:function(yr){ return function(){ switchYear(yr); }; }(y)
+        },[String(y)]);
+      })
+    ]);
+    var actions = [];
+
+    if(state.isAdmin){
+      actions.push(el('button',{class:'pill-btn',onclick:function(){ state.showManageIntervenants=true; render(); }},['Intervenants']));
+      actions.push(el('button',{class:'pill-btn',onclick:function(){ state.showRappels=true; render(); }},['📧 Rappels']));
+      actions.push(el('button',{class:'pill-btn',onclick:function(){ state.showManageRubriques=true; render(); }},['Rubriques']));
+      actions.push(el('button',{class:'pill-btn ghost',onclick:function(){ state.isAdmin=false; render(); }},['Quitter admin']));
+    } else {
+      actions.push(el('button',{class:'pill-btn ghost',onclick:function(){ state.showHelp=true; state.helpTab='intervenants'; render(); }},['? Aide']));
+      actions.push(el('button',{class:'pill-btn ghost',onclick:function(){ state.showLoginAdmin=true; state.adminError=''; render(); }},['Administrateur']));
+    }
+
+    return el('div', {class:'topbar'}, [
+      el('div', {class:'brand'}, [
+        el('div', {class:'mark'}, ['C']),
+        el('div', {class:'brand-text'}, [
+          el('span', {class:'t1'}, ['Planning des cultes']),
+          el('span', {class:'t2'}, ['Année '+state.currentYear+' — inscriptions des intervenants'])
+        ])
+      ]),
+      el('div', {class:'topbar-actions'}, [yearSelector].concat(actions))
+    ]);
+  }
+
+  function renderWhoAmI(){
+    if(state.isAdmin){
+      return el('div', {class:'admin-banner'}, [
+        el('span', {}, [el('b',{},['Mode administrateur']), ' — vous pouvez modifier ou libérer n\u2019importe quelle case.'])
+      ]);
+    }
+
+    if(state.currentUser){
+      var initials = state.currentUser.split(' ').map(function(w){return w[0];}).slice(0,2).join('').toUpperCase();
+      return el('div', {class:'whoami'}, [
+        el('span', {class:'label'}, ['Vous êtes :']),
+        el('span', {class:'you-badge'}, [
+          el('span', {class:'avatar'}, [initials]),
+          state.currentUser,
+          el('button', {title:'Changer', onclick:function(){ state.currentUser = null; render(); }}, ['✕'])
+        ])
+      ]);
+    }
+
+    var select = el('select', {class:'name-select', onchange:function(e){
+      state.currentUser = e.target.value || null;
+      render();
+    }}, [el('option', {value:''}, ['— Choisissez votre nom —'])].concat(
+      getNamesSorted().map(function(n){ return el('option', {value:n}, [n]); })
+    ));
+
+    return el('div', {class:'whoami'}, [
+      el('span', {class:'label'}, ['Qui êtes-vous ?']),
+      select
+    ]);
+  }
+
+  function renderLegend(){
+    return el('div', {class:'legend-row'}, [
+      el('span', {class:'legend-item'}, [el('span',{class:'dot', style:'background:var(--terracotta)'}), 'Sainte-Cène']),
+      el('span', {class:'legend-item'}, [el('span',{class:'dot', style:'background:var(--denim)'}), 'Culte']),
+      el('span', {class:'legend-item'}, [el('span',{class:'dot', style:'background:var(--sage)'}), 'Petit-déjeuner'])
+    ]);
+  }
+
+  function slotEligible(person, slotDef){
+    if(slotDef.special === 'accueil') return true;  // Accueil : visible pour tous
+    if(!person) return false;
+    if(!person[slotDef.perm]) return false;
+    // Pour les rubriques de distribution/collecte (propres à chaque église),
+    // l'intervenant doit appartenir au même groupe (UNION ou BAPTISTE).
+    // Prédicateur / Président du culte / Président Sainte-Cène restent communs.
+    if(slotDef.group && person.groupe !== slotDef.group) return false;
+    return true;
+  }
+
+  function renderSlot(row, def){
+    // Cas spécial : Accueil / Sécurité
+    if(def.special === 'accueil'){
+      var dateISO = row.date;
+      var rowId = row.id;
+      var equipe = getEquipeAccueil(dateISO);
+      var equipeAutre = equipe === 'A' ? 'B' : 'A';
+      var membres = renderSlotAccueil(dateISO, state.overrides, rowId);
+      var ov = (state.overrides && state.overrides[rowId]) ? state.overrides[rowId] : {};
+      var absents = ov.accueil_absents || [];
+      var remplacants = ov.accueil_remplacants || [];
+      var membreBase = ACCUEIL_EQUIPES[equipe];
+      var currentUser = state.currentUser;
+
+      // Chips : chaque membre avec boutons selon son statut
+      var chips = membres.map(function(m){
+        var isResp = m.includes('responsable');
+        var isRemplacant = remplacants.indexOf(m) >= 0;
+        var estDansEquipe = membreBase.indexOf(m) >= 0;
+        var estAbsent = absents.indexOf(m) >= 0;
+        // Congé longue durée (indisponibilité saisie par l'admin)
+        var estEnConge = isMembreAccueilIndisponible(m, dateISO);
+        // Bouton "Absent" : le membre peut signaler son absence
+        var btnAbsent = currentUser && currentUser === m && estDansEquipe && !isResp && !estAbsent
+          ? el('button',{
+              class:'accueil-btn-absent',
+              onclick:(function(nom_){ return function(e){ e.stopPropagation(); toggleAccueilMembre(rowId, dateISO, nom_, 'absent'); }; })(m)
+            },['Absent'])
+          : null;
+        // Bouton "Annuler mon absence" : le membre peut annuler son absence
+        var btnAnnulerAbsence = currentUser && currentUser === m && estAbsent
+          ? el('button',{
+              class:'accueil-btn-ok',
+              onclick:(function(nom_){ return function(e){ e.stopPropagation(); toggleAccueilMembre(rowId, dateISO, nom_, 'retablir'); }; })(m)
+            },['✓ Je serai là'])
+          : null;
+        // Admin : bouton pour rétablir un absent
+        var btnAdminRetablir = state.isAdmin && estAbsent
+          ? el('button',{
+              class:'accueil-btn-ok',
+              style:'font-size:10px;',
+              onclick:(function(nom_){ return function(e){ e.stopPropagation(); toggleAccueilMembre(rowId, dateISO, nom_, 'retablir'); }; })(m)
+            },['Rétablir'])
+          : null;
+        // Bouton "Retirer" : remplaçant peut se retirer
+        var btnRetirer = currentUser && currentUser === m && isRemplacant
+          ? el('button',{
+              class:'accueil-btn-absent',
+              onclick:(function(nom_){ return function(e){ e.stopPropagation(); toggleAccueilMembre(rowId, dateISO, nom_, 'retirer'); }; })(m)
+            },['Retirer'])
+          : null;
+        // Classe CSS selon statut
+        var membreClass = isResp ? 'accueil-membre-resp'
+          : isRemplacant ? 'accueil-membre accueil-remplacant'
+          : estEnConge ? 'accueil-membre accueil-conge'
+          : estAbsent ? 'accueil-membre accueil-absent'
+          : 'accueil-membre';
+        var membreLabel = m
+          + (isRemplacant ? ' (remplacement)' : '')
+          + (estEnConge ? ' (congé)' : estAbsent ? ' (absent)' : '');
+        // En congé longue durée : pas de bouton Absent (automatique)
+        var btnAbsentFinal = estEnConge ? null : btnAbsent;
+        var btnAnnulerFinal = estEnConge ? null : btnAnnulerAbsence;
+        return el('div',{class:'accueil-chip'},[
+          el('span',{class:membreClass},[membreLabel]),
+          btnAbsentFinal, btnAnnulerFinal, btnAdminRetablir, btnRetirer,
+        ]);
+      });
+
+      // Bouton disponible : pour membres de l'autre équipe + Philippe/Madeleine PEM
+      var membreAutreEquipe = currentUser && ACCUEIL_EQUIPES[equipeAutre].some(function(m){
+        return currentUser === m || m.includes(currentUser);
+      });
+      var estPhilippeMadeleine = (currentUser === 'Philippe PEM' || currentUser === 'Madeleine PEM')
+        && !isIndisponible(getEffectiveIntervenants().find(function(p){return p.nom===currentUser;})||{}, dateISO);
+      var dejaInscrit = currentUser && remplacants.indexOf(currentUser) >= 0;
+      var btnDispo = currentUser && !dejaInscrit && (membreAutreEquipe || estPhilippeMadeleine)
+        ? el('button',{
+            class:'btn-take', style:'margin-top:6px;font-size:11.5px;',
+            onclick:function(e){ e.stopPropagation(); toggleAccueilMembre(rowId, dateISO, currentUser, 'remplacer'); }
+          },['Je suis disponible ce dimanche'])
+        : null;
+      var btnSeRetirer = currentUser && dejaInscrit
+        ? el('button',{
+            class:'btn-clear', style:'margin-top:6px;font-size:11.5px;',
+            onclick:function(e){ e.stopPropagation(); toggleAccueilMembre(rowId, dateISO, currentUser, 'retirer'); }
+          },['Me retirer'])
+        : null;
+
+      // Section admin : remettre tous les absents / retirer tous les remplaçants
+      var adminAccueilBtns = [];
+      if(state.isAdmin && (absents.length>0||remplacants.length>0)){
+        if(absents.length>0) adminAccueilBtns.push(
+          el('button',{
+            class:'pill-btn small ghost',style:'margin-top:6px;font-size:11px;',
+            onclick:async function(e){ e.stopPropagation();
+              // Batch : modifier state puis sauvegarder une seule fois
+              if(!state.overrides[rowId]) state.overrides[rowId]={};
+              state.overrides[rowId].accueil_absents=[];
+              await saveOverrides(); render();
+              showToast('Tous les absents ont été rétablis.');
+            }
+          },['↩ Rétablir tous les absents'])
+        );
+        if(remplacants.length>0) adminAccueilBtns.push(
+          el('button',{
+            class:'pill-btn small ghost',style:'margin-top:4px;font-size:11px;',
+            onclick:async function(e){ e.stopPropagation();
+              if(!state.overrides[rowId]) state.overrides[rowId]={};
+              state.overrides[rowId].accueil_remplacants=[];
+              await saveOverrides(); render();
+              showToast('Tous les remplaçants ont été retirés.');
+            }
+          },['✕ Retirer tous les remplaçants'])
+        );
+      }
+      return el('div',{class:'slot slot-accueil'},[
+        el('div',{class:'slot-accueil-header'},[
+          el('span',{class:'slot-label'},['Accueil / Sécurité']),
+          el('span',{style:'flex:1;'},[]),
+          el('span',{class:'accueil-equipe-badge'},['Équipe '+equipe]),
+        ]),
+        el('div',{class:'accueil-membres'},chips),
+        btnDispo, btnSeRetirer,
+      ].concat(adminAccueilBtns));
+    }
+    var rawVal = row[def.key];
+    var jeunesLocked = rawVal === 'Jeunes';
+    var value = getEffectiveValue(row, def.key);
+    var hasValue = value != null && value !== '' && value !== '-----';
+    var mine = hasValue && state.currentUser && value === state.currentUser;
+
+    var slotClasses = 'slot' + (hasValue ? ' locked' : ' empty') + (mine ? ' mine' : '');
+
+    var valueNode = el('span', {class:'slot-value'}, [hasValue ? value : 'À pourvoir']);
+
+    var actionNode;
+    // Badge ⚠ si la valeur actuelle est un intervenant indisponible
+    var warningNode = null;
+    if(hasValue && value){
+      var intervenants = getEffectiveIntervenants();
+      var personneActuelle = intervenants.find(function(p){ return p.nom === value; });
+      if(personneActuelle && isIndisponible(personneActuelle, row.date)){
+        warningNode = el('span',{
+          class:'slot-indispo-badge',
+          title:'Absent(e) du '+personneActuelle.indisponibleDu+' au '+personneActuelle.indisponibleAu
+        },['⚠ Absent (congé '+personneActuelle.indisponibleDu+' → '+personneActuelle.indisponibleAu+')']);
+      }
+    }
+    if(state.isAdmin){
+      // Séparer disponibles et indisponibles
+      var toutePersonnes = getEffectiveIntervenants();
+      var disponibles = toutePersonnes.filter(function(p){
+        return !isIndisponible(p, row.date);
+      }).map(function(p){ return p.nom; })
+        .sort(function(a,b){ return a.localeCompare(b,'fr',{sensitivity:'base'}); });
+      var indisponibles = toutePersonnes.filter(function(p){
+        return isIndisponible(p, row.date);
+      }).map(function(p){ return p.nom; })
+        .sort(function(a,b){ return a.localeCompare(b,'fr',{sensitivity:'base'}); });
+      var allNames = disponibles; // pour compatibilité
+      var isGuest = hasValue && value.indexOf('Invité') === 0;
+      // Valeur "orpheline" : une valeur présente qui ne correspond à aucun intervenant
+      // ni au format Invité (ex. "Tadeusz" écrit depuis le Calendrier Staff).
+      var isOrphan = hasValue && !isGuest && allNames.indexOf(value) < 0;
+      var options = [el('option',{value:''},['— vide —'])];
+      // Afficher la valeur orpheline en tête pour que l'admin puisse la voir et reprendre la main
+      if(isOrphan){
+        var orphanOpt = el('option', {value:value}, [value + ' (saisi via Staff)']);
+        orphanOpt.setAttribute('selected','selected');
+        options.push(orphanOpt);
+      }
+      options = options.concat(
+        disponibles.map(function(n){
+          var opt = el('option', {value:n}, [n]);
+          if(n === value){ opt.selected = true; opt.setAttribute('selected','selected'); }
+          return opt;
+        })
+      );
+      // Groupe grisé : indisponibles
+      if(indisponibles.length > 0){
+        var sep = document.createElement('option');
+        sep.disabled = true;
+        sep.textContent = '── Absents (congé) ──';
+        options.push(sep);
+        indisponibles.forEach(function(n){
+          var pi = toutePersonnes.find(function(x){ return x.nom === n; });
+          var opt = document.createElement('option');
+          opt.disabled = true;
+          opt.value = '';
+          opt.textContent = n + (pi ? ' (congé '+pi.indisponibleDu+' → '+pi.indisponibleAu+')' : ' (absent)');
+          options.push(opt);
+        });
+      }
+      options = options.concat([el('option', {value:'__guest__', selected:isGuest}, ['Invité…'])]);
+      var sel = el('select', {class:'admin-select', onchange:function(e){
+        var v = e.target.value;
+        if(v === '__guest__'){
+          state.showGuestModal=true;
+          state.guestTarget={rowId:row.id,fieldKey:def.key,label:def.label};
+          state.guestName=''; render(); return;
+        }
+        adminSetSlot(row.id, def.key, v);
+      }}, options);
+      actionNode = sel;
+    } else if(jeunesLocked){
+      actionNode = el('span', {class:'lock-icon'}, ['🔒']);
+    } else if(hasValue && mine){
+      // L'intervenant peut retirer sa propre inscription, et personne d'autre.
+      actionNode = el('button', {
+        class:'btn-clear',
+        onclick: function(){ releaseSlot(row.id, def.key, value); }
+      }, ['Retirer mon inscription']);
+    } else if(hasValue){
+      actionNode = el('span', {class:'lock-icon'}, ['🔒']);
+    } else {
+      var person = state.currentUser ? byName(state.currentUser) : null;
+      var eligible = slotEligible(person, def);
+      actionNode = el('button', {
+        class:'btn-take',
+        disabled: !state.currentUser || !eligible,
+        title: !state.currentUser ? 'Choisissez votre nom' : (!eligible ? 'Vous n\u2019êtes pas habilité pour cette rubrique' : ''),
+        onclick: function(){ takeSlot(row.id, def.key, def.label); }
+      }, [state.currentUser && !eligible ? 'Non habilité' : 'Je m\u2019inscris']);
+    }
+
+    return el('div', {class:slotClasses}, [
+      el('span', {class:'slot-label'}, [def.label]),
+      valueNode,
+      el('span', {class:'slot-action'}, [actionNode]),
+      warningNode
+    ]);
+  }
+
+  function renderCard(row,occurrence){
+    var effRow=getRowEffective(row);
+    var ct=cardType(effRow);
+    var d=dateFR(row.date);
+    var slotsContainer=el('div',{class:'slots'},[]);
+    var defs=getSlotDefs(effRow);
+    var defByKey={}; defs.forEach(function(df){ defByKey[df.key]=df; });
+    var groups=[{title:null,keys:['predicateur','presidentCulte']}];
+    if(effRow.hasSainteCene){
+      groups.push({title:'Sainte-Cène',keys:['presidentSainteCene']});
+      groups.push({title:'Union — distribution Sainte-Cène',keys:['unionDist1','unionDist2']});
+      groups.push({title:'Baptiste — distribution Sainte-Cène',keys:['baptisteDist1','baptisteDist2']});
+    }
+    groups.push({title:'Union — collecte offrandes',keys:['unionCollecte1','unionCollecte2']});
+    groups.push({title:'Baptiste — collecte offrandes',keys:['baptisteCollecte1','baptisteCollecte2']});
+    (state.customRubriques||[]).forEach(function(r){
+      if(r.scOnly&&!effRow.hasSainteCene) return;
+      var n=r.nbPlaces||2; var keys=[];
+      for(var ki=1;ki<=n;ki++) keys.push(r.key+'_'+ki);
+      groups.push({title:r.label+(r.group?' — '+r.group:''),keys:keys});
+    });
+    // Accueil / Sécurité — groupe informatif automatique
+    if(defByKey['accueil_securite']){
+      groups.push({title:'Accueil et Sécurité', keys:['accueil_securite']});
+    }
+    groups.forEach(function(g){
+      if(!g.keys.some(function(k){return defByKey[k];})) return;
+      if(g.title) slotsContainer.appendChild(el('div',{class:'slot-group-title'},[g.title]));
+      g.keys.forEach(function(k){
+        if(!defByKey[k]) return;
+        var slotEl = renderSlot(effRow, defByKey[k]);
+        if(slotEl) slotsContainer.appendChild(slotEl);
+      });
+    });
+    var remarque=getEffectiveValue(effRow,'__remarque')||row.remarques;
+    var bodyChildren=[];
+    bodyChildren.push(el('div',{class:'card-top'},[
+      el('div',{class:'date-block'},[
+        el('span',{class:'date-main'},[d.dayLabel.charAt(0).toUpperCase()+d.dayLabel.slice(1)+' '+d.full]),
+        el('span',{class:'date-sub'},[d.year+(effRow.typeCulte==='Petit-déjeuner'?' · petit-déjeuner partagé':'')+(occurrence>1?' · 2ᵉ intervenant ce jour':'')])
+      ]),
+      el('div',{style:'display:flex;gap:6px;align-items:center;flex-wrap:wrap;'},[
+        el('span',{class:'type-badge '+ct.cls},[ct.label]),
+        state.isAdmin?el('button',{class:'pill-btn ghost small',style:'font-size:11px;padding:3px 9px;',
+          title:effRow.hasSainteCene?'Retirer la Sainte-Cène':'Ajouter la Sainte-Cène',
+          onclick:function(e){e.stopPropagation();adminToggleSC(row.id,effRow.hasSainteCene);}
+        },[effRow.hasSainteCene?'✗ SC':'+ SC']):null
+      ])
+    ]));
+    if(remarque){
+      if(state.isAdmin){
+        bodyChildren.push(el('div',{class:'remark-admin'},[
+          el('span',{},['Remarque : '+remarque]),
+          el('button',{class:'pill-btn ghost small',onclick:function(){
+            state.showRemarqueModal=true;state.remarqueTarget=row.id;state.remarqueText=remarque||'';render();
+          }},['Modifier'])
+        ]));
+      } else {
+        bodyChildren.push(el('div',{class:'remark'},['Remarque : '+remarque]));
+      }
+    } else if(state.isAdmin){
+      bodyChildren.push(el('button',{class:'pill-btn ghost small',style:'margin-bottom:8px;font-size:11px;',
+        onclick:function(){state.showRemarqueModal=true;state.remarqueTarget=row.id;state.remarqueText='';render();}
+      },['+ Remarque']));
+    }
+    bodyChildren.push(slotsContainer);
+    return el('div',{class:'card'},[el('div',{class:'stripe '+ct.cls}),el('div',{class:'card-body'},bodyChildren)]);
+  }
+
+    function renderMain(){
+    var main = el('div', {class:'main'}, []);
+    main.appendChild(renderLegend());
+
+    var lastMonth = null;
+    var lastDate = null;
+    var dateOccurrence = 0;
+    PLANNING_RAW.forEach(function(row){
+      if(row.mois && row.mois !== lastMonth){
+        lastMonth = row.mois;
+        var mIdx = MOIS_NAV.indexOf(lastMonth);
+        if(mIdx >= 0){
+          main.appendChild(el('div', {id:'month-anchor-'+mIdx, class:'month-anchor'}, []));
+        }
+        var countInMonth = PLANNING_RAW.filter(function(r){return r.mois===lastMonth;}).length;
+        main.appendChild(el('div', {class:'month-header'}, [
+          lastMonth,
+          el('span', {class:'count'}, [countInMonth + ' dimanche' + (countInMonth>1?'s':'')])
+        ]));
+      }
+      if(row.date === lastDate){ dateOccurrence++; } else { dateOccurrence = 1; lastDate = row.date; }
+      main.appendChild(renderCard(row, dateOccurrence));
+    });
+
+    return main;
+  }
+
+  function renderAdminModal(){
+    if(!state.showLoginAdmin) return null;
+    var input;
+    var overlay = el('div', {class:'overlay', onclick:function(e){ if(e.target===overlay){ state.showLoginAdmin=false; render(); } }}, [
+      el('div', {class:'modal'}, [
+        el('h2', {}, ['Accès administrateur']),
+        el('p', {}, ['Saisissez le code pour modifier ou libérer une inscription.']),
+        el('div',{style:'position:relative;display:flex;align-items:center;'},[
+          (input = el('input', {
+            type: state._showAdminCode ? 'text' : 'password',
+            placeholder:'Code administrateur',
+            value:state.adminCodeInput,
+            style:'flex:1;padding-right:40px;',
+            oninput:function(e){ state.adminCodeInput = e.target.value; }
+          })),
+          el('button',{
+            type:'button',
+            style:'position:absolute;right:8px;background:none;border:none;cursor:pointer;font-size:18px;color:var(--ink-soft);padding:4px;line-height:1;',
+            onclick:function(){ state._showAdminCode=!state._showAdminCode; render(); },
+            title: state._showAdminCode ? 'Masquer' : 'Afficher'
+          },[state._showAdminCode ? '🔓' : '🔒']),
+        ]),
+        state.adminError ? el('div', {class:'err-msg'}, [state.adminError]) : null,
+        el('div', {class:'modal-actions'}, [
+          el('button', {class:'pill-btn ghost', onclick:function(){ state.showLoginAdmin=false; render(); }}, ['Annuler']),
+          el('button', {class:'pill-btn admin', onclick:tryAdminLogin}, ['Entrer'])
+        ])
+      ])
+    ]);
+    setTimeout(function(){
+      input.addEventListener('keydown', function(e){ if(e.key==='Enter') tryAdminLogin(); });
+      input.focus();
+    }, 0);
+    return overlay;
+  }
+
+  function renderPersonForm(){
+    var f = state.manageForm;
+    var isNew = state.managePersonEditing === '__new__';
+    var nomInput;
+    var PERM_FIELDS = getPermFields();
+    var PERM_LABELS = getPermLabels();
+
+    var checkboxes = PERM_FIELDS.map(function(field){
+      return el('label', {class:'perm-row'}, [
+        el('input', {type:'checkbox', checked: !!f[field], onchange:function(e){
+          f[field] = e.target.checked;
+        }}),
+        el('span', {}, [PERM_LABELS[field]])
+      ]);
+    });
+
+    var groupeSelect = el('select', {class:'admin-select', onchange:function(e){ f.groupe = e.target.value; }}, [
+      el('option', {value:'UNION', selected: f.groupe==='UNION'}, ['UNION']),
+      el('option', {value:'BAPTISTE', selected: f.groupe==='BAPTISTE'}, ['BAPTISTE'])
+    ]);
+
+    return el('div', {class:'modal'}, [
+      el('h2', {}, [isNew ? 'Ajouter un intervenant' : 'Modifier — ' + (f.nomOriginal || f.nom)]),
+      el('p', {}, [isNew
+        ? 'Renseignez le nom, l\u2019église et les rubriques auxquelles cette personne sera habilitée à s\u2019inscrire.'
+        : 'Cochez ou décochez les rubriques auxquelles ' + f.nom + ' est habilité(e) à s\u2019inscrire.']),
+      el('label', {class:'field-label'}, ['Nom et prénom']),
+      isNew
+        ? (nomInput = el('input', {type:'text', placeholder:'Ex. Marie Dupont', value:f.nom, oninput:function(e){ f.nom = e.target.value; }}))
+        : el('div', {}, [
+            el('input', {type:'text', value:f.nom, oninput:function(e){ f.nom = e.target.value; }}),
+            el('p', {style:'font-size:11.5px;color:var(--ink-soft);margin:4px 0 0;'},
+              ['⚠️ Corriger ce nom met à jour toutes les inscriptions existantes.'])
+          ]),
+      el('label', {class:'field-label'}, ['Église']),
+      groupeSelect,
+      el('label', {class:'field-label'}, ['Adresse email (pour rappels)']),
+      el('input', {
+        type:'email',
+        placeholder:'prenom.nom@exemple.fr',
+        value: f.email || '',
+        style:'width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font-family:inherit;font-size:13px;margin-bottom:8px;',
+        oninput:function(e){ f.email = e.target.value.trim(); }
+      }),
+      el('label', {class:'field-label'}, ['Indisponibilité (optionnel)']),
+      el('div',{style:'display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap;'},[
+        el('div',{style:'display:flex;align-items:center;gap:6px;'},[
+          el('span',{style:'font-size:12px;color:var(--ink-soft);'},['Du']),
+          el('input',{
+            type:'date',
+            value: f.indisponibleDu || '',
+            style:'padding:6px 8px;border:1px solid var(--line);border-radius:8px;font-family:inherit;font-size:13px;',
+            oninput:function(e){ f.indisponibleDu = e.target.value; }
+          })
+        ]),
+        el('div',{style:'display:flex;align-items:center;gap:6px;'},[
+          el('span',{style:'font-size:12px;color:var(--ink-soft);'},['au']),
+          el('input',{
+            type:'date',
+            value: f.indisponibleAu || '',
+            style:'padding:6px 8px;border:1px solid var(--line);border-radius:8px;font-family:inherit;font-size:13px;',
+            oninput:function(e){ f.indisponibleAu = e.target.value; }
+          })
+        ]),
+        f.indisponibleDu && f.indisponibleAu ? el('button',{
+          type:'button',
+          style:'font-size:11px;padding:4px 8px;border:1px solid var(--line);border-radius:6px;background:none;cursor:pointer;color:var(--ink-soft);',
+          onclick:function(){ f.indisponibleDu=''; f.indisponibleAu=''; render(); }
+        },['Effacer']) : null
+      ]),
+      el('label', {class:'field-label'}, ['Habilitations']),
+      el('div', {class:'perm-list'}, checkboxes),
+      el('div', {class:'modal-actions'}, [
+        el('button', {class:'pill-btn ghost', onclick:closePersonForm}, ['Annuler']),
+        el('button', {class:'pill-btn admin', onclick:savePersonForm}, [isNew ? 'Ajouter' : 'Enregistrer'])
+      ])
+    ]);
+  }
+
+  function renderManageIntervenantsModal(){
+    if(!state.showManageIntervenants) return null;
+
+    if(state.managePersonEditing){
+      var overlay1 = el('div', {class:'overlay', onclick:function(e){ if(e.target===overlay1){ closePersonForm(); } }}, [
+        renderPersonForm()
+      ]);
+      return overlay1;
+    }
+
+    var list = getEffectiveIntervenants().filter(function(p){
+      return p && p.nom && typeof p.nom === 'string';
+    }).slice().sort(function(a,b){
+      return a.nom.localeCompare(b.nom, 'fr', {sensitivity:'base'});
+    });
+
+    var PERM_FIELDS = getPermFields();
+    var PERM_LABELS = getPermLabels();
+    var rows = list.map(function(p){
+      var permsActive = PERM_FIELDS.filter(function(f){ return p[f]; }).map(function(f){ return PERM_LABELS[f]; });
+      return el('div', {class:'person-row'}, [
+        el('div', {class:'person-info'}, [
+          el('div', {class:'person-name'}, [
+            p.nom,
+            (p.indisponibleDu && p.indisponibleAu) ? el('span',{
+              style:'font-size:10px;font-weight:600;background:#FFF3CD;color:#856404;padding:2px 6px;border-radius:4px;margin-left:6px;white-space:nowrap;'
+            },['Absent ' + p.indisponibleDu + ' → ' + p.indisponibleAu]) : null
+          ]),
+          el('div', {class:'person-meta'}, [p.groupe + (permsActive.length ? ' · ' + permsActive.join(', ') : ' · aucune habilitation')])
+        ]),
+        el('div',{style:'display:flex;gap:6px;'},[
+          el('button',{class:'pill-btn ghost small',onclick:function(){openEditPersonForm(p.nom);}},['Modifier']),
+          p._deleted
+            ?el('button',{class:'pill-btn small',onclick:function(){restorePerson(p.nom);}},['Restaurer'])
+            :el('button',{class:'pill-btn danger small',onclick:function(){if(confirm('Supprimer '+p.nom+' ?')){deletePerson(p.nom);}}},['Supprimer'])
+        ])
+      ]);
+    });
+
+    var overlay = el('div', {class:'overlay', onclick:function(e){ if(e.target===overlay){ state.showManageIntervenants=false; render(); } }}, [
+      el('div', {class:'modal modal-wide'}, [
+        el('div', {class:'modal-header-row'}, [
+          el('h2', {}, ['Gérer les intervenants']),
+          el('button', {class:'pill-btn admin small', onclick:openNewPersonForm}, ['+ Ajouter un intervenant'])
+        ]),
+        el('p', {}, ['Modifiez les habilitations d\u2019un intervenant existant, ou ajoutez une nouvelle personne à la liste.']),
+        el('div', {class:'person-list'}, rows),
+        el('div', {class:'modal-actions'}, [
+          el('button', {class:'pill-btn', onclick:function(){ state.showManageIntervenants=false; render(); }}, ['Fermer'])
+        ])
+      ])
+    ]);
+    return overlay;
+  }
+
+
+  function renderManageRubriquesModal(){
+    if(!state.showManageRubriques) return null;
+    if(state.manageRubriqueEditing!=null){
+      var f=state.manageRubriqueForm;var isNew=state.manageRubriqueEditing==='__new__';
+      var gSel=el('select',{class:'admin-select',onchange:function(e){f.group=e.target.value||null;}},[
+        el('option',{value:'',selected:!f.group},['Commune']),
+        el('option',{value:'UNION',selected:f.group==='UNION'},['UNION']),
+        el('option',{value:'BAPTISTE',selected:f.group==='BAPTISTE'},['BAPTISTE'])
+      ]);
+      var lInput;
+      return el('div',{class:'overlay',onclick:function(e){if(e.target.classList.contains('overlay'))closeRubriqueForm();}},[
+        el('div',{class:'modal'},[
+          el('h2',{},[isNew?'Nouvelle rubrique':'Modifier la rubrique']),
+          el('label',{class:'field-label'},['Nom']),
+          (lInput=el('input',{type:'text',placeholder:'Ex. Louange, Sonorisation...',value:f.label||'',oninput:function(e){f.label=e.target.value;}})),
+          el('label',{class:'field-label'},['Groupe']),gSel,
+          el('label',{class:'field-label'},['Nombre de places']),
+          el('select',{class:'admin-select',onchange:function(e){f.nbPlaces=parseInt(e.target.value,10);}},
+            [1,2,3,4,5,6].map(function(n){
+              return el('option',{value:n,selected:(f.nbPlaces||2)===n},[n+(n>1?' places':' place')]);
+            })
+          ),
+          el('label',{class:'perm-row',style:'margin-top:10px;'},[
+            el('input',{type:'checkbox',checked:!!f.scOnly,onchange:function(e){f.scOnly=e.target.checked;}}),
+            el('span',{},['Sainte-Cène uniquement'])
+          ]),
+          el('div',{class:'modal-actions'},[
+            el('button',{class:'pill-btn ghost',onclick:closeRubriqueForm},['Annuler']),
+            el('button',{class:'pill-btn admin',onclick:saveRubriqueForm},[isNew?'Créer':'Enregistrer'])
+          ])
+        ])
+      ]);
+    }
+    var rows=(state.customRubriques||[]).map(function(r,idx){
+      return el('div',{class:'rubrique-row'},[
+        el('div',{},[el('div',{class:'rubrique-info'},[r.label]),el('div',{class:'rubrique-meta'},[(r.group||'Commune')+(r.scOnly?' SC':'')])]),
+        el('div',{style:'display:flex;gap:6px;'},[
+          el('button',{class:'pill-btn ghost small',onclick:function(){openEditRubriqueForm(idx);}},['Modifier']),
+          el('button',{class:'pill-btn danger small',onclick:function(){if(confirm('Supprimer "'+r.label+'" ?')){deleteRubrique(idx);}}},['Supprimer'])
+        ])
+      ]);
+    });
+    return el('div',{class:'overlay',onclick:function(e){if(e.target.classList.contains('overlay')){state.showManageRubriques=false;render();}}},[
+      el('div',{class:'modal modal-wide'},[
+        el('div',{class:'modal-header-row'},[el('h2',{},['Rubriques']),el('button',{class:'pill-btn admin small',onclick:openNewRubriqueForm},['+ Nouvelle'])]),
+        rows.length?el('div',{class:'rubrique-list'},rows):el('p',{style:'color:var(--ink-soft);font-style:italic;'},['Aucune rubrique.']),
+        el('div',{class:'modal-actions'},[el('button',{class:'pill-btn',onclick:function(){state.showManageRubriques=false;render();}},['Fermer'])])
+      ])
+    ]);
+  }
+
+  function renderGuestModal(){
+    if(!state.showGuestModal) return null;
+    var input;
+    var ov=el('div',{class:'overlay',onclick:function(e){if(e.target===ov){state.showGuestModal=false;render();}}},[
+      el('div',{class:'modal'},[
+        el('h2',{},['Invité']),
+        el('p',{},['Nom et prénom de l\'invité :']),
+        (input=el('input',{type:'text',placeholder:'Prénom NOM',value:state.guestName,oninput:function(e){state.guestName=e.target.value;}})),
+        el('div',{class:'modal-actions'},[
+          el('button',{class:'pill-btn ghost',onclick:function(){state.showGuestModal=false;render();}},['Annuler']),
+          el('button',{class:'pill-btn admin',onclick:function(){
+            var name=(state.guestName||'').trim();
+            if(!name){showToast("Saisissez un nom.");return;}
+            var t=state.guestTarget;state.showGuestModal=false;
+            adminSetSlot(t.rowId,t.fieldKey,'Invité : '+name);
+            adminSetRemarque(t.rowId,'Invité : '+name);
+            render();
+          }},['Valider'])
+        ])
+      ])
+    ]);
+    setTimeout(function(){input.focus();},0);
+    return ov;
+  }
+
+  function renderRemarqueModal(){
+    if(!state.showRemarqueModal) return null;
+    var ta;
+    var ov=el('div',{class:'overlay',onclick:function(e){if(e.target===ov){state.showRemarqueModal=false;render();}}},[
+      el('div',{class:'modal'},[
+        el('h2',{},['Remarque']),
+        el('p',{},['Visible par tous les intervenants.']),
+        (ta=el('textarea',{placeholder:'Remarque...',style:'width:100%;min-height:80px;resize:vertical;font-family:inherit;font-size:14px;padding:10px;border-radius:10px;border:1.5px solid var(--line);background:var(--cream);'})),
+        el('div',{class:'modal-actions'},[
+          el('button',{class:'pill-btn ghost',onclick:function(){state.showRemarqueModal=false;render();}},['Annuler']),
+          state.remarqueText?el('button',{class:'pill-btn danger',onclick:function(){
+            adminSetRemarque(state.remarqueTarget,'');state.showRemarqueModal=false;render();
+          }},['Effacer']):null,
+          el('button',{class:'pill-btn admin',onclick:function(){
+            adminSetRemarque(state.remarqueTarget,ta.value.trim());state.showRemarqueModal=false;render();
+          }},['Enregistrer'])
+        ])
+      ])
+    ]);
+    setTimeout(function(){ta.value=state.remarqueText||'';ta.focus();},0);
+    return ov;
+  }
+
+  function renderHelpModal(){
+    if(!state.showHelp) return null;
+    var isAdmin=state.helpTab==='admin';
+    var tI=el('button',{class:'pill-btn small'+(state.helpTab==='intervenants'?' admin':' ghost'),onclick:function(){state.helpTab='intervenants';render();}},['Intervenants']);
+    var tA=el('button',{class:'pill-btn small'+(state.helpTab==='admin'?' admin':' ghost'),onclick:function(){state.helpTab='admin';render();}},['Administrateurs']);
+    function row(txt){return el('p',{style:'font-size:13px;margin:0 0 8px;line-height:1.5;'},[txt]);}
+    var content=isAdmin?el('div',{},[
+      row('Modifiez ou videz une case via le menu deroulant.'),
+      row('Pour un invite, choisissez "Invite..." et saisissez son nom.'),
+      row('Ajoutez une remarque par dimanche via "+ Remarque".'),
+      row('Bouton "Intervenants" : ajouter, modifier le nom, supprimer.'),
+      row('Bouton "Rubriques" : creer des rubriques supplementaires.')
+    ]):el('div',{},[
+      row('Choisissez votre nom dans la barre en haut de page.'),
+      row('Cliquez sur un mois pour y acceder directement.'),
+      row('Cliquez sur "Je m inscris" en face de la rubrique souhaitee.'),
+      row('Cliquez sur "Retirer mon inscription" pour vous desinscrire.')
+    ]);
+    return el('div',{class:'overlay',onclick:function(e){if(e.target.classList.contains('overlay')){state.showHelp=false;render();}}},[
+      el('div',{class:'modal modal-wide'},[
+        el('div',{class:'modal-header-row'},[el('h2',{},['Guide']),el('button',{class:'pill-btn ghost small',onclick:function(){state.showHelp=false;render();}},['Fermer'])]),
+        el('div',{style:'display:flex;gap:6px;margin-bottom:14px;'},[tI,tA]),
+        content
+      ])
+    ]);
+  }
+
+    function renderToast(){
+    if(!state.toast) return null;
+    return el('div', {class:'toast'}, [state.toast]);
+  }
+
+  
+// Message smartphone paysage
+function renderLandscapeHintPlanning(){
+  try { if(sessionStorage.getItem('landscapeDismissedPlanning')) return null; } catch(e){}
+  return el('div',{class:'landscape-hint',id:'landscape-hint-p'},[
+    el('span',{},['📱 Sur smartphone, préférez le mode paysage pour un meilleur confort.']),
+    el('button',{
+      class:'landscape-hint-close',
+      onclick:function(){
+        try{ sessionStorage.setItem('landscapeDismissedPlanning','1'); }catch(e){}
+        var h=document.getElementById('landscape-hint-p');
+        if(h) h.style.display='none';
+      }
+    },['✕']),
+  ]);
+}
+
+
+// ============================================================
+// ACCUEIL / SÉCURITÉ — Alternance équipes A/B
+// ============================================================
+var ACCUEIL_EQUIPE_A_START = '2026-06-07';
+var ACCUEIL_EQUIPES = {
+  A: ['Joseph SOKPO (responsable)', 'Olivier Garbe', 'Judith PEM', 'Émerick GROS-DESORMEAUX'],
+  B: ['Joseph SOKPO (responsable)', 'Prosper Momo', 'Naomi', 'Steeve TONDEREAU'],
+};
+
+function getEquipeAccueil(dateISO){
+  var start = new Date(ACCUEIL_EQUIPE_A_START + 'T00:00:00');
+  var cur   = new Date(dateISO + 'T00:00:00');
+  var diffWeeks = Math.round((cur - start) / (7 * 86400000));
+  return diffWeeks % 2 === 0 ? 'A' : 'B';
+}
+
+function renderSlotAccueil(dateISO, overrides, rowId){
+  // Retourne TOUS les membres (présents + absents manuels + congés longue durée) + remplaçants
+  var equipe = getEquipeAccueil(dateISO);
+  var membres = ACCUEIL_EQUIPES[equipe].slice();
+  var key = rowId || dateISO;
+  var ov = (overrides && overrides[key]) ? overrides[key] : {};
+  var absents = ov.accueil_absents || [];
+  var remplacants = ov.accueil_remplacants || [];
+  // Ajouter les remplaçants qui ne sont pas déjà dans la liste
+  remplacants.forEach(function(r){ if(membres.indexOf(r)<0) membres.push(r); });
+  // NE PAS retirer les absents — ils sont affichés avec un style barré
+  return membres;
+}
+
+// Vérifier si un membre Accueil est en congé longue durée ce dimanche
+function isMembreAccueilIndisponible(nomMembre, dateISO){
+  // Normaliser le nom (retirer "(responsable)" si présent)
+  var nom = nomMembre.replace(' (responsable)','').trim();
+  var intervenants = getEffectiveIntervenants();
+  var p = intervenants.find(function(x){
+    return x.nom === nom || x.nom.toLowerCase() === nom.toLowerCase();
+  });
+  return p ? isIndisponible(p, dateISO) : false;
+}
+
+// ── Accueil/Sécurité : gérer absences et remplacements ──────
+async function toggleAccueilMembre(rowId, dateISO, nom, action){
+  try {
+    if(!state.overrides) state.overrides = {};
+    if(!state.overrides[rowId]) state.overrides[rowId] = {};
+    var ov = state.overrides[rowId];
+    var absents = (ov.accueil_absents || []).slice();
+    var remplacants = (ov.accueil_remplacants || []).slice();
+
+    if(action === 'absent'){
+      if(absents.indexOf(nom) < 0) absents.push(nom);
+      showToast('Absence signalée. Merci de prévenir le responsable d\'équipe.');
+    } else if(action === 'remplacer'){
+      if(remplacants.indexOf(nom) < 0) remplacants.push(nom);
+      showToast('Disponibilité enregistrée. Merci pour ton service !');
+    } else if(action === 'retablir'){
+      absents = absents.filter(function(m){ return m !== nom; });
+      showToast('Présence rétablie pour '+nom+'.');
+    } else if(action === 'retirer'){
+      absents = absents.filter(function(m){ return m !== nom; });
+      remplacants = remplacants.filter(function(m){ return m !== nom; });
+      showToast('Modification enregistrée.');
+    }
+    state.overrides[rowId].accueil_absents = absents;
+    state.overrides[rowId].accueil_remplacants = remplacants;
+    await saveOverrides();
+    render();
+  } catch(e) {
+    showToast('Connexion impossible, réessayez.');
+    console.error(e);
+  }
+}
+
+
+// ============================================================
+// EMAILJS — Rappels d'inscription
+// ============================================================
+var EMAILJS_SERVICE_ID  = 'service_kpo2kbv';
+var EMAILJS_TEMPLATE_ID         = 'template_vyat5ej';  // Rappels non-inscrits
+var EMAILJS_TEMPLATE_ID_CONFIRM = 'template_jzr7j7c';  // Confirmations + Predicateur (template generique)
+var EMAILJS_TEMPLATE_ID_PRED    = 'template_jzr7j7c';  // Meme template generique
+var EMAILJS_PUBLIC_KEY  = 'ghEB6k_4E3NYX8nJw';
+var emailjsReady = false;
+
+function initEmailJS(){
+  if(typeof emailjs !== 'undefined'){
+    emailjs.init({publicKey: EMAILJS_PUBLIC_KEY});
+    emailjsReady = true;
+  }
+}
+
+// Calculer depuis combien de mois un intervenant ne s'est pas inscrit
+function moisSansInscription(nom){
+  if(!state.overrides) return 99;
+  var dernierDimanche = null;
+  Object.keys(state.overrides).forEach(function(rowId){
+    var ov = state.overrides[rowId];
+    if(!ov) return;
+    Object.keys(ov).forEach(function(k){
+      if(ov[k] === nom){
+        // Trouver la date de ce rowId
+        var row = PLANNING_RAW.find(function(r){ return r.id === rowId; });
+        if(row && row.date){
+          if(!dernierDimanche || row.date > dernierDimanche) dernierDimanche = row.date;
+        }
+      }
+    });
+  });
+  if(!dernierDimanche) return 99;
+  var now = new Date();
+  var last = new Date(dernierDimanche + 'T00:00:00');
+  return Math.floor((now - last) / (30 * 24 * 3600 * 1000));
+}
+
+// Trouver les rubriques non pourvues pour un dimanche donné
+function getRubriquesManquantes(rowId){
+  var row = PLANNING_RAW.find(function(r){ return r.id === rowId; });
+  if(!row) return [];
+  var effRow = getRowEffective(row);
+  var defs = getSlotDefs(effRow);
+  var ov = (state.overrides && state.overrides[rowId]) ? state.overrides[rowId] : {};
+  var manquantes = [];
+  defs.forEach(function(def){
+    if(def.special === 'accueil') return;
+    var val = ov[def.key] !== undefined ? ov[def.key] : (effRow[def.key] || null);
+    if(!val) manquantes.push({label: def.label, perm: def.perm || null, group: def.group || null});
+  });
+  return manquantes;
+}
+
+// Envoyer un rappel email à un intervenant
+async function envoyerRappelEmail(intervenant, dateDimanche, rowId, rubriques){
+  if(!emailjsReady){ showToast('EmailJS non initialisé.'); return false; }
+  if(!intervenant.email){ return false; }
+  try {
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      to_email: intervenant.email,
+      to_name: intervenant.nom,
+      prenom: intervenant.nom.split(' ')[0],
+      date_dimanche: dateDimanche,
+      rubriques_manquantes: rubriques.join(' | ')
+    });
+    return true;
+  } catch(e) {
+    console.error('EmailJS erreur:', e);
+    return false;
+  }
+}
+
+// Logique principale de rappels — appelée par l'admin
+async function lancerRappels(rowId){
+  var row = PLANNING_RAW.find(function(r){ return r.id === rowId; });
+  if(!row){ showToast('Dimanche introuvable.'); return; }
+
+  var rubriques = getRubriquesManquantes(rowId);
+  if(rubriques.length === 0){ showToast('Toutes les rubriques sont pourvues pour ce dimanche ! ✓'); return; }
+
+  var now = new Date();
+  var jourSemaine = now.getDay(); // 0=dim, 4=jeu, 5=ven
+  var heure = now.getHours();
+
+  // Déterminer le groupe cible selon le calendrier
+  // Jeudi matin → absents depuis 2 mois
+  // Vendredi matin → absents depuis 1 mois
+  // Vendredi soir → tous les non inscrits
+  var moisSeuil = 0;
+  if(jourSemaine === 4) moisSeuil = 2;           // Jeudi → 2 mois
+  else if(jourSemaine === 5 && heure < 12) moisSeuil = 1; // Vendredi matin → 1 mois
+  else moisSeuil = 0;                            // Vendredi soir → tous
+
+  // Intervenants habilités non encore inscrits ce dimanche
+  var ov = (state.overrides && state.overrides[rowId]) ? state.overrides[rowId] : {};
+  var inscrits = new Set(Object.values(ov).filter(function(v){ return v && typeof v === 'string'; }));
+
+  var effRow2 = getRowEffective(row);
+  var dateStr = new Date(row.date + 'T00:00:00').toLocaleDateString('fr-FR', {weekday:'long', day:'numeric', month:'long', year:'numeric'}).replace(/^(.)/, function(c){ return c.toUpperCase(); });
+  var envoyés = 0;
+
+  var candidats = getEffectiveIntervenants().filter(function(p){
+    if(!p.email) return false;
+    if(inscrits.has(p.nom)) return false; // déjà inscrit
+    var mois = moisSansInscription(p.nom);
+    if(mois < moisSeuil) return false;
+    // Vérifier qu'il est habilité sur au moins une rubrique manquante
+    var sesRubriques = rubriques.filter(function(r){
+      if(!r.perm) return false;
+      // Vérifier habilitation
+      if(!p[r.perm]) return false;
+      // Vérifier groupe pour Distribution/Collecte
+      if(r.group && r.group !== p.groupe) return false;
+      return true;
+    });
+    p._sesRubriques = sesRubriques; // stocker pour l'email
+    return sesRubriques.length > 0;
+  });
+
+  if(candidats.length === 0){
+    showToast('Aucun destinataire habilité pour ce créneau.');
+    return;
+  }
+
+  for(var i=0; i<candidats.length; i++){
+    var p2 = candidats[i];
+    var labelsRubriques = p2._sesRubriques.map(function(r){ return r.label; });
+    var ok = await envoyerRappelEmail(p2, dateStr, rowId, labelsRubriques);
+    if(ok) envoyés++;
+    await new Promise(function(r){ setTimeout(r, 300); }); // éviter le spam
+  }
+  showToast('✓ ' + envoyés + ' rappel(s) envoyé(s) sur ' + intervenants.length + ' destinataire(s).');
+}
+
+
+// ============================================================
+// MODAL RAPPELS EMAIL
+// ============================================================
+function renderRappelsModal(){
+  if(!state.showRappels) return null;
+
+  // Dimanches à venir non entièrement pourvus
+  var now = new Date().toISOString().slice(0,10);
+  var dimanchesAPourvoir = PLANNING_RAW.filter(function(row){
+    if(row.date < now) return false;
+    return getRubriquesManquantes(row.id).length > 0;
+  }).slice(0,8);
+
+  var today = new Date();
+  var jourSemaine = today.getDay();
+  var heure = today.getHours();
+  var conseil = '';
+  if(jourSemaine===4) conseil = 'Jeudi — envoi aux intervenants absents depuis 2 mois';
+  else if(jourSemaine===5 && heure<12) conseil = 'Vendredi matin — envoi aux absents depuis 1 mois';
+  else if(jourSemaine===5 && heure>=12) conseil = 'Vendredi soir — envoi à tous les non inscrits';
+  else conseil = 'Hors créneau automatique — envoi à tous les non inscrits';
+
+  var overlay = el('div',{class:'overlay',onclick:function(e){
+    if(e.target===overlay){ state.showRappels=false; render(); }
+  }},[
+    el('div',{class:'modal',style:'max-width:520px;'},[
+      el('h2',{},['\uD83D\uDCE7 Rappels d\u2019inscription']),
+      el('p',{style:'font-size:12px;color:var(--ink-soft);margin:6px 0 14px;'},[conseil]),
+      el('div',{class:'field-label',style:'margin-bottom:8px;'},['Choisir le dimanche']),
+      dimanchesAPourvoir.length === 0
+        ? el('p',{style:'color:var(--green);font-size:13px;'},['✓ Tous les dimanches à venir sont pourvus !'])
+        : el('div',{style:'display:flex;flex-direction:column;gap:6px;max-height:280px;overflow-y:auto;'},
+            dimanchesAPourvoir.map(function(row){
+              var rubriques = getRubriquesManquantes(row.id);
+              var dateStr = new Date(row.date+'T00:00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+              var isSelected = state.rappelRowId === row.id;
+              return el('div',{
+                style:'padding:10px 12px;border-radius:8px;cursor:pointer;border:2px solid '+(isSelected?'var(--planning)':'var(--line)')+';background:'+(isSelected?'var(--planning-pale)':'var(--page)'),
+                onclick:function(){ state.rappelRowId=row.id; render(); }
+              },[
+                el('div',{style:'font-weight:600;font-size:13px;color:var(--ink);'},[dateStr]),
+                el('div',{style:'font-size:11px;color:var(--ink-soft);margin-top:3px;'},[
+                  rubriques.length+' rubrique(s) manquante(s) : '+rubriques.slice(0,3).map(function(r){return r.label||r;}).join(', ')+(rubriques.length>3?'…':'')
+                ])
+              ]);
+            })
+          ),
+      el('div',{class:'modal-actions',style:'margin-top:16px;'},[
+        el('button',{class:'pill-btn ghost',onclick:function(){ state.showRappels=false; render(); }},['Fermer']),
+        state.rappelRowId ? el('div',{style:'display:flex;gap:8px;flex-wrap:wrap;'},[
+          el('button',{
+            class:'pill-btn admin',
+            title:'Vendredi matin — non inscrits habilités',
+            onclick:async function(){
+              await lancerRappels(state.rappelRowId);
+              state.showRappels=false; state.rappelRowId=null; render();
+            }
+          },['📨 Rappels non-inscrits']),
+          el('button',{
+            class:'pill-btn',
+            style:'background:#2D7A4F;',
+            title:'Vendredi matin — confirmation aux inscrits',
+            onclick:async function(){
+              await lancerConfirmations(state.rappelRowId);
+              state.showRappels=false; state.rappelRowId=null; render();
+            }
+          },['✅ Confirmations inscrits']),
+          el('button',{
+            class:'pill-btn',
+            style:'background:#7C3AED;',
+            title:'Lundi après-midi — prédicateur et président',
+            onclick:async function(){
+              await lancerRappelsPredicateurs(state.rappelRowId);
+              state.showRappels=false; state.rappelRowId=null; render();
+            }
+          },['🎤 Prédicateur / Président']),
+        ]) : null
+      ])
+    ])
+  ]);
+  return overlay;
+}
+
+
+// ============================================================
+// CONFIRMATIONS — inscrits vendredi matin
+// ============================================================
+async function lancerConfirmations(rowId){
+  var row = PLANNING_RAW.find(function(r){ return r.id === rowId; });
+  if(!row){ showToast('Dimanche introuvable.'); return; }
+
+  var ov = (state.overrides && state.overrides[rowId]) ? state.overrides[rowId] : {};
+  var effRow = getRowEffective(row);
+  var defs = getSlotDefs(effRow);
+  var dateStr = new Date(row.date+'T00:00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).replace(/^(.)/, function(c){ return c.toUpperCase(); });
+
+  // Construire la liste : intervenant → ses rubriques inscrites
+  var parIntervenant = {};
+  defs.forEach(function(def){
+    if(def.special === 'accueil') return;
+    var val = ov[def.key] !== undefined ? ov[def.key] : (effRow[def.key] || null);
+    if(!val || typeof val !== 'string') return;
+    if(!parIntervenant[val]) parIntervenant[val] = [];
+    parIntervenant[val].push(def.label);
+  });
+
+  var intervenants = getEffectiveIntervenants().filter(function(p){
+    return p.email && parIntervenant[p.nom] && parIntervenant[p.nom].length > 0;
+  });
+
+  if(intervenants.length === 0){
+    showToast('Aucun intervenant inscrit avec un email renseigné.');
+    return;
+  }
+
+  var envoyés = 0;
+  for(var i=0; i<intervenants.length; i++){
+    var p = intervenants[i];
+    var rubriques = parIntervenant[p.nom].join(' | ');
+    try {
+      var msgConf = 'Bonjour ' + p.nom.split(' ')[0] + ',\n\n'
+        + 'Voici un rappel de ton inscription pour le ' + dateStr + ' :\n\n'
+        + rubriques + '\n\n'
+        + 'Merci pour ton service !\n'
+        + 'Que le Seigneur te benisse.\n\n'
+        + 'CEU & Baptiste - Roubaix\n'
+        + 'https://eglisebaptisteroubaix.github.io/Planning_culte/planning_culte.html';
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID_CONFIRM, {
+        to_email: p.email,
+        to_name: p.nom,
+        sujet: 'Confirmation - ' + dateStr,
+        message_corps: msgConf
+      });
+      envoyés++;
+    } catch(e){ console.error('Confirmation erreur:', e); }
+    await new Promise(function(r){ setTimeout(r, 300); });
+  }
+  showToast('✓ '+envoyés+' confirmation(s) envoyée(s).');
+}
+
+// ============================================================
+// RAPPELS PRÉDICATEUR / PRÉSIDENT — lundi après-midi
+// ============================================================
+async function lancerRappelsPredicateurs(rowId){
+  var row = PLANNING_RAW.find(function(r){ return r.id === rowId; });
+  if(!row){ showToast('Dimanche introuvable.'); return; }
+
+  var ov = (state.overrides && state.overrides[rowId]) ? state.overrides[rowId] : {};
+  var effRow = getRowEffective(row);
+  var dateStr = new Date(row.date+'T00:00:00').toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).replace(/^(.)/, function(c){ return c.toUpperCase(); });
+
+  var cibles = [];
+  var valPred = ov['predicateur'] !== undefined ? ov['predicateur'] : (effRow['predicateur'] || null);
+  var valPres = ov['presidentCulte'] !== undefined ? ov['presidentCulte'] : (effRow['presidentCulte'] || null);
+  if(valPred) cibles.push({nom: valPred, role: 'Prédicateur'});
+  if(valPres && valPres !== valPred) cibles.push({nom: valPres, role: 'Président du culte'});
+
+  var intervenants = getEffectiveIntervenants();
+  var envoyés = 0;
+  for(var i=0; i<cibles.length; i++){
+    var c = cibles[i];
+    var p = intervenants.find(function(x){ return x.nom === c.nom; });
+    if(!p || !p.email) continue;
+    try {
+      var msgPred = 'Bonjour ' + p.nom.split(' ')[0] + ',\n\n'
+        + 'Un rappel pour te signaler que tu es ' + c.role + '\n'
+        + 'pour le ' + dateStr + '.\n\n'
+        + 'Bonne preparation !\n'
+        + 'Que le Seigneur te benisse.\n\n'
+        + 'CEU & Baptiste - Roubaix\n'
+        + 'https://eglisebaptisteroubaix.github.io/Planning_culte/planning_culte.html';
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID_PRED, {
+        to_email: p.email,
+        to_name: p.nom,
+        sujet: 'Rappel - ' + c.role + ' - ' + dateStr,
+        message_corps: msgPred
+      });
+      envoyés++;
+    } catch(e){ console.error('Rappel prédicateur erreur:', e); }
+    await new Promise(function(r){ setTimeout(r, 300); });
+  }
+  if(envoyés === 0) showToast('Aucun prédicateur/président avec email renseigné.');
+  else showToast('✓ '+envoyés+' rappel(s) envoyé(s).');
+}
+
+
+  // ── Changement d'année ─────────────────────────────────────
+  function switchYear(year){
+    state.currentYear = year;
+    if(year === 2026) PLANNING_RAW = PLANNING_RAW_2026;
+    else if(year === 2027) PLANNING_RAW = PLANNING_RAW_2027;
+    else if(year === 2028) PLANNING_RAW = PLANNING_RAW_2028;
+    // Mettre à jour les documents Firebase
+    var col = 'planning_culte_' + year;
+    OVERRIDES_DOC = fsDoc(db, col, 'overrides');
+    CONFIG_DOC    = fsDoc(db, col, 'config');
+    // Recharger les overrides
+    state.overrides = {};
+    state.scOverrides = {};
+    state.customRubriques = [];
+    state.currentMois = null;
+    state.showEventDetail = null;
+    loadOverrides();
+    render();
+  }
+
+
+// ── Indisponibilité longue durée ────────────────────────────
+function isIndisponible(p, dateISO){
+  if(!p || !p.indisponibleDu || !p.indisponibleAu) return false;
+  return dateISO >= p.indisponibleDu && dateISO <= p.indisponibleAu;
+}
+
+// Vérifier si un intervenant a des inscriptions futures pendant son indisponibilité
+function getInscriptionsDurantIndispo(nom, dateDebut, dateFin){
+  if(!state.overrides || !dateDebut || !dateFin) return [];
+  var conflits = [];
+  var today = new Date().toISOString().slice(0,10);
+  PLANNING_RAW.forEach(function(row){
+    if(row.date < today) return;
+    if(row.date < dateDebut || row.date > dateFin) return;
+    var ov = state.overrides[row.id];
+    if(!ov) return;
+    Object.keys(ov).forEach(function(k){
+      if(ov[k] === nom) conflits.push(row.date);
+    });
+  });
+  return conflits;
+}
+
+
+// ── Nettoyage automatique des indisponibilités expirées ─────
+async function nettoyerIndisponibilitesExpirees(){
+  var today = new Date().toISOString().slice(0,10);
+  var intervenants = getEffectiveIntervenants();
+  var modifie = false;
+  intervenants.forEach(function(p){
+    if(p.indisponibleDu && p.indisponibleAu && p.indisponibleAu < today){
+      // Expirée — effacer dans intervenantsOverrides
+      if(!state.intervenantsOverrides) state.intervenantsOverrides = {};
+      if(!state.intervenantsOverrides[p.nom]) state.intervenantsOverrides[p.nom] = {};
+      // Seulement si les champs existent encore
+      if(state.intervenantsOverrides[p.nom].indisponibleDu ||
+         state.intervenantsOverrides[p.nom].indisponibleAu){
+        state.intervenantsOverrides[p.nom].indisponibleDu = '';
+        state.intervenantsOverrides[p.nom].indisponibleAu = '';
+        modifie = true;
+      }
+    }
+  });
+  if(modifie){
+    try { await saveIntervenantsOverrides(); } catch(e){ console.error('Nettoyage indispo:', e); }
+  }
+}
+
+
+function render(){
+    var root = document.getElementById('root');
+    root.innerHTML = '';
+    var lhp = renderLandscapeHintPlanning(); if(lhp) root.appendChild(lhp);
+  var rappelsMod = renderRappelsModal(); if(rappelsMod) root.appendChild(rappelsMod);
+    root.appendChild(renderTopbar());
+
+    if(state.configMissing){
+      root.appendChild(el('div', {class:'empty-state'}, [
+        el('div', {class:'display'}, ['Connexion à la base de données impossible']),
+        el('p', {style:'max-width:420px; margin:10px auto 0; font-size:13.5px; line-height:1.6;'}, [
+          'Soit ce fichier n\u2019est pas encore relié à un projet Firebase (ouvrez le fichier dans un éditeur de texte et complétez le bloc "CONFIGURATION FIREBASE"), soit la connexion réseau a échoué. Vérifiez votre connexion et rechargez la page.'
+        ])
+      ]));
+      return;
+    }
+
+    root.appendChild(renderWhoAmI());
+    root.appendChild(renderMonthNav());
+
+    if(state.loading){
+      root.appendChild(el('div', {class:'empty-state'}, [
+        el('div', {class:'display'}, ['Chargement du planning…'])
+      ]));
+    } else {
+      root.appendChild(renderMain());
+      root.appendChild(el('div', {class:'footer-note'}, [
+        'Les inscriptions sont partagées en temps réel entre tous les intervenants. Chacun peut modifier ou retirer sa propre inscription à tout moment ; un administrateur peut modifier toutes les cases.'
+      ]));
+    }
+
+    var modal=renderAdminModal(); if(modal) root.appendChild(modal);
+    var manageModal=renderManageIntervenantsModal(); if(manageModal) root.appendChild(manageModal);
+    var rubModal=renderManageRubriquesModal(); if(rubModal) root.appendChild(rubModal);
+    var guestModal=renderGuestModal(); if(guestModal) root.appendChild(guestModal);
+    var remModal=renderRemarqueModal(); if(remModal) root.appendChild(remModal);
+    var helpModal=renderHelpModal(); if(helpModal) root.appendChild(helpModal);
+    var toast=renderToast(); if(toast) root.appendChild(toast);
+  }
+
+  function bootstrapApp(){
+    initEmailJS();
+    if (window.__FIREBASE_CONFIG_MISSING__) {
+      state.loading = false;
+      state.configMissing = true;
+      render();
+      return;
+    }
+    render();
+    loadOverrides();
+    nettoyerIndisponibilitesExpirees();
+  }
+
+  var bootstrapped = false;
+  function bootstrapOnce(){
+    if (bootstrapped) return;
+    bootstrapped = true;
+    bootstrapApp();
+  }
+
+  if (window.__FIREBASE_READY__ || window.__FIREBASE_CONFIG_MISSING__) {
+    bootstrapOnce();
+  } else {
+    window.addEventListener('firebase-ready', bootstrapOnce, { once:true });
+    // Filet de sécurité : si le module Firebase ne se charge pas du tout
+    // (URL bloquée, pas de réseau, erreur de configuration), on affiche
+    // un message clair plutôt que de laisser la page vide indéfiniment.
+    setTimeout(function(){
+      if (!bootstrapped) {
+        window.__FIREBASE_CONFIG_MISSING__ = true;
+        bootstrapOnce();
+      }
+    }, 4000);
+  }
+
+})();
+</script>
+
+</body>
+</html>
