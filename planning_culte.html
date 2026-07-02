@@ -2304,8 +2304,8 @@ async function toggleAccueilMembre(rowId, dateISO, nom, action){
 // ============================================================
 var EMAILJS_SERVICE_ID  = 'service_kpo2kbv';
 var EMAILJS_TEMPLATE_ID         = 'template_vyat5ej';  // Rappels non-inscrits
-var EMAILJS_TEMPLATE_ID_CONFIRM = 'template_confirm';   // Confirmations inscrits (à créer)
-var EMAILJS_TEMPLATE_ID_PRED    = 'template_pred';      // Rappel prédicateur/président (à créer)
+var EMAILJS_TEMPLATE_ID_CONFIRM = 'template_jzr7j7c';  // Confirmations + Predicateur (template generique)
+var EMAILJS_TEMPLATE_ID_PRED    = 'template_jzr7j7c';  // Meme template generique
 var EMAILJS_PUBLIC_KEY  = 'ghEB6k_4E3NYX8nJw';
 var emailjsReady = false;
 
@@ -2557,12 +2557,18 @@ async function lancerConfirmations(rowId){
     var p = intervenants[i];
     var rubriques = parIntervenant[p.nom].join(' | ');
     try {
+      var msgConf = 'Bonjour ' + p.nom.split(' ')[0] + ',\n\n'
+        + 'Voici un rappel de ton inscription pour le ' + dateStr + ' :\n\n'
+        + rubriques + '\n\n'
+        + 'Merci pour ton service !\n'
+        + 'Que le Seigneur te benisse.\n\n'
+        + 'CEU & Baptiste - Roubaix\n'
+        + 'https://eglisebaptisteroubaix.github.io/Planning_culte/planning_culte.html';
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID_CONFIRM, {
         to_email: p.email,
         to_name: p.nom,
-        prenom: p.nom.split(' ')[0],
-        date_dimanche: dateStr,
-        rubriques_inscrites: rubriques
+        sujet: 'Confirmation - ' + dateStr,
+        message_corps: msgConf
       });
       envoyés++;
     } catch(e){ console.error('Confirmation erreur:', e); }
@@ -2595,12 +2601,18 @@ async function lancerRappelsPredicateurs(rowId){
     var p = intervenants.find(function(x){ return x.nom === c.nom; });
     if(!p || !p.email) continue;
     try {
+      var msgPred = 'Bonjour ' + p.nom.split(' ')[0] + ',\n\n'
+        + 'Un rappel pour te signaler que tu es ' + c.role + '\n'
+        + 'pour le ' + dateStr + '.\n\n'
+        + 'Bonne preparation !\n'
+        + 'Que le Seigneur te benisse.\n\n'
+        + 'CEU & Baptiste - Roubaix\n'
+        + 'https://eglisebaptisteroubaix.github.io/Planning_culte/planning_culte.html';
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID_PRED, {
         to_email: p.email,
         to_name: p.nom,
-        prenom: p.nom.split(' ')[0],
-        date_dimanche: dateStr,
-        role: c.role
+        sujet: 'Rappel - ' + c.role + ' - ' + dateStr,
+        message_corps: msgPred
       });
       envoyés++;
     } catch(e){ console.error('Rappel prédicateur erreur:', e); }
