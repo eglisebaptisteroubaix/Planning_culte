@@ -634,6 +634,64 @@ input[placeholder="Prénom Nom du responsable"]{ margin-top:6px; }
   .month-culte-label{font-size:8px;font-weight:700;text-transform:uppercase;color:var(--action);display:block;letter-spacing:.04em;}
   .month-culte-value{font-size:10px;font-weight:600;color:var(--ink);display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 
+  /* ── Modal export calendrier global ── */
+  .export-cal-modal{ max-width:480px; }
+  .export-cal-title{ font-family:'Fraunces',serif; font-weight:600; font-size:20px; margin:0 0 6px; }
+  .export-cal-subtitle{ font-size:13px; color:var(--ink-soft); margin:0 0 18px; line-height:1.5; }
+  .export-cal-section{ margin-bottom:16px; }
+  .export-cal-section-label{
+    font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.07em;
+    color:var(--ink-faint); margin-bottom:8px;
+  }
+  .export-cal-filter{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+  .export-cal-filter-btn{
+    border:1.5px solid var(--line); border-radius:8px; padding:5px 12px;
+    font-size:12px; cursor:pointer; background:var(--cream); font-family:inherit;
+    transition:all .12s;
+  }
+  .export-cal-filter-btn.active{ border-color:var(--staff-accent); background:var(--staff-pale); color:var(--staff-accent); font-weight:600; }
+  .export-cal-btn-row{ display:flex; flex-wrap:wrap; gap:8px; }
+  .export-cal-big-btn{
+    flex:1; min-width:180px; display:flex; align-items:center; gap:10px;
+    border:1.5px solid var(--line); border-radius:12px; padding:12px 16px;
+    background:var(--cream); cursor:pointer; font-family:inherit;
+    transition:border-color .12s, background .12s;
+  }
+  .export-cal-big-btn:hover{ border-color:var(--staff-accent); background:var(--staff-pale); }
+  .export-cal-big-btn .ecb-icon{ font-size:24px; flex-shrink:0; }
+  .export-cal-big-btn .ecb-text{ text-align:left; }
+  .export-cal-big-btn .ecb-label{ font-size:13.5px; font-weight:600; color:var(--ink); display:block; }
+  .export-cal-big-btn .ecb-sub{ font-size:11px; color:var(--ink-soft); display:block; margin-top:1px; }
+  .export-cal-info{
+    background:var(--action-pale); border-radius:8px; padding:10px 12px;
+    font-size:12px; color:var(--ink-soft); line-height:1.5; margin-top:12px;
+  }
+
+  /* ── Bouton "Ajouter au calendrier" — bloc culte ── */
+  .culte-cal-btn{
+    display:inline-flex;align-items:center;gap:5px;
+    margin-top:6px;padding:4px 10px;border-radius:6px;
+    border:1px solid var(--action);background:transparent;
+    color:var(--action);font-size:11px;font-weight:600;
+    cursor:pointer;font-family:inherit;
+    transition:background .12s,color .12s;
+  }
+  .culte-cal-btn:hover{background:var(--action-pale);}
+  .culte-cal-menu{
+    position:absolute;z-index:300;
+    background:var(--white);border:1px solid var(--line);
+    border-radius:10px;box-shadow:var(--shadow-lg);
+    padding:6px;min-width:200px;
+  }
+  .culte-cal-menu-item{
+    display:flex;align-items:center;gap:8px;
+    width:100%;text-align:left;border:none;background:transparent;
+    padding:8px 10px;border-radius:7px;font-size:13px;
+    font-weight:500;cursor:pointer;font-family:inherit;color:var(--ink);
+    transition:background .1s;
+  }
+  .culte-cal-menu-item:hover{background:var(--hover-bg);}
+
   /* ── Badge indisponibilité bloc culte ── */
   .cr-value-indispo{ display:flex; align-items:center; gap:4px; }
   .cr-indispo-badge{
@@ -1939,6 +1997,222 @@ function buildRecurrenceDates(startISO, freq, endISO, nthWeek, nthDay, finMode, 
 // ============================================================
 // RENDER — TOPBAR
 // ============================================================
+// ============================================================
+// EXPORT GLOBAL — Agenda mensuel complet (ICS / Google Calendar)
+// ============================================================
+
+// Génère un fichier ICS contenant TOUS les événements Staff + tous les
+// cultes du dimanche couverts par le planning, selon les filtres choisis.
+function exportAgendaGlobal(options){
+  // options : { includeStaff: bool, includeCulte: bool, audience: 'all'|'union'|'baptiste'|'commun' }
+  var includeStaff  = options.includeStaff  !== false;
+  var includeCulte  = options.includeCulte  !== false;
+  var audienceFilt  = options.audience || 'all'; // 'all' = tout inclure
+
+  var lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Eglise Roubaix//Agenda Mensuel//FR',
+    'CALNAME:Agenda — Église Roubaix',
+    'X-WR-CALNAME:Agenda — Église Roubaix',
+    'X-WR-TIMEZONE:Europe/Paris',
+    'METHOD:PUBLISH',
+  ];
+
+  function icsEscape(s){ return (s||'').replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\n/g,'\\n'); }
+  function foldLine(l){
+    // RFC 5545 : lignes de max 75 octets, continuation avec CRLF+SPACE
+    var out = '';
+    while(l.length > 75){ out += l.slice(0,75) + '\r\n '; l = l.slice(75); }
+    return out + l;
+  }
+
+  var now = toICSStr(new Date());
+
+  // ── 1. Événements Staff ──
+  if(includeStaff){
+    var evts = Object.values(state.events);
+    // Ne garder que les validés (comme la vue publique), sauf si admin
+    evts = evts.filter(function(e){ return state.isAdmin || isValidated(e); });
+    // Filtre audience
+    if(audienceFilt !== 'all'){
+      evts = evts.filter(function(e){
+        var aud = e.audience || 'commun';
+        if(audienceFilt === 'commun') return aud === 'commun';
+        return aud === 'commun' || aud === audienceFilt;
+      });
+    }
+    evts.forEach(function(evt){
+      var dept = deptById(evt.departement || 'Autre');
+      var dStart = evt.date ? new Date(evt.date + 'T' + (evt.heureDebut || '09:00') + ':00') : null;
+      var dEnd   = evt.dateFin
+        ? new Date((evt.dateFin || evt.date) + 'T' + (evt.heureFin || '10:00') + ':00')
+        : (dStart ? new Date(dStart.getTime() + 3600000) : null);
+      if(!dStart) return;
+      var desc = [];
+      if(evt.responsable) desc.push('Responsable : ' + evt.responsable);
+      if(evt.departement) desc.push('Département : ' + dept.label);
+      if(evt.remarques)   desc.push('Note : ' + evt.remarques);
+      lines.push('BEGIN:VEVENT');
+      lines.push(foldLine('UID:staff-' + evt.id + '@agenda-roubaix'));
+      lines.push('DTSTAMP:' + now);
+      lines.push('DTSTART:' + toICSStr(dStart));
+      lines.push('DTEND:'   + toICSStr(dEnd));
+      lines.push(foldLine('SUMMARY:'  + icsEscape(evt.titre || '(Sans titre)')));
+      if(desc.length) lines.push(foldLine('DESCRIPTION:' + icsEscape(desc.join('\n'))));
+      lines.push(foldLine('LOCATION:' + icsEscape('Église de l\'Union & Baptiste — Roubaix')));
+      lines.push('CATEGORIES:' + icsEscape(dept.label));
+      lines.push('END:VEVENT');
+    });
+  }
+
+  // ── 2. Cultes du dimanche ──
+  if(includeCulte){
+    Object.keys(PLANNING_CULTE_DATES).sort().forEach(function(dateISO){
+      var culteInfo = getCulteOverrideForDate(dateISO);
+      // Inclure même les dimanches sans info (juste "Culte du dimanche")
+      var titre = 'Culte du dimanche';
+      if(culteInfo && culteInfo.predicateur) titre += ' — ' + culteInfo.predicateur;
+      var desc = [];
+      if(culteInfo){
+        if(culteInfo.predicateur)    desc.push('Prédicateur : ' + culteInfo.predicateur);
+        if(culteInfo.presidentCulte) desc.push('Président : ' + culteInfo.presidentCulte);
+        if(culteInfo.typeCulte)      desc.push('Type : ' + culteInfo.typeCulte);
+        if(culteInfo.hasSainteCene)  desc.push('🍷 Sainte-Cène ce dimanche');
+        if(culteInfo.remarques)      desc.push('Note : ' + culteInfo.remarques);
+      }
+      var dStart = new Date(dateISO + 'T10:00:00');
+      var dEnd   = new Date(dateISO + 'T11:30:00');
+      lines.push('BEGIN:VEVENT');
+      lines.push(foldLine('UID:culte-' + dateISO + '@agenda-roubaix'));
+      lines.push('DTSTAMP:' + now);
+      lines.push('DTSTART:' + toICSStr(dStart));
+      lines.push('DTEND:'   + toICSStr(dEnd));
+      lines.push(foldLine('SUMMARY:'  + icsEscape(titre)));
+      if(desc.length) lines.push(foldLine('DESCRIPTION:' + icsEscape(desc.join('\n'))));
+      lines.push(foldLine('LOCATION:' + icsEscape('Église de l\'Union & Baptiste — Roubaix')));
+      lines.push('CATEGORIES:Culte');
+      lines.push('END:VEVENT');
+    });
+  }
+
+  lines.push('END:VCALENDAR');
+
+  var ics  = lines.join('\r\n');
+  var blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+  var url  = URL.createObjectURL(blob);
+  var a    = document.createElement('a');
+  a.href = url;
+  a.download = 'agenda-eglise-roubaix-' + new Date().toISOString().slice(0,10) + '.ics';
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); }, 1000);
+  showToast('✅ Fichier .ics téléchargé !');
+}
+
+// Modal d'export global (état)
+// state.showExportCal = false | { includeStaff, includeCulte, audience }
+
+function renderExportCalModal(){
+  if(!state.showExportCal) return null;
+  var opts = state.showExportCal;
+
+  function toggle(key){ opts[key] = !opts[key]; render(); }
+  function setAud(v){ opts.audience = v; render(); }
+
+  var filterBtns = [
+    { val:'all',      label:'Tout' },
+    { val:'commun',   label:'Commun (2 Églises)' },
+    { val:'union',    label:'Union seulement' },
+    { val:'baptiste', label:'Baptiste seulement' },
+  ].map(function(f){
+    return el('button',{
+      class:'export-cal-filter-btn' + (opts.audience === f.val ? ' active' : ''),
+      onclick:function(){ setAud(f.val); }
+    },[f.label]);
+  });
+
+  var overlay = el('div',{
+    class:'overlay',
+    onclick:function(e){ if(e.target===overlay){ state.showExportCal=null; render(); } }
+  },[
+    el('div',{class:'modal export-cal-modal'},[
+      el('h2',{class:'export-cal-title'},['📅 Synchroniser le calendrier']),
+      el('p',{class:'export-cal-subtitle'},['Exportez l\'agenda complet de l\'Église pour l\'importer dans votre application de calendrier préférée.']),
+
+      // Contenu à inclure
+      el('div',{class:'export-cal-section'},[
+        el('div',{class:'export-cal-section-label'},['Contenu à exporter']),
+        el('div',{style:'display:flex;flex-wrap:wrap;gap:8px;'},[
+          el('label',{style:'display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;'},[
+            el('input',{type:'checkbox', checked:opts.includeStaff,
+              onchange:function(){ toggle('includeStaff'); }}),
+            ' Événements Staff'
+          ]),
+          el('label',{style:'display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;'},[
+            el('input',{type:'checkbox', checked:opts.includeCulte,
+              onchange:function(){ toggle('includeCulte'); }}),
+            ' Cultes du dimanche'
+          ]),
+        ]),
+      ]),
+
+      // Filtre audience (si Staff inclus)
+      opts.includeStaff ? el('div',{class:'export-cal-section'},[
+        el('div',{class:'export-cal-section-label'},['Filtrer par audience']),
+        el('div',{class:'export-cal-filter'},filterBtns),
+      ]) : null,
+
+      // Boutons d'export
+      el('div',{class:'export-cal-section'},[
+        el('div',{class:'export-cal-section-label'},['Format d\'export']),
+        el('div',{class:'export-cal-btn-row'},[
+          el('button',{
+            class:'export-cal-big-btn',
+            onclick:function(){
+              if(!opts.includeStaff && !opts.includeCulte){ showToast('Sélectionnez au moins un type de contenu.'); return; }
+              exportAgendaGlobal(opts);
+            }
+          },[
+            el('span',{class:'ecb-icon'},['📆']),
+            el('div',{class:'ecb-text'},[
+              el('span',{class:'ecb-label'},['Télécharger .ics']),
+              el('span',{class:'ecb-sub'},['Outlook · Apple Calendar · Thunderbird']),
+            ])
+          ]),
+          el('button',{
+            class:'export-cal-big-btn',
+            onclick:function(){
+              if(!opts.includeCulte && !opts.includeStaff){ showToast('Sélectionnez au moins un type de contenu.'); return; }
+              // Google Calendar ne peut pas importer directement un Blob,
+              // donc on génère le .ics et on oriente vers l'import Google
+              exportAgendaGlobal(opts);
+              setTimeout(function(){
+                window.open('https://calendar.google.com/calendar/r/settings/import','_blank');
+                showToast('Fichier .ics téléchargé — importez-le dans Google Calendar.');
+              }, 800);
+            }
+          },[
+            el('span',{class:'ecb-icon'},['📅']),
+            el('div',{class:'ecb-text'},[
+              el('span',{class:'ecb-label'},['Google Calendar']),
+              el('span',{class:'ecb-sub'},['Télécharger + ouvrir l\'import Google']),
+            ])
+          ]),
+        ]),
+      ]),
+
+      el('div',{class:'export-cal-info'},[
+        '💡 Le fichier .ics est un standard universel. Il s\'importe en un clic dans Outlook, Apple Calendar, Google Calendar, Thunderbird et la plupart des apps de calendrier.'
+      ]),
+
+      el('div',{class:'modal-actions'},[
+        el('button',{class:'pill-btn ghost',onclick:function(){ state.showExportCal=null; render(); }},['Fermer']),
+      ]),
+    ])
+  ]);
+  return overlay;
+}
+
 function renderTopbar(){
   var actions = [];
   var onMob = window.innerWidth < 768;
@@ -1950,6 +2224,7 @@ function renderTopbar(){
         el('button',{class:'admin-menu-item',onclick:function(){ state.showAdminMenu=false; openNewEvent(null); }},['＋ Ajouter un événement']),
         el('button',{class:'admin-menu-item',onclick:function(){ state.showAdminMenu=false; state.showManageConfig=true; state.configTab='depts'; render(); }},['⚙️ Gérer départements']),
         el('button',{class:'admin-menu-item',onclick:function(){ state.showAdminMenu=false; state.showManageConfig=true; state.configTab='responsables'; render(); }},['👤 Gérer responsables']),
+        el('button',{class:'admin-menu-item',onclick:function(){ state.showAdminMenu=false; state.showExportCal={ includeStaff:true, includeCulte:true, audience:'all' }; render(); }},['📅 Exporter le calendrier']),
         el('hr',{style:'margin:4px 0;border:none;border-top:1px solid #eee;'},[]),
         el('button',{class:'admin-menu-item danger',onclick:function(){ state.showAdminMenu=false; state.isAdmin=false; render(); }},['↩ Quitter admin']),
       ];
@@ -1967,9 +2242,24 @@ function renderTopbar(){
   }
   if(state.isStaff && !onMob){
     actions.push(el('button',{class:'pill-btn admin small',onclick:function(){ openNewEvent(null); }},['＋ Événement']));
+    // Bouton export calendrier — visible pour tout le staff, desktop
+    actions.push(el('button',{
+      class:'pill-btn ghost small',
+      title:'Exporter l\'agenda complet (.ics / Google Calendar)',
+      onclick:function(){ state.showExportCal={ includeStaff:true, includeCulte:true, audience:'all' }; render(); }
+    },['📅 Exporter']));
     actions.push(el('button',{class:'pill-btn ghost small',onclick:function(){ state.isStaff=false; state.isAdmin=false; state.currentUser=null; render(); }},['Déconnexion']));
   } else {
     actions.push(el('button',{class:'pill-btn admin small',onclick:function(){ state.showLoginStaff=true; state.staffError=''; render(); }},['Accès Staff']));
+  }
+
+  // Bouton export calendrier — visible en mode public aussi (cultes publics)
+  if(!state.isStaff){
+    actions.push(el('button',{
+      class:'pill-btn ghost small',
+      title:'Synchroniser les cultes dans votre calendrier',
+      onclick:function(){ state.showExportCal={ includeStaff:false, includeCulte:true, audience:'all' }; render(); }
+    },['📅 Calendrier']));
   }
 
   return el('div',{class:'topbar'},[
@@ -2121,6 +2411,130 @@ function getWeekNumber(d){
 }
 
 // ============================================================
+// EXPORT CALENDRIER — Bloc culte du dimanche
+// ============================================================
+function pad2(n){ return n < 10 ? '0' + n : String(n); }
+
+// Construit les dates de début/fin pour un dimanche culte
+function culteCalDates(dateISO){
+  // Culte : 10h00 → 11h30
+  var d = new Date(dateISO + 'T10:00:00');
+  var df = new Date(dateISO + 'T11:30:00');
+  return { d: d, df: df };
+}
+
+// Formate une date pour Google Calendar (UTC local)
+function toGCalStr(dt){
+  return dt.getFullYear() + '' + pad2(dt.getMonth()+1) + '' + pad2(dt.getDate())
+       + 'T' + pad2(dt.getHours()) + '' + pad2(dt.getMinutes()) + '00';
+}
+
+// Formate une date pour ICS (UTC)
+function toICSStr(dt){
+  var u = new Date(dt.getTime() - dt.getTimezoneOffset() * 60000);
+  return u.getFullYear() + '' + pad2(u.getMonth()+1) + '' + pad2(u.getDate())
+       + 'T' + pad2(u.getHours()) + '' + pad2(u.getMinutes()) + '00Z';
+}
+
+// Génère et télécharge un fichier .ics
+function downloadICS(dateISO, culteInfo){
+  var dates = culteCalDates(dateISO);
+  var titre  = 'Culte du dimanche' + (culteInfo && culteInfo.predicateur ? ' — ' + culteInfo.predicateur : '');
+  var desc   = [];
+  if(culteInfo){
+    if(culteInfo.predicateur)    desc.push('Prédicateur : ' + culteInfo.predicateur);
+    if(culteInfo.presidentCulte) desc.push('Président : ' + culteInfo.presidentCulte);
+    if(culteInfo.hasSainteCene)  desc.push('🍷 Sainte-Cène ce dimanche');
+    if(culteInfo.remarques)      desc.push('Note : ' + culteInfo.remarques);
+  }
+  var ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Eglise Roubaix//Planning Culte//FR',
+    'BEGIN:VEVENT',
+    'UID:culte-' + dateISO + '@planning-culte-roubaix',
+    'DTSTAMP:' + toICSStr(new Date()),
+    'DTSTART:' + toICSStr(dates.d),
+    'DTEND:' + toICSStr(dates.df),
+    'SUMMARY:' + titre,
+    'DESCRIPTION:' + desc.join('\\n'),
+    'LOCATION:Église de l\'Union \\& Baptiste — Roubaix',
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+  var blob = new Blob([ics], {type:'text/calendar;charset=utf-8'});
+  var url  = URL.createObjectURL(blob);
+  var a    = document.createElement('a');
+  a.href = url; a.download = 'culte-' + dateISO + '.ics';
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); }, 1000);
+}
+
+// Ouvre Google Calendar pour le culte
+function openGoogleCalCulte(dateISO, culteInfo){
+  var dates = culteCalDates(dateISO);
+  var titre  = 'Culte du dimanche' + (culteInfo && culteInfo.predicateur ? ' — ' + culteInfo.predicateur : '');
+  var desc   = [];
+  if(culteInfo){
+    if(culteInfo.predicateur)    desc.push('Prédicateur : ' + culteInfo.predicateur);
+    if(culteInfo.presidentCulte) desc.push('Président : ' + culteInfo.presidentCulte);
+    if(culteInfo.hasSainteCene)  desc.push('Sainte-Cène ce dimanche');
+    if(culteInfo.remarques)      desc.push('Note : ' + culteInfo.remarques);
+  }
+  var params = new URLSearchParams({
+    action:   'TEMPLATE',
+    text:     titre,
+    dates:    toGCalStr(dates.d) + '/' + toGCalStr(dates.df),
+    details:  desc.join(' — '),
+    location: 'Roubaix'
+  });
+  window.open('https://calendar.google.com/calendar/render?' + params.toString(), '_blank');
+}
+
+// Affiche/masque le mini-menu calendrier flottant sur le bloc culte
+var _culteCalMenuDate = null;
+function toggleCulteCalMenu(dateISO, btnEl, culteInfo){
+  // Si déjà ouvert sur cette date, on ferme
+  var existing = document.getElementById('culte-cal-menu-' + dateISO);
+  if(existing){ existing.parentNode.removeChild(existing); _culteCalMenuDate = null; return; }
+  // Fermer tout autre menu ouvert
+  var prev = document.querySelector('.culte-cal-menu');
+  if(prev) prev.parentNode.removeChild(prev);
+
+  var menu = document.createElement('div');
+  menu.className = 'culte-cal-menu';
+  menu.id = 'culte-cal-menu-' + dateISO;
+
+  var items = [
+    { icon: '📅', label: 'Google Calendar', fn: function(){ openGoogleCalCulte(dateISO, culteInfo); menu.parentNode && menu.parentNode.removeChild(menu); } },
+    { icon: '📆', label: 'Outlook / Apple Calendar (.ics)', fn: function(){ downloadICS(dateISO, culteInfo); menu.parentNode && menu.parentNode.removeChild(menu); } }
+  ];
+  items.forEach(function(item){
+    var btn = document.createElement('button');
+    btn.className = 'culte-cal-menu-item';
+    btn.innerHTML = item.icon + ' ' + item.label;
+    btn.addEventListener('click', function(e){ e.stopPropagation(); item.fn(); });
+    menu.appendChild(btn);
+  });
+
+  // Positionner sous le bouton
+  document.body.appendChild(menu);
+  var rect = btnEl.getBoundingClientRect();
+  menu.style.position = 'fixed';
+  menu.style.top  = (rect.bottom + 4) + 'px';
+  menu.style.left = Math.min(rect.left, window.innerWidth - 220) + 'px';
+
+  // Fermer au clic extérieur
+  function onOutsideClick(e){
+    if(!menu.contains(e.target) && e.target !== btnEl){
+      if(menu.parentNode) menu.parentNode.removeChild(menu);
+      document.removeEventListener('click', onOutsideClick, true);
+    }
+  }
+  setTimeout(function(){ document.addEventListener('click', onOutsideClick, true); }, 0);
+}
+
+// ============================================================
 // RENDER — GRILLE SEMAINE
 // ============================================================
 function renderWeekGrid(){
@@ -2204,6 +2618,12 @@ function renderDayCol(d){
     if(culteInfo.hasSainteCene){
       culteChildren.push(el('div',{class:'cr-label',style:'margin-top:4px;font-size:9.5px;color:#2E4D5E;font-weight:700;'},['🍷 Sainte-Cène']));
     }
+    // Bouton "Ajouter au calendrier"
+    var calBtn = el('button',{
+      class:'culte-cal-btn',
+      onclick:function(e){ e.stopPropagation(); toggleCulteCalMenu(iso, e.currentTarget, culteInfo); }
+    },['📅 Ajouter au calendrier']);
+    culteChildren.push(calBtn);
     bodyChildren.push(el('div',{class:'culte-section'},culteChildren));
   }
 
@@ -3286,6 +3706,13 @@ function renderMonthView(){
             culteLines.push(el('span',{class:'month-culte-label',style:'margin-top:2px;'},['Président']));
             culteLines.push(el('span',{class:'month-culte-value'},[culteInfo.presidentCulte]));
           }
+          // Bouton calendrier dans le chip mois
+          var calBtnMonth = el('button',{
+            class:'culte-cal-btn',
+            style:'font-size:10px;padding:3px 7px;margin-top:4px;',
+            onclick:(function(isoC, ci){ return function(e){ e.stopPropagation(); toggleCulteCalMenu(isoC, e.currentTarget, ci); }; })(iso, culteInfo)
+          },['📅']);
+          culteLines.push(calBtnMonth);
           culteChip = el('div',{class:'month-culte-chip'},culteLines);
         }
       }
@@ -3404,6 +3831,13 @@ function renderPlanningView(){
         if(culte.remarques) culteLines.push(el('div',{class:'pl-culte-line pl-culte-remarque'},[
           el('span',{class:'pl-culte-key'},['Note']),
           el('span',{class:'pl-culte-val'},[culte.remarques])
+        ]));
+        // Bouton calendrier dans le bloc culte planning mobile
+        culteLines.push(el('div',{class:'pl-culte-line',style:'margin-top:4px;'},[
+          el('button',{
+            class:'culte-cal-btn',
+            onclick:(function(dISO, ci){ return function(e){ e.stopPropagation(); toggleCulteCalMenu(dISO, e.currentTarget, ci); }; })(dateISO, culte)
+          },['📅 Ajouter au calendrier'])
         ]));
         culteBlock = el('div',{class:'pl-culte-block'+(culte.hasSainteCene?' pl-culte-sc':'')},culteLines);
       }
@@ -4008,6 +4442,7 @@ function render(){
   var ed = renderEventDetail();if(ed) root.appendChild(ed);
   var cfm = renderCulteFieldModal(); if(cfm) root.appendChild(cfm);
   var mcm = renderManageConfigModal(); if(mcm) root.appendChild(mcm);
+  var ecm = renderExportCalModal(); if(ecm) root.appendChild(ecm);
   // Sous-modals hors contexte d'empilement → attachées à document.body
   // Nettoyage des précédentes avant ajout
   ['__monEmailMod','__respFormMod','__groupeFormMod'].forEach(function(id){
